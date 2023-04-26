@@ -15,9 +15,8 @@ class DashboardController extends Controller
     public function index()
     {
       
-        $test=City::find(1)->District::find(1)->ward;
-        dd($test);
-       // return view('Admin.dashboard');
+        
+       return view('Admin.dashboard');
     }
 
     /**
