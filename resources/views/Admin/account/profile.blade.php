@@ -112,7 +112,7 @@ Thông tin cá nhân
                                 </div>
                             </div>
                         </form>
-                    </div>
+</div>
 
 
 <script type="text/javascript">

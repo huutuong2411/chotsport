@@ -19,8 +19,13 @@
 
     <!-- Custom styles for this template-->
     <link href="{{asset('admin/assets/css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <!-- Custom styles for this page -->
+    <link href="{{asset('admin/assets/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+
     <link rel="icon" href="{{asset('logo_chot.ico')}}" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <!-- viết jquery add class active -->
+    
 
 </head>
 
@@ -96,11 +101,13 @@
 
     <!-- Page level plugins -->
     <script src="{{asset('admin/assets/vendor/chart.js/Chart.min.js')}}"></script>
+    <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 
     <!-- Page level custom scripts -->
     <script src="{{asset('admin/assets/js/demo/chart-area-demo.js')}}"></script>
     <script src="{{asset('admin/assets/js/demo/chart-pie-demo.js')}}"></script>
-
+    <script src="{{asset('js/demo/datatables-demo.js')}}"></script> -->
+   
 </body>
 
 </html>
