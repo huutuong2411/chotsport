@@ -70,7 +70,7 @@ Thông tin cá nhân
                                                 @if(Auth::user()->address)
                                                 <div class="mb-3">
                                                     <label class="small mb-1">Địa chỉ đã lưu</label>
-                                                    <input name="" class="form-control" type="text" readonly value="">
+                                                    <input name="full_address" class="form-control" type="text" readonly value="{{$full_address}}">
                                                 </div>
                                                 @endif
                                                 
@@ -79,7 +79,7 @@ Thông tin cá nhân
                                                     <!-- Form Group (organization name)-->
                                                     <label class="small col-md-12" for="inputOrgName">Chọn địa chỉ</label>
                                                     <div class="col-md-4">
-                                                        <select required class="form-control  form-select-sm mb-3" id="city" aria-label=".form-select-sm" name="city" required>
+                                                        <select {{ $full_address ? '' : 'required' }} class="form-control  form-select-sm mb-3" id="city" aria-label=".form-select-sm" name="city"  >
                                                             <option value="" >Chọn tỉnh thành</option>   
                                                           @foreach($city as $value)       
                                                            <option value="{{$value->id}}">{{$value->name}}</option>
@@ -88,20 +88,19 @@ Thông tin cá nhân
                                                     </div>
                                                     <!-- Form Group (location)-->
                                                     <div class="col-md-4">
-                                                        <select class="form-control form-select-sm mb-3" id="district" aria-label=".form-select-sm" name="district" required>
+                                                        <select class="form-control form-select-sm mb-3" id="district" aria-label=".form-select-sm" name="district" {{ $full_address ? '' : 'required' }}>
                                                         <option value="" >Chọn quận huyện</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4">
-                                                       <select class="form-control  form-select-sm"  aria-label=".form-select-sm" id="ward" name="ward" required>
-                                                        <option required value="">Chọn phường xã</option>
+                                                       <select class="form-control  form-select-sm"  aria-label=".form-select-sm" id="ward" name="ward" {{ $full_address ? '' : 'required' }}>
+                                                        <option  value="">Chọn phường xã</option>
                                                         </select>
                                                     </div>    
                                                 </div>
-                                                <p id="error" style="color:red"></p>
                                                 <div class=" mb-3">
                                                     <label class="small mb-1" >Địa chỉ chi tiết</label>
-                                                    <input required class="form-control" id="chitiet" type="text" name="chitiet"  value="">
+                                                    <input {{ $full_address ? '' : 'required' }}  class="form-control" id="chitiet" type="text" name="chitiet"  value="">
                                                 </div>   
                                                 <!-- Form Row-->
                                                 <!-- Save changes button-->
@@ -168,18 +167,6 @@ Thông tin cá nhân
         });
 
       })
-
-      // Xử lý bắt buộc  chọn địa chỉ
-      $('#form').submit(function(){
-        var ward=$('#ward').val();
-        if(ward==""){
-          $('#error').text('Vui lòng chọn tỉnh/thành-quận/huyện-phường/xã trước')
-          return false;
-        } 
-      })
-  
-
-
 
 
 // dấu đóng hàm ready

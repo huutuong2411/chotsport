@@ -43,11 +43,15 @@ Route::group(['prefix'=>'/admin',], function () {
 	Route::post('/category', [CategoryController::class, 'store'])->name('admin.category.add');
 	Route::post('/category/{id}', [CategoryController::class, 'update'])->name('admin.category.edit');
 	Route::get('/category/delete/{id}', [CategoryController::class, 'destroy'])->name('admin.category.delete');
+	Route::get('/category/trash', [CategoryController::class, 'trash'])->name('admin.category.trash');
+	Route::get('/category/restore/{id}', [CategoryController::class, 'restore'])->name('admin.category.restore');
 		// Thương hiệu
 	Route::get('/brand', [BrandController::class, 'index'])->name('admin.brand');
 	Route::post('/brand', [BrandController::class, 'store'])->name('admin.brand.add');
 	Route::post('/brand/{id}', [BrandController::class, 'update'])->name('admin.brand.edit');
 	Route::get('/brand/delete/{id}', [BrandController::class, 'destroy'])->name('admin.brand.delete');
+	Route::get('/brand/trash', [BrandController::class, 'trash'])->name('admin.brand.trash');
+	Route::get('/brand/restore/{id}', [BrandController::class, 'restore'])->name('admin.brand.restore');
 		// Bài viết:
 	Route::get('/blog', [BlogController::class, 'index'])->name('admin.blog');
 	Route::get('/blog/add', [BlogController::class, 'create'])->name('admin.blog.create');
