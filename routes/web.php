@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\BlogController;
-
+use App\Http\Controllers\Admin\SizeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,16 +42,16 @@ Route::group(['prefix'=>'/admin',], function () {
 	Route::get('/category', [CategoryController::class, 'index'])->name('admin.category');
 	Route::post('/category', [CategoryController::class, 'store'])->name('admin.category.add');
 	Route::post('/category/{id}', [CategoryController::class, 'update'])->name('admin.category.edit');
-	Route::get('/category/delete/{id}', [CategoryController::class, 'destroy'])->name('admin.category.delete');
+	Route::get('/category/{id}/delete', [CategoryController::class, 'destroy'])->name('admin.category.delete');
 	Route::get('/category/trash', [CategoryController::class, 'trash'])->name('admin.category.trash');
-	Route::get('/category/restore/{id}', [CategoryController::class, 'restore'])->name('admin.category.restore');
+	Route::get('/category/{id}/restore', [CategoryController::class, 'restore'])->name('admin.category.restore');
 		// Thương hiệu
 	Route::get('/brand', [BrandController::class, 'index'])->name('admin.brand');
 	Route::post('/brand', [BrandController::class, 'store'])->name('admin.brand.add');
 	Route::post('/brand/{id}', [BrandController::class, 'update'])->name('admin.brand.edit');
-	Route::get('/brand/delete/{id}', [BrandController::class, 'destroy'])->name('admin.brand.delete');
+	Route::get('/brand/{id}/delete', [BrandController::class, 'destroy'])->name('admin.brand.delete');
 	Route::get('/brand/trash', [BrandController::class, 'trash'])->name('admin.brand.trash');
-	Route::get('/brand/restore/{id}', [BrandController::class, 'restore'])->name('admin.brand.restore');
+	Route::get('/brand/{id}/restore', [BrandController::class, 'restore'])->name('admin.brand.restore');
 		// Bài viết:
 	Route::get('/blog', [BlogController::class, 'index'])->name('admin.blog');
 	Route::get('/blog/add', [BlogController::class, 'create'])->name('admin.blog.create');
@@ -60,4 +60,10 @@ Route::group(['prefix'=>'/admin',], function () {
 	Route::get('/blog/{id}/edit', [BlogController::class, 'edit'])->name('admin.blog.edit');
 	Route::post('/blog/{id}/edit', [BlogController::class, 'update'])->name('admin.blog.update');
 	Route::get('/blog/{id}/delete', [BlogController::class, 'destroy'])->name('admin.blog.delete');
+		// Quản lý size
+	Route::get('/size', [SizeController::class, 'index'])->name('admin.size');
+	Route::post('/size', [SizeController::class, 'store'])->name('admin.size.add');
+	Route::post('/size/{id}/edit', [SizeController::class, 'update'])->name('admin.size.edit');
+	Route::get('/size/{id}/delete', [SizeController::class, 'destroy'])->name('admin.size.delete');
+	Route::get('/size/{id}/restore', [SizeController::class, 'restore'])->name('admin.size.restore');
 });

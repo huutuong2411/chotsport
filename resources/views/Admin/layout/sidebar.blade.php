@@ -32,7 +32,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="{{Request::routeIs('admin.category','admin.brand') ? 'nav-item active' : 'nav-item'}}">
+            <li class="{{Request::routeIs('admin.category','admin.brand','admin.size') ? 'nav-item active' : 'nav-item'}}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
@@ -45,7 +45,7 @@
                         <a  class="{{Request::route()->getName() == 'admin.brand' ? 'collapse-item active' : 'collapse-item' }}" 
                             href="{{route('admin.brand')}}">QL nhãn hàng</a>
                         <a class="collapse-item" href="cards.html">QL sản phẩm</a>
-                        <a class="collapse-item" href="cards.html">QL size giày</a>
+                        <a class="{{Request::route()->getName() == 'admin.size' ? 'collapse-item active' : 'collapse-item' }}" href="{{route('admin.size')}}">QL size giày</a>
                     </div>
                 </div>
             </li>
