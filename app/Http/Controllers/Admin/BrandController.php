@@ -14,7 +14,7 @@ class BrandController extends Controller
     public function index()
     {
         $brand=Brand::all();
-        return view('Admin.brand',compact('brand'));
+        return view('Admin.brand.brand',compact('brand'));
     }
 
     /**
@@ -74,9 +74,21 @@ class BrandController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+     public function destroy(string $id)
     {
         Brand::destroy($id);
         return redirect()->back()->with('delete',__('Đã xoá nhãn hàng thành công'));
+    }
+    // thùng rác
+    public function trash()
+    {
+        $trash=Brand::onlyTrashed()->get();
+        return view('Admin.brand.trash',compact('trash'));
+    }
+    // khôi phục category
+    public function restore(string $id)
+    {
+        Brand::withTrashed()->find($id)->restore();
+        return redirect()->back()->with('success',__('khôi phục thành công')); 
     }
 }

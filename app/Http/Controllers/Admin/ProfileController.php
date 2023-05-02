@@ -16,14 +16,14 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        // $id_user= Auth::user()->id;
-        // $diachi= Auth::user()->Address->pluck('address');
-        // $city=Auth::user()->address->ward->district->city->name;
-        
+        $province=Auth::user()->address->ward->district->city->name;
+        $district=Auth::user()->address->ward->district->name;
+        $ward=Auth::user()->address->ward->name;
+        $address=Auth::user()->address->address;
+        $full_address= $address.', '.$ward.', '.$district.', '.$province;
 
-        // dd($city);
         $city=City::all();
-        return view('admin.account.profile',compact('city'));
+        return view('admin.account.profile',compact('city','full_address'));
     }
 
     /**
@@ -39,7 +39,6 @@ class ProfileController extends Controller
      */
     public function update_profile(Request $request)
     {
-        
         if(!empty($request->id_city)){
         $district= City::find($request->id_city)->district;
         return response()->json($district);
@@ -48,22 +47,30 @@ class ProfileController extends Controller
         $ward= District::find($request->id_district)->ward;
         return response()->json($ward);
         }
-        // tạo dữ liệu lưu vào bảng address
-        if($request->has('ward')){
-            $address=new Address();
-            $address->id_ward=$request->ward;
-            if($request->has('chitiet')){
-                $address->address=$request->chitiet; 
-            }
-            $address->save();
-        }
+
         $IDuser = Auth::id();
         $user= User::findOrFail($IDuser);
         $data=$request->all();
-        // lấy ra id của bảng address vừa lưu:
-        $id_address = $address->id;
-        // gán vào id_address của bảnng user
-        $data['id_address'] = $id_address;
+
+
+        // nếu đã có địa chỉ từ trước:
+        if($request->has('full_address')){
+            $data['id_address'] = Auth::user()->id_address;
+        } else{
+            // tạo dữ liệu lưu vào bảng address
+            if($request->has('ward')){
+                $address=new Address();
+                $address->id_ward=$request->ward;
+                if($request->has('chitiet')){
+                    $address->address=$request->chitiet; 
+                }
+                $address->save();
+            }
+            // lấy ra id của bảng address vừa lưu:
+            $id_address = $address->id;
+            // gán vào id_address của bảnng user
+            $data['id_address'] = $id_address;     
+        }   
         $image=$request->avatar;
         // lấy tên hình ảnh
         if(!empty($image)) {

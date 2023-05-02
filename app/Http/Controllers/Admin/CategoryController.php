@@ -14,7 +14,7 @@ class CategoryController extends Controller
     public function index()
     {
         $category=Category::all();
-        return view('Admin.category',compact('category'));
+        return view('Admin.category.category',compact('category'));
     }
 
     /**
@@ -78,5 +78,17 @@ class CategoryController extends Controller
     {
         Category::destroy($id);
         return redirect()->back()->with('delete',__('Đã xoá danh mục thành công'));
+    }
+    // thùng rác
+    public function trash()
+    {
+        $trash=Category::onlyTrashed()->get();
+        return view('Admin.category.trash',compact('trash'));
+    }
+    // khôi phục category
+    public function restore(string $id)
+    {
+        Category::withTrashed()->find($id)->restore();
+        return redirect()->back()->with('success',__('khôi phục thành công')); 
     }
 }
