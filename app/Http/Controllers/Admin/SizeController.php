@@ -14,7 +14,7 @@ class SizeController extends Controller
      */
     public function index()
     {
-        $size=Size::all();
+        $size = Size::orderBy('length', 'asc')->get();
         $brand=Brand::select('id','name')->get();
         $trash=Size::onlyTrashed()->join('brand', 'size.id_brand', '=', 'brand.id')
 	    ->select('size.id','size.length','size.size', 'brand.name as brand_name')

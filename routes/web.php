@@ -8,6 +8,9 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\ProductController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -66,4 +69,13 @@ Route::group(['prefix'=>'/admin',], function () {
 	Route::post('/size/{id}/edit', [SizeController::class, 'update'])->name('admin.size.edit');
 	Route::get('/size/{id}/delete', [SizeController::class, 'destroy'])->name('admin.size.delete');
 	Route::get('/size/{id}/restore', [SizeController::class, 'restore'])->name('admin.size.restore');
+		// Quản lý banner
+	Route::get('/banner', [BannerController::class, 'index'])->name('admin.banner');
+	Route::post('/banner', [BannerController::class, 'store'])->name('admin.banner.add');
+	Route::post('/banner/{id}/edit', [BannerController::class, 'update'])->name('admin.banner.edit');
+	Route::get('/banner/{id}/delete', [BannerController::class, 'destroy'])->name('admin.banner.delete');
+		// Quản lý sản phẩm
+	Route::get('/product', [ProductController::class, 'index'])->name('admin.product');
+	Route::get('/product/add', [ProductController::class, 'create'])->name('admin.product.create');
+	Route::post('/product/add', [ProductController::class, 'store'])->name('admin.product.store');
 });

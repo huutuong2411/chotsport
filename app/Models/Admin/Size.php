@@ -11,4 +11,7 @@ class Size extends Model
     use HasFactory;
     use SoftDeletes;
     protected $table = "size";
+    public function Brand() {
+        return $this->belongsTo('App\Models\Admin\Brand', 'id_brand');
+    }
 }

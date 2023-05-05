@@ -81,8 +81,9 @@ class ProfileController extends Controller
 
             if(!empty($image)) { 
                 $image->move(public_path('/admin/assets/img/user'), $image->getClientOriginalName());
+                return redirect()->back()->with('success',__('Cập nhật thông tin thành công')); 
             }
-        return redirect()->back()->with('success',__('Cập nhật thông tin thành công')); 
+        
         } else {
             return redirect()->back()->withErrors('Cập nhật thông tin không thành công');
         }

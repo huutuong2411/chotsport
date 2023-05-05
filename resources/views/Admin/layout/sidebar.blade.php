@@ -105,10 +105,16 @@
                     <span>Charts</span></a>
             </li>
             <!-- quản lý bài viết -->
-            <li class="{{Request::route()->getName() == 'admin.blog' ? 'nav-item active' : 'nav-item' }}">
+            <li class="{{Request::is('admin/blog*') ? 'nav-item active' : 'nav-item'}}"> 
                 <a class="nav-link" href="{{route('admin.blog')}}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span> Quản lý bài viết</span></a>
+            </li>
+            <!-- quản lý banner -->
+            <li class="{{Request::is('admin/banner*') ? 'nav-item active' : 'nav-item'}}">
+                <a class="nav-link" href="{{route('admin.banner')}}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span> Quản lý bảng hiệu</span></a>
             </li>
             <!-- Nav Item - Tables -->
             <li class="nav-item">
