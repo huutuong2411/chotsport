@@ -85,7 +85,7 @@ class BrandController extends Controller
         $trash=Brand::onlyTrashed()->get();
         return view('Admin.brand.trash',compact('trash'));
     }
-    // khôi phục category
+    // khôi phục 
     public function restore(string $id)
     {
         Brand::withTrashed()->find($id)->restore();

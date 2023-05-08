@@ -103,11 +103,11 @@ Quản lý nhãn hàng
                               <form action="" method="post">
                                  @csrf
                                 <div class=" mb-3">
-                                  <label class="small mb-1">Tên danh mục cũ</label>
+                                  <label class="small mb-1">Tên nhãn hàng cũ</label>
                                   <input class="form-control old_brand" type="text" value="" readonly>
                                 </div>
                                 <div class=" mb-3">
-                                  <label class="small mb-1">Tên danh mục mới</label>
+                                  <label class="small mb-1">Tên nhãn hàng mới</label>
                                   <input class="form-control new_brand" type="text" name="new_name" value="" required>
                                 </div>
                                 <button type="submit" class="btn btn-warning">Lưu</button>
