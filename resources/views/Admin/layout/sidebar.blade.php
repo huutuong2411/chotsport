@@ -1,8 +1,4 @@
 <!-- Sidebar -->
-    
-    
-
-
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
@@ -32,7 +28,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="{{Request::routeIs('admin.category','admin.brand','admin.size') ? 'nav-item active' : 'nav-item'}}">
+            <li class="{{Request::is('admin/category*','admin/brand*','admin/product*','admin/size*') ? 'nav-item active' : 'nav-item'}}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
@@ -40,12 +36,12 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a  class="{{Request::route()->getName() == 'admin.category' ? 'collapse-item active' : 'collapse-item' }}" 
+                        <a  class="{{Request::is('admin/category*') ? 'collapse-item active' : 'collapse-item'}}" 
                             href="{{route('admin.category')}}">QL danh mục</a>
-                        <a  class="{{Request::route()->getName() == 'admin.brand' ? 'collapse-item active' : 'collapse-item' }}" 
+                        <a  class="{{Request::is('admin/brand*') ? 'collapse-item active' : 'collapse-item'}}" 
                             href="{{route('admin.brand')}}">QL nhãn hàng</a>
-                        <a class="collapse-item" href="cards.html">QL sản phẩm</a>
-                        <a class="{{Request::route()->getName() == 'admin.size' ? 'collapse-item active' : 'collapse-item' }}" href="{{route('admin.size')}}">QL size giày</a>
+                        <a class="{{Request::is('admin/product*') ? 'collapse-item active' : 'collapse-item'}}" href="{{route('admin.product')}}">QL sản phẩm</a>
+                        <a class="{{Request::is('admin/size*') ? 'collapse-item active' : 'collapse-item'}}" href="{{route('admin.size')}}">QL size giày</a>
                     </div>
                 </div>
             </li>

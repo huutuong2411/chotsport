@@ -78,4 +78,10 @@ Route::group(['prefix'=>'/admin',], function () {
 	Route::get('/product', [ProductController::class, 'index'])->name('admin.product');
 	Route::get('/product/add', [ProductController::class, 'create'])->name('admin.product.create');
 	Route::post('/product/add', [ProductController::class, 'store'])->name('admin.product.store');
+	Route::get('/product/trash', [ProductController::class, 'trash'])->name('admin.product.trash');
+	Route::get('/product/{id}', [ProductController::class, 'show'])->name('admin.product.show');
+	Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('admin.product.edit');
+	Route::post('/product/{id}/edit', [ProductController::class, 'update'])->name('admin.product.update');
+	Route::get('/product/{id}/delete', [ProductController::class, 'destroy'])->name('admin.product.delete');
+	Route::get('/product/{id}/restore', [ProductController::class, 'restore'])->name('admin.product.restore');
 });
