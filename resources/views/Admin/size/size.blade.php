@@ -45,7 +45,7 @@ Quản lý size giày
                                         <tr>
                                             <th>Chiều dài</th>
                                             <th>Size EU</th>
-                                            <th style="width:17%">Thao tác</th>
+                                            <th class="col-3" style="text-align: center">Thao tác</th>
                                             
                                         </tr>
                                     </thead>
@@ -56,7 +56,7 @@ Quản lý size giày
                                         <tr>
                                             <td class="length">{{$Size->length}}</td>
                                             <td class="size">{{$Size->size}}</td>
-                                            <td>
+                                            <td style="text-align: center">
                                                 <input type="hidden" class="id_size" value="{{$Size->id}}">
                                                 <button  class="edit btn btn-warning btn-circle btn-sm" ><i class="fas fa-pencil-alt"></i></button>
                                                 <a href="{{route('admin.size.delete',['id'=>$Size->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:10%"><i class="fas fa-trash"></i></a>
@@ -120,7 +120,7 @@ Quản lý size giày
                                             <th>Hãng giày</th>
                                             <th>Chiều dài</th>
                                             <th>Size</th>
-                                            <th>Thao tác</th>
+                                            <th style="text-align: center">Thao tác</th>
                                             
                                         </tr>
                                     </thead>
@@ -131,7 +131,7 @@ Quản lý size giày
                                             <td>{{$value->brand_name}}</td>
                                             <td>{{$value->length}}</td>
                                             <td>{{$value->size}}</td>
-                                            <td><a href="{{route('admin.size.restore',['id'=>$value->id])}}" class="btn btn-warning"><i class="fas fa-retweet"></i> Khôi phục</a></td> 
+                                            <td style="text-align: center"><a href="{{route('admin.size.restore',['id'=>$value->id])}}" class="btn btn-warning"><i class="fas fa-retweet"></i> Khôi phục</a></td> 
                                         </tr>
                                       @endforeach
                                     </tbody>

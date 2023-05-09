@@ -29,7 +29,7 @@ Sản phẩm-thùng rác
                                             <th class="col-1">Giảm giá</th>
                                             <th class="col-1">Số lượng</th>
                                             <th class="col-1">Đã bán</th>
-                                            <th class="col-2">Thao tác</th>
+                                            <th class="col-2" style="text-align: center">Thao tác</th>
                                             
                                         </tr>
                                     </thead>
@@ -45,7 +45,7 @@ Sản phẩm-thùng rác
                                             <td>{{$value->discount}}</td>
                                             <td>{{$value->total_qty}}</td>
                                             <td>XXXXX</td>
-                                            <td>
+                                            <td style="text-align: center">
                                                <a href="{{route('admin.product.restore',['id'=>$value->id])}}" class="btn btn-warning"><i class="fas fa-retweet"></i> Khôi phục</a>
                                             </td>
                                         </tr>

@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\PurchaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,4 +86,16 @@ Route::group(['prefix'=>'/admin',], function () {
 	Route::post('/product/{id}/edit', [ProductController::class, 'update'])->name('admin.product.update');
 	Route::get('/product/{id}/delete', [ProductController::class, 'destroy'])->name('admin.product.delete');
 	Route::get('/product/{id}/restore', [ProductController::class, 'restore'])->name('admin.product.restore');
+		// Quản lý nhà cung cấp
+	Route::get('/vendor', [VendorController::class, 'index'])->name('admin.vendor');
+	Route::post('/vendor', [VendorController::class, 'store'])->name('admin.vendor.add');
+	Route::post('/vendor/{id}/edit', [VendorController::class, 'update'])->name('admin.vendor.edit');
+	Route::get('/vendor/{id}/delete', [VendorController::class, 'destroy'])->name('admin.vendor.delete');
+	Route::get('/vendor/trash', [VendorController::class, 'trash'])->name('admin.vendor.trash');
+	Route::get('/vendor/{id}/restore', [VendorController::class, 'restore'])->name('admin.vendor.restore');
+		// Quản lý đơn nhập kho
+	Route::get('/purchase', [PurchaseController::class, 'index'])->name('admin.purchase');
+	Route::get('/purchase/add', [PurchaseController::class, 'create'])->name('admin.purchase.create');
+	Route::post('/purchase/add', [PurchaseController::class, 'store'])->name('admin.purchase.store');
+
 });

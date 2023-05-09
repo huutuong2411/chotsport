@@ -15,17 +15,16 @@ Nhãn hàng-thùng rác
             </div>
          @endif
 <div class="card shadow mb-4">
-                        
-                        <div class="row">
-                        <div class="card col-xl-8">
+                         
+                        <div class="card">
                           <div class="card-header text-primary font-weight-bold">Danh sách Nhãn hàng đã xoá<a style="float: right;" href="{{route('admin.brand')}}" class="btn btn-danger"><i class="fas fa-sharp fa-solid fa-arrow-left"></i> Quay lại</a></div>
                             <div class="card-body table-responsive">
                                 <table class="table table-bordered" id="dataTable" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th style="width:10%">ID</th>
+                                            <th class="col-1">ID</th>
                                             <th>Tên</th>
-                                            <th style="width:17%">Thao tác</th>
+                                            <th class="col-2" style="text-align: center">Thao tác</th>
                                             
                                         </tr>
                                     </thead>
@@ -35,7 +34,7 @@ Nhãn hàng-thùng rác
                                         <tr>
                                             <th scope="row">{{$value->id}}</th>
                                             <td class="name">{{$value->name}}</td>
-                                            <td>
+                                            <td style="text-align: center">
                                                 <a href="{{route('admin.brand.restore',['id'=>$value->id])}}" class="btn btn-warning"><i class="fas fa-retweet"></i> Khôi phục</a>
                                             </td>
                                             
@@ -44,8 +43,6 @@ Nhãn hàng-thùng rác
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    
                         </div>
 
 </div>

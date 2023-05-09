@@ -33,7 +33,7 @@ Quản lý bảng hiệu
                               @endif
 <div class="card shadow mb-4">          
                         <div class="row">
-                        <div class="card col-xl-7">
+                        <div class="card col-xl-8">
                           <div class="card-header text-primary font-weight-bold">Danh sách bảng hiệu</div>
                             <div class="card-body table-responsive">
                                 <table class="table table-bordered" id="dataTable" cellspacing="0">
@@ -42,7 +42,7 @@ Quản lý bảng hiệu
                                             <th>ID</th>
                                             <th>Nhãn hàng</th>
                                             <th>Hình ảnh</th>
-                                            <th style="width:14%">Thao tác</th>
+                                            <th class="col-2" style="text-align: center">Thao tác</th>
                                             
                                         </tr>
                                     </thead>
@@ -53,7 +53,7 @@ Quản lý bảng hiệu
                                             <th scope="row" class="id">{{$value->id}}</th>
                                             <td class="brand_name">{{$value->brand_name}}</td>
                                             <td ><img style="max-width:100%;" src="{{asset('admin/assets/img/banner/'.$value->image)}}" alt=""></td>
-                                            <td>
+                                            <td style="text-align: center">
                                                 <button href="#" class="btn btn-warning btn-circle btn-sm edit" ><i class="fas fa-pencil-alt"></i></button>
                                                 <a href="{{route('admin.banner.delete',['id'=>$value->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:6%"><i class="fas fa-trash"></i></a>
                                             </td>  
@@ -63,7 +63,7 @@ Quản lý bảng hiệu
                                 </table>
                             </div>
                         </div>
-                        <div class="card col-xl-5">
+                        <div class="card col-xl-4">
 
                             <div class="card-header text-primary font-weight-bold" id="add_heading">Thêm bảng hiệu</div>  
                             <!--form thêm danh mục  -->

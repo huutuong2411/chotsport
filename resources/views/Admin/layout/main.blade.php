@@ -25,7 +25,7 @@
     <link rel="icon" href="{{asset('logo_chot.ico')}}" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <!-- viết jquery add class active -->
-    
+  
 
 </head>
 

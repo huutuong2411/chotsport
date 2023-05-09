@@ -40,11 +40,12 @@ Quản lý sản phẩm
                                             <th class="col-1">ID</th>
                                             <th class="col-2">Tên sản phẩm</th>
                                             <th class="col-2">Hình ảnh</th>
-                                            <th class="col-2">Giá</th>
+                                            <th class="col-1">Giá</th>
                                             <th class="col-1">Giảm giá</th>
                                             <th class="col-1">Số lượng</th>
+                                            <th class="col-1">Đánh giá</th>
                                             <th class="col-1">Đã bán</th>
-                                            <th class="col-2">Thao tác</th>
+                                            <th class="col-2" style="text-align: center">Thao tác</th>
                                             
                                         </tr>
                                     </thead>
@@ -59,8 +60,9 @@ Quản lý sản phẩm
                                             <td>{{number_format($value->price, 0, ',', '.')}}</td>
                                             <td>{{$value->discount}}</td>
                                             <td>{{$value->total_qty}}</td>
+                                            <td>*****</td>
                                             <td>XXXXX</td>
-                                            <td>
+                                            <td style="text-align: center">
                                                 <a href="{{route('admin.product.show',['id'=>$value->id])}}" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
                                                 <a href="{{route('admin.product.edit',['id'=>$value->id])}}" class="btn btn-warning btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-pencil-alt"></i></a>
                                                 <a href="{{route('admin.product.delete',['id'=>$value->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-trash"></i></a>
