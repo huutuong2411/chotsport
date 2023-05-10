@@ -47,24 +47,22 @@ Quản lý nhập kho
                                     </thead>
                                    
                                     <tbody>
-                                        
+                                        @foreach($purchase as $value)
                                         <tr>   
-                                            <th scope="row">2</th>
-                                            <td>2</td>
-                                          
-                                            
-                                            <td>2</td>
-                                            <td>2</td>
+                                            <th scope="row">{{$value->id}}</th>
+                                            <td>{{number_format($value->sum_money, 0, ',', '.')}}</td>
+                                            <td>{{$value->date}}</td>
+                                            <td>{{$value->vendor}}</td>
                                             <td style="text-align: center">
                                                 <a href="" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
                                                 <a href="" class="btn btn-warning btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-pencil-alt"></i></a>
                                                 <a href="" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
-                                      
+                                        @endforeach
                                     </tbody>
                                 </table>
-                      
+                                {{$purchase->links('pagination::bootstrap-4')}}
                             </div> 
                         </div>
                         

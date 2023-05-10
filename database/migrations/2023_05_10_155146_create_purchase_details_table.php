@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchase_receipt', function (Blueprint $table) {
+        Schema::create('purchase_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBiginteger('id_purchase');
-            $table->unsignedBiginteger('id_product_detail');
+            $table->unsignedBigInteger('id_purchase');
+            $table->unsignedBigInteger('id_product_detail');
             $table->integer('qty');
-            $table->integer('price');
             $table->integer('sum_money');
+            $table->integer('price');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('id_purchase')->references('id')->on('purchase');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchase_receipt');
+        Schema::dropIfExists('purchase_details');
     }
 };

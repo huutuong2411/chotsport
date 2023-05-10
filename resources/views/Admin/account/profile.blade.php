@@ -67,7 +67,7 @@ Thông tin cá nhân
                                                     <label class="small mb-1" for="inputEmailAddress">Số điện thoại</label>
                                                     <input name="phone" class="form-control" id="inputEmailAddress" type="text" placeholder="Số điện thoại của bạn" value="{{Auth::user()->phone}}">
                                                 </div>
-                                                @if(Auth::user()->address)
+                                                @if(Auth::user()->id_address)
                                                 <div class="mb-3">
                                                     <label class="small mb-1">Địa chỉ đã lưu</label>
                                                     <input name="full_address" class="form-control" type="text" readonly value="{{$full_address}}">
@@ -100,7 +100,7 @@ Thông tin cá nhân
                                                 </div>
                                                 <div class=" mb-3">
                                                     <label class="small mb-1" >Địa chỉ chi tiết</label>
-                                                    <input {{ $full_address ? '' : 'required' }}  class="form-control" id="chitiet" type="text" name="chitiet"  value="">
+                                                    <input {{ Auth::user()->id_address ? '' : 'required' }}  class="form-control" id="chitiet" type="text" name="chitiet"  value="">
                                                 </div>   
                                                 <!-- Form Row-->
                                                 <!-- Save changes button-->
@@ -168,6 +168,19 @@ Thông tin cá nhân
 
       })
 
+    $('#form').submit(function(){
+        if($('#chitiet').val()!=""){
+            if($('#ward').val()==""){
+                $("#city").attr("required", true);
+                $("#district").attr("required", true);
+                $("#ward").attr("required", true);
+                return false;
+           }else{
+            return true;
+           }
+        }
+
+    });
 
 // dấu đóng hàm ready
 });
