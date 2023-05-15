@@ -90,7 +90,7 @@ Quản lý bảng hiệu
                             </div>
                             <!--đóng form thêm danh mục  -->
 
-                            <div class="card-header text-warning font-weight-bold" id="edit_heading" style="display: none">Sửa nhãn hàng giày</div>  
+                            <div class="card-header text-warning font-weight-bold" id="edit_heading" style="display: none">Sửa bảng hiệu giày</div>  
                             <!-- form edit danh mục -->
                             <div class="card-body" id="editbanner" style="display: none">
                           
@@ -110,7 +110,7 @@ Quản lý bảng hiệu
                                 </div>
                                 <div class=" mb-3">
                                   <label class="small mb-1">Hình ảnh mới (đề xuất kích thước 1903 X 680)</label>
-                                  <input class="form-control" type="file" name="image" required>
+                                  <input class="form-control" type="file" name="image">
                                 </div>
                                 <button type="submit" class="btn btn-warning">Lưu</button>
                                 <button type="button" class="btn btn-primary" id="add" style="margin-left:10%">Thêm mới nhãn hàng</button>

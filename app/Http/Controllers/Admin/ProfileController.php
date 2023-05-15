@@ -112,24 +112,24 @@ class ProfileController extends Controller
      */
     public function updatepass(Request $request)
     {
-        // $users = User::find(Auth::id());
-        // $oldpassword = Hash::make($request->password, [
-        //  'rounds' => 12,
-        // ]);
-        // $newpassword=bcrypt($request->newpassword);
-        // $repassword=encrypt($request->repassword);
-        // dd($oldpassword);
-        // if($oldpassword!=$users->password){
-        //     return redirect()->back()->withErrors('Mật khẩu cũ không đúng');
-        // }elseif ($newpassword!=$repassword) {
-        //     return redirect()->back()->withErrors('Nhập lại mật khẩu mới không đúng');
-        // }else{
-        //     if($users->update()) {
-        //     return redirect()->route('admin.login')->with('success',__('Thay đổi mật khẩu thành công'));
-        //     }else {
-        //         return redirect()->back()->withErrors('Lỗi thay đổi mật khẩu, vui lòng thử lại');
-        //     }
-        // }
+        $curentPasswordStatus = Hash::check($request->password, Auth()->user()->password);
+        if($curentPasswordStatus){
+            if($request->new_password==$request->re_password){
+                if(User::findOrFail(Auth::user()->id)->update([
+                'password' => Hash::make($request->new_password),
+                ])){
+                   return redirect()->route('admin.profile')->with('success',__('Thay đổi mật khẩu thành công')); 
+               }else {
+                     return redirect()->back()->withErrors('Lỗi thay đổi mật khẩu, vui lòng thử lại');
+               }
+                
+            }else{
+                return redirect()->back()->withErrors('Nhập lại mật khẩu mới không đúng');
+            }
+        }else{
+             return redirect()->back()->withErrors('Mật khẩu cũ không đúng');
+        }
+        
     }
 
     /**
