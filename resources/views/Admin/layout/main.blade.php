@@ -25,8 +25,23 @@
     <link rel="icon" href="{{asset('logo_chot.ico')}}" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <!-- viết jquery add class active -->
-  
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    
+    <script type="text/javascript">
+    $(document).ready(function() {
+        
+        $('table.display').dataTable( {
+            "aLengthMenu": [[5,10,20,50,-1], [5,10,20,50, "All"]],
+            "pageLength": 5,
+            } );
+        $('#dataTable').dataTable( {
+            "aLengthMenu": [[5,10,20,50,-1], [5,10,20,50, "All"]],
+            "pageLength": 5,
+            } );
+        
+        });
+    </script>
 </head>
 
 <body id="page-top">
@@ -65,7 +80,7 @@
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
+    <a class="scroll-to-top rounded" href="#page-top" style="display: inline;">
         <i class="fas fa-angle-up"></i>
     </a>
 
@@ -101,13 +116,18 @@
 
     <!-- Page level plugins -->
     <script src="{{asset('admin/assets/vendor/chart.js/Chart.min.js')}}"></script>
-    <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
-
+    <script src="{{asset('admin/assets/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('admin/assets/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
     <!-- Page level custom scripts -->
+    <script src="{{asset('admin/assets/js/demo/datatables-demo.js')}}"></script>
     <script src="{{asset('admin/assets/js/demo/chart-area-demo.js')}}"></script>
     <script src="{{asset('admin/assets/js/demo/chart-pie-demo.js')}}"></script>
-    <script src="{{asset('js/demo/datatables-demo.js')}}"></script> 
+    <script src="{{asset('admin/assets/js/demo/datatables-demo.js')}}"></script> 
    
 </body>
 
 </html>
+
+
+
+

@@ -4,12 +4,12 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Purchase_detail extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+
     protected $table = "purchase_details";
     protected $fillable = ['id_product_detail', 'id_purchase', 'qty', 'price', 'sum_money'];
     public function Product_detail() {

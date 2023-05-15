@@ -64,7 +64,6 @@ Quản lý bài viết
                                         @endforeach                   
                                     </tbody>
                                 </table>
-                                {{$infor->links('pagination::bootstrap-4')}}
                             </div> 
                         </div>
                         

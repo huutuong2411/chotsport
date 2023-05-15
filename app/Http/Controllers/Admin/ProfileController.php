@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\City;
 use App\Models\District;
 use App\Models\Address;
+use Hash;
 class ProfileController extends Controller
 {
     /**
@@ -101,17 +102,34 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function changepass()
     {
-        //
+        return view ('Admin.account.changepass');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function updatepass(Request $request)
     {
-        //
+        // $users = User::find(Auth::id());
+        // $oldpassword = Hash::make($request->password, [
+        //  'rounds' => 12,
+        // ]);
+        // $newpassword=bcrypt($request->newpassword);
+        // $repassword=encrypt($request->repassword);
+        // dd($oldpassword);
+        // if($oldpassword!=$users->password){
+        //     return redirect()->back()->withErrors('Mật khẩu cũ không đúng');
+        // }elseif ($newpassword!=$repassword) {
+        //     return redirect()->back()->withErrors('Nhập lại mật khẩu mới không đúng');
+        // }else{
+        //     if($users->update()) {
+        //     return redirect()->route('admin.login')->with('success',__('Thay đổi mật khẩu thành công'));
+        //     }else {
+        //         return redirect()->back()->withErrors('Lỗi thay đổi mật khẩu, vui lòng thử lại');
+        //     }
+        // }
     }
 
     /**

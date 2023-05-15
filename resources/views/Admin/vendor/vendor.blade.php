@@ -35,6 +35,7 @@ Quản lý nhà cung cấp
                         <div class="card col-xl-8">
                           <div class="card-header text-primary font-weight-bold">Danh sách nhà cung cấp<a href="{{route('admin.vendor.trash')}}" class="btn btn-danger" style="float:right"><i class="fas fa-trash"></i> Thùng rác</a></div>
                             <div>
+                              <div class="card-body table-responsive">
                                 <table class="table table-bordered" id="dataTable" cellspacing="0">
                                     <thead>
                                         <tr>
@@ -63,6 +64,7 @@ Quản lý nhà cung cấp
                                         @endforeach
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
                         <div class="card col-xl-4">

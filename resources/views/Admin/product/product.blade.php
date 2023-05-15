@@ -33,51 +33,54 @@ Quản lý sản phẩm
                         
                         <div class="card">
                           <div class="card-header text-primary font-weight-bold">Danh sách sản phẩm<a href="{{route('admin.product.trash')}}" class="btn btn-danger" style="float:right; margin-left:1%"><i class="fas fa-trash"></i> Thùng rác</a><a style="float:right" href="{{route('admin.product.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm sản phẩm</a></div>
-                            <div class="card-body table-responsive">
-                                <table class="table table-bordered" id="dataTable" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th class="col-1">ID</th>
-                                            <th class="col-2">Tên sản phẩm</th>
-                                            <th class="col-2">Hình ảnh</th>
-                                            <th class="col-1">Giá</th>
-                                            <th class="col-1">Giảm giá</th>
-                                            <th class="col-1">Số lượng</th>
-                                            <th class="col-1">Đánh giá</th>
-                                            <th class="col-1">Đã bán</th>
-                                            <th class="col-2" style="text-align: center">Thao tác</th>
-                                            
-                                        </tr>
-                                    </thead>
-                                   
-                                    <tbody>
-                                        @foreach($product as $value)
-                                        <tr>   
-                                            <th scope="row">{{$value->id}}</th>
-                                            <td>{{$value->name}}</td>
-                                          
-                                            <td><img style="max-width:100%;" src="{{asset('/admin/assets/img/product/'.$value->id.'/'.json_decode($value['image'])[0])}}"></td>
-                                            <td>{{number_format($value->price, 0, ',', '.')}}</td>
-                                            <td>{{$value->discount}}</td>
-                                            <td>{{$value->total_qty}}</td>
-                                            <td>*****</td>
-                                            <td>XXXXX</td>
-                                            <td style="text-align: center">
-                                                <a href="{{route('admin.product.show',['id'=>$value->id])}}" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
-                                                <a href="{{route('admin.product.edit',['id'=>$value->id])}}" class="btn btn-warning btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-pencil-alt"></i></a>
-                                                <a href="{{route('admin.product.delete',['id'=>$value->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                        {{$product->links('pagination::bootstrap-4')}}      
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-1">ID</th>
+                                                <th class="col-2">Tên sản phẩm</th>
+                                                <th class="col-2">Hình ảnh</th>
+                                                <th class="col-1">Giá</th>
+                                                <th class="col-1">Giảm giá</th>
+                                                <th class="col-1">Số lượng</th>
+                                                <th class="col-1">Đánh giá</th>
+                                                <th class="col-1">Đã bán</th>
+                                                <th class="col-2" style="text-align: center">Thao tác</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                       
+                                        <tbody>
+                                            @foreach($product as $value)
+                                            <tr>   
+                                                <th scope="row">{{$value->id}}</th>
+                                                <td>{{$value->name}}</td>
+                                              
+                                                <td><img style="max-width:100%;" src="{{asset('/admin/assets/img/product/'.$value->id.'/'.json_decode($value['image'])[0])}}"></td>
+                                                <td>{{number_format($value->price, 0, '.', ',')}}</td>
+                                                <td>{{$value->discount}}</td>
+                                                <td>{{$value->total_qty}}</td>
+                                                <td>*****</td>
+                                                <td>XXXXX</td>
+                                                <td style="text-align: center">
+                                                    <a href="{{route('admin.product.show',['id'=>$value->id])}}" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
+                                                    <a href="{{route('admin.product.edit',['id'=>$value->id])}}" class="btn btn-warning btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-pencil-alt"></i></a>
+                                                    <a href="{{route('admin.product.delete',['id'=>$value->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>  
+                                </div> 
+
                             </div> 
+
                         </div>
-                        
-                        
 
 </div>
 
+<!-- test -->
 
 @endsection
+                                    

@@ -38,9 +38,9 @@ Quản lý nhập kho
                                     <thead>
                                         <tr>
                                             <th class="col-1">ID</th>
-                                            <th class="col-3">Tổng tiền</th>
-                                            <th class="col-3">Ngày nhập</th>
                                             <th class="col-3">Nhà cung cấp</th>
+                                            <th class="col-3">Ngày nhập</th>
+                                             <th class="col-3">Tổng tiền</th>
                                             <th class="col-2" style="text-align: center">Thao tác</th>
                                             
                                         </tr>
@@ -49,14 +49,15 @@ Quản lý nhập kho
                                     <tbody>
                                         @foreach($purchase as $value)
                                         <tr>   
-                                            <th scope="row">{{$value->id}}</th>
-                                            <td>{{number_format($value->sum_money, 0, ',', '.')}}</td>
-                                            <td>{{$value->date}}</td>
+                                            <th class="id" scope="row">{{$value->id}}</th>
                                             <td>{{$value->vendor}}</td>
+                                            <td>{{date('d/m/Y', strtotime($value->date))}}</td>
+                                            <td>{{number_format($value->sum_money, 0, '.', ',')}} (VND)</td>
                                             <td style="text-align: center">
-                                                <a href="" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
-                                                <a href="" class="btn btn-warning btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-pencil-alt"></i></a>
-                                                <a href="" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-trash"></i></a>
+                                                <button style="margin-left:2%" type="button" class="btn btn-info btn-circle btn-sm show" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-solid fa-eye"></i></button>
+                                                <a href="{{route('admin.purchase.edit',['id'=>$value->id])}}" class="btn btn-warning btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-pencil-alt"></i></a>
+                                               <a href="{{ url('admin/purchase/print/'.$value->id ) }}" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-trash"></i></a>
+
                                             </td>
                                         </tr>
                                         @endforeach
@@ -65,10 +66,122 @@ Quản lý nhập kho
                                 {{$purchase->links('pagination::bootstrap-4')}}
                             </div> 
                         </div>
-                        
-                        
+</div>
 
+<!-- test -->
+
+
+
+
+<div class="modal bd-example-modal-lg" id="showdetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  
 </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+ 
+    $(document).ready(function(){
+       $('.show').click(function(){
+            $('#showdetail').removeClass('fade show');
+            var id_purchase = $(this).closest('tr').find('.id').text(); // lấy id purchase
+            $.ajax({
+                url: '{{route('admin.purchase.show',['id'=>'cache']) }}'.replace('cache',id_purchase), 
+                method: 'GET', // phương thức POST
+                data: { // dữ liệu gửi đi
+                    id: id_purchase, // giá trị id_purchase
+                },
+                success: function(data){ // nhận kết quả trả về
+                    $('#showdetail').addClass('fade show');
+                    console.log(data.groupDetails);
+                    if(data != ""){
+                  var date = moment(data.purchase.date).format('DD/MM/YYYY'); // định dạng lại ngày
+                 // xoá hết khung hoá đơn cũ thêm hoá đơn mới
+                  $('#showdetail').html("<div style='max-width: 70%;' class='modal-dialog modal-lg'>"+
+                                        "<div class='modal-content'>"+
+                                            "<div class='card-body'>"+
+                                            "<h3 class='text-center'>HOÁ ĐƠN NHẬP HÀNG</h3>" + 
+                                            "<div class='mb-3 row'>"+
+                                                "<div class='col-6'>"+
+                                                        "<label class='mb-1 font-weight-bold'>Nhà cung cấp:</label>"+
+                                                        "<label>"+data.purchase.vendor+"</label>"+
+                                                "</div>"+
+                                                "<div class='col-6'>"+
+                                                        "<label class='mb-1 font-weight-bold'>Ngày nhập:</label>"+
+                                                        "<label>"+date+"</label>"+
+                                                "</div>"+
+                                            "</div>"+    
+                                                "<hr class='primary'>"+
+                                            "<table class='table table-bordered'>"+
+                                                "<thead>"+
+                                                    "<tr>"+
+                                                        "<th style='text-align: center'>STT</th>"+
+                                                        "<th>Tên sản phẩm</th>"+
+                                                        "<th>Size</th>"+
+                                                        "<th>Số lượng</th>"+
+                                                        "<th>Đơn giá</th>"+
+                                                        "<th>Thành tiền</th>"+
+                                                    "</tr>"+
+                                                "</thead>"+
+                                                "<tbody>"+
+                                                "</tbody>"+
+                                            "</table>"+
+                                        "<label class='float-right font-weight-bold col-3'>Chữ ký người nhận</label>"+
+                                        "<br>" +
+                                        "<br>" +
+                                        "<br>" +
+                                        "</div>"+
+                                            "<div class='modal-footer'>"+
+                                               "<a href='{{ url('admin/purchase/print')}}"+"/"+id_purchase+"' type='button' class='btn btn-sm btn-success'>In pdf</a>"+
+                                                "<button type='button' class='btn btn-sm btn-secondary' data-dismiss='modal'>Đóng</button>"+
+                                              "</div>"+
+                                        "</div>"+
+                                      "</div>"
+                                    );
+                } 
+                var total_money=0;
+                var i=0;
+                $.each(data.groupDetails, function(key, value) {
+                    $.each(value, function(index, detail) {
+                        total_money += detail.sum_money;
+                        var price = detail.price.toLocaleString('vi-VN');
+                        var sum_money = detail.sum_money.toLocaleString('vi-VN');
+                        i++
+                            $('#showdetail').find('tbody').append("<tr>"+
+                                                            "<td style='text-align: center'>"+i+"</td>"+
+                                                            "<td>"+detail.product_name+"</td>"+
+                                                            "<td>"+detail.size_name+"</td>"+
+                                                            "<td>"+detail.qty+"</td>"+
+                                                            "<td>"+price+"</td>"+
+                                                            "<td>"+sum_money+"</td>"+
+                                                            "</tr>");
+                    });
+                });
+                total_money= total_money.toLocaleString('vi-VN');
+                $('#showdetail').find('tbody').append("<tr class='font-weight-bold'>"+
+                                                             "<td colspan='6'>Tổng tiền thanh toán:<p class='float-right'>"+total_money+"</p></td>"+   
+                                                        "</tr>");
+
+             }
+            });  // dấu đóng AJAX
+        
+      });
+
+      
+// dấu đóng hàm ready
+});
+
+</script>
 @endsection

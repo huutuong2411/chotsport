@@ -3,8 +3,8 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <img src="{{asset('admin/assets/img/logo/logo_chot.png')}}" alt="" style="width:124%;">
+                <div class="sidebar-brand-icon">
+                    <img src="{{asset('admin/assets/img/logo/logo_chot.png')}}" alt="" style="width:118%;">
                 </div>
                 <div class="sidebar-brand-text mx-3">ChotSport</div>
             </a>
@@ -18,14 +18,8 @@
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Trang chủ</span></a>
             </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Interface
-            </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="{{Request::is('admin/category*','admin/brand*','admin/product*','admin/size*') ? 'nav-item active' : 'nav-item'}}">
@@ -46,7 +40,7 @@
                 </div>
             </li>
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
+            <li class="{{Request::is('admin/vendor*','admin/purchase*') ? 'nav-item active' : 'nav-item'}}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
@@ -55,11 +49,10 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
+                        <a  class="{{Request::is('admin/vendor*') ? 'collapse-item active' : 'collapse-item'}}" 
+                            href="{{route('admin.vendor')}}">QL nhà cung cấp</a>
+                        <a  class="{{Request::is('admin/purchase*') ? 'collapse-item active' : 'collapse-item'}}" 
+                            href="{{route('admin.purchase')}}">QL nhập kho</a>
                     </div>
                 </div>
             </li>
@@ -92,6 +85,10 @@
                     </div>
                 </div>
             </li>
+
+
+
+
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">

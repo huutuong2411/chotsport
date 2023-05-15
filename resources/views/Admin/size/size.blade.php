@@ -40,7 +40,7 @@ Quản lý size giày
                               <div class="font-weight-bold">{{$brand->name}}</div>
                             <div class="card-body table-responsive">
                                
-                                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                                <table class="display table table-bordered" id="" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Chiều dài</th>
@@ -110,6 +110,10 @@ Quản lý size giày
                             </div>
                           @endforeach
                         </div>
+
+
+
+
                         <div class="card col-xl-5">
                            <div class="card-header text-danger font-weight-bold"><i class="fas fa-trash"></i> Thùng rác</div>
                            <div class="card-body table-responsive">
@@ -136,8 +140,6 @@ Quản lý size giày
                                       @endforeach
                                     </tbody>
                                 </table>
-                                
-                                
                             </div>
                         </div>
                         
@@ -166,17 +168,9 @@ Quản lý size giày
         $(".oldsize").val(name);
        
     });
-
-
-
-
-
-
-
-    
   });
-
 </script>
+
 
 @endsection
  
