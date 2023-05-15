@@ -14,7 +14,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $infor = Blog::paginate(3);
+        $infor = Blog::all();
         return view('admin.blog.blog',compact("infor"));
     }
 

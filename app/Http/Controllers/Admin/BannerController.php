@@ -82,9 +82,8 @@ class BannerController extends Controller
         if($banner->update()){
             if(!empty($image)) { 
                 $image->move(public_path('/admin/assets/img/banner'), $image->getClientOriginalName());
-                return redirect()->back()->with('success',__('Sửa bảng hiệu thành công')); 
             }
-        
+        return redirect()->back()->with('success',__('Sửa bảng hiệu thành công')); 
         } else {
             return redirect()->back()->withErrors('Sửa bảng hiệu không thành công');
         }

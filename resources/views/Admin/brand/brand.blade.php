@@ -22,9 +22,9 @@ Quản lý nhãn hàng
                                 <table class="table table-bordered" id="dataTable" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th style="width:10%">ID</th>
+                                            <th class="col-1">ID</th>
                                             <th>Tên</th>
-                                            <th style="width:17%">Thao tác</th>
+                                            <th class="col-3" style="text-align: center">Thao tác</th>
                                             
                                         </tr>
                                     </thead>
@@ -34,7 +34,7 @@ Quản lý nhãn hàng
                                         <tr>
                                             <th scope="row" class="id">{{$value->id}}</th>
                                             <td class="name">{{$value->name}}</td>
-                                            <td>
+                                            <td style="text-align: center">
                                                 <button href="#" class="btn btn-warning btn-circle btn-sm edit" ><i class="fas fa-pencil-alt"></i></button>
                                                 <a href="{{route('admin.brand.delete',['id'=>$value->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:10%"><i class="fas fa-trash"></i></a>
                                             </td>

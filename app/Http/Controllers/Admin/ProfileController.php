@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\City;
 use App\Models\District;
 use App\Models\Address;
+use Hash;
 class ProfileController extends Controller
 {
     /**
@@ -52,24 +53,33 @@ class ProfileController extends Controller
         $user= User::findOrFail($IDuser);
         $data=$request->all();
 
-
+        $listAddress=Address::pluck('address')->toArray();
+        $listID_ward=Address::pluck('id_ward')->toArray();
         // nếu đã có địa chỉ từ trước:
-        if($request->has('full_address')){
+        if($request->has('full_address') && empty($request->chitiet)){
             $data['id_address'] = Auth::user()->id_address;
         } else{
-            // tạo dữ liệu lưu vào bảng address
-            if($request->has('ward')){
-                $address=new Address();
-                $address->id_ward=$request->ward;
-                if($request->has('chitiet')){
-                    $address->address=$request->chitiet; 
+            if(!empty($request->ward)){
+                // check xem nếu trùng xã trùng địa chỉ thì thôi không tạo bảng address
+                if(in_array($request->chitiet,$listAddress) && in_array($request->ward,$listID_ward)){
+                    $address = Address::where('address', $request->chitiet)->where('id_ward', $request->ward)->first();
+                    $data['id_address'] = $address->id;
+                    
+                }else{
+                    $address=new Address();
+                    $address->id_ward=$request->ward;
+                    if($request->has('chitiet')){
+                        $address->address=$request->chitiet; 
+                    }
+                    if($address->save()){
+                            // lấy ra id của bảng address vừa lưu:
+                            $id_address = $address->id;
+                            // gán vào id_address của bảnng user
+                            $data['id_address'] = $id_address;     
+                        }
+                    }   
                 }
-                $address->save();
-            }
-            // lấy ra id của bảng address vừa lưu:
-            $id_address = $address->id;
-            // gán vào id_address của bảnng user
-            $data['id_address'] = $id_address;     
+            
         }   
         $image=$request->avatar;
         // lấy tên hình ảnh
@@ -81,28 +91,45 @@ class ProfileController extends Controller
 
             if(!empty($image)) { 
                 $image->move(public_path('/admin/assets/img/user'), $image->getClientOriginalName());
-                return redirect()->back()->with('success',__('Cập nhật thông tin thành công')); 
             }
+            return redirect()->route('admin.profile')->with('success',__('Cập nhật thông tin thành công'));
         
         } else {
-            return redirect()->back()->withErrors('Cập nhật thông tin không thành công');
+            return redirect()->route('admin.profile')->withErrors('Cập nhật thông tin không thành công');
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function changepass()
     {
-        //
+        return view ('Admin.account.changepass');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function updatepass(Request $request)
     {
-        //
+        $curentPasswordStatus = Hash::check($request->password, Auth()->user()->password);
+        if($curentPasswordStatus){
+            if($request->new_password==$request->re_password){
+                if(User::findOrFail(Auth::user()->id)->update([
+                'password' => Hash::make($request->new_password),
+                ])){
+                   return redirect()->route('admin.profile')->with('success',__('Thay đổi mật khẩu thành công')); 
+               }else {
+                     return redirect()->back()->withErrors('Lỗi thay đổi mật khẩu, vui lòng thử lại');
+               }
+                
+            }else{
+                return redirect()->back()->withErrors('Nhập lại mật khẩu mới không đúng');
+            }
+        }else{
+             return redirect()->back()->withErrors('Mật khẩu cũ không đúng');
+        }
+        
     }
 
     /**

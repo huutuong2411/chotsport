@@ -39,11 +39,11 @@ Quản lý bài viết
                                 <table class="table table-bordered" id="dataTable" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th  style="width:3%">ID</th>
-                                            <th class="col-3">Tiêu đề</th>
+                                            <th class="col-1">ID</th>
+                                            <th class="col-2">Tiêu đề</th>
                                             <th class="col-6">Mô tả</th>
                                             <th class="col-1">Ngày cập nhật</th>
-                                            <th class="col-2">Thao tác</th>
+                                            <th class="col-2" style="text-align: center">Thao tác</th>
                                             
                                         </tr>
                                     </thead>
@@ -55,7 +55,7 @@ Quản lý bài viết
                                             <td class="name">{{$value->title}}</td>
                                             <td class="name">{{$value->description}}</td>
                                             <td class="name">{{$value->updated_at}}</td>
-                                            <td>
+                                            <td style="text-align: center">
                                                 <a href="{{route('admin.blog.show',['id'=>$value->id])}}" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
                                                 <a href="{{route('admin.blog.edit',['id'=>$value->id])}}" class="btn btn-warning btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-pencil-alt"></i></a>
                                                 <a href="{{route('admin.blog.delete',['id'=>$value->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-trash"></i></a>
@@ -64,7 +64,6 @@ Quản lý bài viết
                                         @endforeach                   
                                     </tbody>
                                 </table>
-                                {{$infor->links('pagination::bootstrap-4')}}
                             </div> 
                         </div>
                         

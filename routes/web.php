@@ -10,6 +10,9 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\PurchaseController;
+use App\Http\Controllers\PrintPDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +43,8 @@ Route::group(['prefix'=>'/admin',], function () {
 	// profile
 	Route::get('/profile', [ProfileController::class, 'index'])->name('admin.profile');
 	Route::post('/profile', [ProfileController::class, 'update_profile'])->name('admin.profile.post');
+	Route::get('/password', [ProfileController::class, 'changepass'])->name('admin.changepass');
+	Route::post('/password', [ProfileController::class, 'updatepass'])->name('admin.changepass.post');
 	// mặt hàng
 		// Danh mục
 	Route::get('/category', [CategoryController::class, 'index'])->name('admin.category');
@@ -59,7 +64,7 @@ Route::group(['prefix'=>'/admin',], function () {
 	Route::get('/blog', [BlogController::class, 'index'])->name('admin.blog');
 	Route::get('/blog/add', [BlogController::class, 'create'])->name('admin.blog.create');
 	Route::post('/blog/add', [BlogController::class, 'store'])->name('admin.blog.store');
-	Route::get('/blog/{id}', [BlogController::class, 'show'])->name('admin.blog.show');
+	Route::get('/blog/{id}/show', [BlogController::class, 'show'])->name('admin.blog.show');
 	Route::get('/blog/{id}/edit', [BlogController::class, 'edit'])->name('admin.blog.edit');
 	Route::post('/blog/{id}/edit', [BlogController::class, 'update'])->name('admin.blog.update');
 	Route::get('/blog/{id}/delete', [BlogController::class, 'destroy'])->name('admin.blog.delete');
@@ -78,10 +83,26 @@ Route::group(['prefix'=>'/admin',], function () {
 	Route::get('/product', [ProductController::class, 'index'])->name('admin.product');
 	Route::get('/product/add', [ProductController::class, 'create'])->name('admin.product.create');
 	Route::post('/product/add', [ProductController::class, 'store'])->name('admin.product.store');
-	Route::get('/product/trash', [ProductController::class, 'trash'])->name('admin.product.trash');
-	Route::get('/product/{id}', [ProductController::class, 'show'])->name('admin.product.show');
+	Route::get('/product/{id}/show', [ProductController::class, 'show'])->name('admin.product.show');
 	Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('admin.product.edit');
 	Route::post('/product/{id}/edit', [ProductController::class, 'update'])->name('admin.product.update');
 	Route::get('/product/{id}/delete', [ProductController::class, 'destroy'])->name('admin.product.delete');
+	Route::get('/product/trash', [ProductController::class, 'trash'])->name('admin.product.trash');
 	Route::get('/product/{id}/restore', [ProductController::class, 'restore'])->name('admin.product.restore');
+		// Quản lý nhà cung cấp
+	Route::get('/vendor', [VendorController::class, 'index'])->name('admin.vendor');
+	Route::post('/vendor', [VendorController::class, 'store'])->name('admin.vendor.add');
+	Route::post('/vendor/{id}/edit', [VendorController::class, 'update'])->name('admin.vendor.edit');
+	Route::get('/vendor/{id}/delete', [VendorController::class, 'destroy'])->name('admin.vendor.delete');
+	Route::get('/vendor/trash', [VendorController::class, 'trash'])->name('admin.vendor.trash');
+	Route::get('/vendor/{id}/restore', [VendorController::class, 'restore'])->name('admin.vendor.restore');
+		// Quản lý đơn nhập kho
+	Route::get('/purchase', [PurchaseController::class, 'index'])->name('admin.purchase');
+	Route::get('/purchase/add', [PurchaseController::class, 'create'])->name('admin.purchase.create');
+	Route::post('/purchase/add', [PurchaseController::class, 'store'])->name('admin.purchase.store');
+	Route::get('/purchase/{id}/show', [PurchaseController::class, 'show'])->name('admin.purchase.show');
+	Route::get('/purchase/{id}/edit', [PurchaseController::class, 'edit'])->name('admin.purchase.edit');
+	Route::post('/purchase/{id}/edit', [PurchaseController::class, 'update'])->name('admin.purchase.update');
+	Route::get('/purchase/print/{id_purchase}', [PrintPDFController::class, 'printPDF'])->name('admin.purchase.print');
 });
+

@@ -52,13 +52,9 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Trang cá nhân
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{route('admin.changepass')}}">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    Đổi mật khẩu
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{route('admin.logout')}}" data-toggle="modal" data-target="#logoutModal">

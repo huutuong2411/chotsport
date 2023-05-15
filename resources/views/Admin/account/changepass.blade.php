@@ -24,44 +24,37 @@
         <div class="container">
             <!-- Outer Row -->
             <div class="row justify-content-center">
-                <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="col-xl-8 col-lg-12 col-md-9">
                     <div class="card o-hidden border-0 shadow-lg my-5">
-                                        @if(session('success'))
-                            <div class="alert alert-success alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                <h4><i class="icon fa fa-check"></i> Thông báo!</h4>
-                                {{session('success')}}
-                            </div>
-                        @endif
                         <div class="card-body p-0">
                             <!-- Nested Row within Card Body -->
                             <div class="row">
-                                <img class="col-lg-6 d-none d-lg-block" src="https://i.pinimg.com/564x/ba/65/be/ba65be040cc711486e12cd55d4af5c90.jpg" alt="">
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <div class="p-5">
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">ĐĂNG NHẬP ADMIN</h1>
+                                            <h1 class="h4 text-gray-900 mb-4">ĐỔI MẬT KHẨU</h1>
                                         </div>
-                                        <form  action="{{route('admin.login.post')}}" class="was-validated user" method="post">
+                                        <form  action="{{route('admin.changepass.post')}}" class="user" method="post">
                                             @csrf
                                             <div class="form-group">
-                                                <input type="email" name="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Email của bạn" required="true">
-                                                <div class="invalid-feedback">Vui lòng điền vào dạng email</div>
-                                            </div>
-                                            <div class="form-group">
+                                                <label>Mật khẩu cũ</label>
                                                 <input type="password" name="password" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Mật khẩu" required>
-                                                <div class="invalid-feedback">Vui lòng điền vào trường này</div>
+                                                
                                             </div>
                                             <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input name="remember_me" type="checkbox" class="custom-control-input" id="customCheck">
-                                                    <label class="custom-control-label" for="customCheck">Remember Me</label>
-                                                </div>
+                                                <label>Mật khẩu mới</label>
+                                                <input type="password" name="new_password" class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="Mật khẩu" required>
+                                                
                                             </div>
-                                            <button type="submit" class="btn btn-primary btn-user btn-block">Đăng nhập</button>
+                                            <div class="form-group">
+                                                <label>Nhập lại mật khẩu mới</label>
+                                                <input type="password" name="re_password" class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="Mật khẩu" required>
+                                                
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-user btn-block">Đổi</button>
                                             <hr>
                                             @if ($errors->any())
                                                 <div class="alert alert-danger">
