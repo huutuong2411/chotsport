@@ -202,11 +202,13 @@ Sửa đơn nhập hàng
             $('#total_payment').val(total_payment);
         });
         
-        $(document).on('click','.cancel:not(:first)', function(){ // nút xoá sản 
+        $(document).on('click','.cancel',function(){ // nút xoá sản pham
             var deletemoney = parseInt($(this).closest('.addproduct').find('.sum_money').val());
             var oldpayment = parseInt($('#total_payment').val());
             $('#total_payment').val(oldpayment-deletemoney);
-            $(this).closest('.addproduct').remove();
+            if ($('.addproduct').length  > 1) {
+                $(this).closest('.addproduct').remove();
+            }
         });
 
         $('#form').submit(function(){

@@ -38,9 +38,24 @@
         $('#dataTable').dataTable( {
             "aLengthMenu": [[5,10,20,50,-1], [5,10,20,50, "All"]],
             "pageLength": 5,
+            "language": {
+            "lengthMenu": "Hiển thị _MENU_ hàng",
+            "zeroRecords": "Nothing found - sorry",
+            "info": "Trang _PAGE_ của _PAGES_",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+           "search":         "Tìm kiếm:",
+           "paginate": {
+                    "first":      "First",
+                    "last":       "Last",
+                    "next":       ">",
+                    "previous":   "<"
+                },
+        },
             } );
         
         });
+
     </script>
 </head>
 

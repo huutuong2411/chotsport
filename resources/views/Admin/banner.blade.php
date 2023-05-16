@@ -113,7 +113,7 @@ Quản lý bảng hiệu
                                   <input class="form-control" type="file" name="image">
                                 </div>
                                 <button type="submit" class="btn btn-warning">Lưu</button>
-                                <button type="button" class="btn btn-primary" id="add" style="margin-left:10%">Thêm mới nhãn hàng</button>
+                                <button type="button" class="btn btn-primary" id="add" style="margin-left:10%">Thêm mới bảng hiệu</button>
                               </form>
                             </div>
                             <!-- đóng form edit danh mục -->

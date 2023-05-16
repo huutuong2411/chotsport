@@ -56,8 +56,7 @@ Quản lý nhập kho
                                             <td style="text-align: center">
                                                 <button style="margin-left:2%" type="button" class="btn btn-info btn-circle btn-sm show" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-solid fa-eye"></i></button>
                                                 <a href="{{route('admin.purchase.edit',['id'=>$value->id])}}" class="btn btn-warning btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-pencil-alt"></i></a>
-                                               <a href="{{ url('admin/purchase/print/'.$value->id ) }}" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-trash"></i></a>
-
+                                               <a href="{{route('admin.purchase.delete',['id'=>$value->id])}}"  class="btn btn-danger btn-circle btn-sm"  style="margin-left:2%"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -76,18 +75,7 @@ Quản lý nhập kho
 <div class="modal bd-example-modal-lg" id="showdetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- Button trigger modal -->
 
 
 
@@ -99,13 +87,12 @@ Quản lý nhập kho
             var id_purchase = $(this).closest('tr').find('.id').text(); // lấy id purchase
             $.ajax({
                 url: '{{route('admin.purchase.show',['id'=>'cache']) }}'.replace('cache',id_purchase), 
-                method: 'GET', // phương thức POST
+                method: 'GET', // phương thức GET
                 data: { // dữ liệu gửi đi
                     id: id_purchase, // giá trị id_purchase
                 },
                 success: function(data){ // nhận kết quả trả về
-                    $('#showdetail').addClass('fade show');
-                    console.log(data.groupDetails);
+                    
                     if(data != ""){
                   var date = moment(data.purchase.date).format('DD/MM/YYYY'); // định dạng lại ngày
                  // xoá hết khung hoá đơn cũ thêm hoá đơn mới
@@ -144,7 +131,7 @@ Quản lý nhập kho
                                         "<br>" +
                                         "</div>"+
                                             "<div class='modal-footer'>"+
-                                               "<a href='{{ url('admin/purchase/print')}}"+"/"+id_purchase+"' type='button' class='btn btn-sm btn-success'>In pdf</a>"+
+                                               "<a href='{{ url('admin/purchase/print')}}"+"/"+id_purchase+"' type='button' target='_blank' class='btn btn-sm btn-success'>In pdf</a>"+
                                                 "<button type='button' class='btn btn-sm btn-secondary' data-dismiss='modal'>Đóng</button>"+
                                               "</div>"+
                                         "</div>"+
@@ -177,7 +164,7 @@ Quản lý nhập kho
              }
             });  // dấu đóng AJAX
         
-      });
+      }); // dấu đóng hàm show
 
       
 // dấu đóng hàm ready
@@ -185,3 +172,4 @@ Quản lý nhập kho
 
 </script>
 @endsection
+

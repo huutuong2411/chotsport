@@ -29,10 +29,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
+
+
+
+
+
 Auth::routes();
 
 
-
+// route của admin
 Route::group(['prefix'=>'/admin',], function () {
 	// Login-logout
 	Route::get('/login', [LoginController::class, 'index'])->name('admin.login');
@@ -103,6 +110,7 @@ Route::group(['prefix'=>'/admin',], function () {
 	Route::get('/purchase/{id}/show', [PurchaseController::class, 'show'])->name('admin.purchase.show');
 	Route::get('/purchase/{id}/edit', [PurchaseController::class, 'edit'])->name('admin.purchase.edit');
 	Route::post('/purchase/{id}/edit', [PurchaseController::class, 'update'])->name('admin.purchase.update');
+	Route::get('/purchase/{id}/delete', [PurchaseController::class, 'destroy'])->name('admin.purchase.delete');
 	Route::get('/purchase/print/{id_purchase}', [PrintPDFController::class, 'printPDF'])->name('admin.purchase.print');
 });
 
