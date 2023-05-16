@@ -92,7 +92,12 @@ class PurchaseController extends Controller
 
                             }
                         }
-                    }     
+                    } 
+                    // Cập nhật số lượng trong bảng product
+                                $totalQty = Product_detail::where('id_product', $id_product)->sum('size_qty');
+                                $product = Product::find($id_product);
+                                $product->total_qty = $totalQty;
+                                $product->save();    
                 }
             return redirect()->route('admin.purchase')->with('success',__('Thêm đơn nhập hàng thành công')); 
         }else{
@@ -230,16 +235,27 @@ class PurchaseController extends Controller
                                 Purchase_detail::where('id_purchase', $id)->where('id_product_detail', $check_product_detail->id)->delete();
                                 // Trừ số lượng trong product_detail
                                 $check_product_detail->decrement('size_qty', $i);
+                                // Kiểm tra nếu số lượng sau khi giảm là 0, xoá bản ghi
+                                if ($check_product_detail->size_qty === 0) {
+                                    $check_product_detail->delete();
+                                }
+                                
                             }
                         }
 
                     }
+
                     foreach($oldProduct as $key => $value)  {   //lặp qua danh sách đã lọc ở trên        
                                     if(in_array($product,$oldProduct)){
                                         $index = array_search($product, $oldProduct);
                                         unset($oldProduct[$index]);
                                 }
                     }    // thu được mảng chứa sản phẩm lúc trước có mà giờ không có 
+                    // Cập nhật số lượng trong bảng product
+                                $totalQty = Product_detail::where('id_product', $product)->sum('size_qty');
+                                $product = Product::find($product);
+                                $product->total_qty = $totalQty;
+                                $product->save();
                 }
 
             foreach($oldProduct as $key => $value)  {  //lặp qua mảng để xoá đơn nhập của sản phẩm đó
@@ -251,10 +267,20 @@ class PurchaseController extends Controller
                         Purchase_detail::where('id_purchase', $id)->where('id_product_detail', $id_product->id_product)->delete();
                         if(array_key_exists($id_product->id_product, $oldQty)){
                             $i = $oldQty[$id_product->id_product];
-                            Product_detail::find($id_product->id_product)->decrement('size_qty', $i);
+                            $thisProductDetail = Product_detail::find($id_product->id_product);
+                            $thisProductDetail->decrement('size_qty', $i);
+                            if ($thisProductDetail->size_qty === 0) {
+                                    $thisProductDetail->delete();
+                                }
                         }
                     }
+                // Cập nhật số lượng trong bảng product
+                                $totalQty = Product_detail::where('id_product', $value)->sum('size_qty');
+                                $product = Product::find($value);
+                                $product->total_qty = $totalQty;
+                                $product->save();
             }  
+            
             return redirect()->route('admin.purchase')->with('success',__('Sửa đơn nhập hàng thành công')); 
         }else{
             return redirect()->route('admin.purchase')->withErrors('Sửa đơn nhập hàng không thành công');
@@ -268,6 +294,39 @@ class PurchaseController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
+        
+        
+            $listSizeQty = Purchase_detail::where('id_purchase',$id)
+                ->join('product_details', 'purchase_details.id_product_detail', '=', 'product_details.id')
+                ->join('products', 'product_details.id_product', '=', 'products.id')
+                ->join('size', 'product_details.id_size', '=', 'size.id')
+                ->select('purchase_details.id as id_purchase_detail', 'purchase_details.qty as purchase_detail_qty', 'product_details.id', 'product_details.size_qty as product_detail_qty', 'products.id as id_product')
+                ->groupBy('product_details.id')
+                ->get();
+            
+            Purchase_detail::where('id_purchase',$id)->delete(); 
+            Purchase::destroy($id);
+            foreach ($listSizeQty as $key => $value) {
+                $thisProduct_detail = Product_detail::findOrFail($value->id);
+                $thisProduct_detail->decrement('size_qty', $value->purchase_detail_qty);
+                if ($thisProduct_detail->size_qty <= 0) //nếu số lượng = 0 thì xoá luôn product_detail đó (xoá mềm)
+                {
+                    $thisProduct_detail->size_qty = 0;
+                    $thisProduct_detail->delete();
+                }
+                // Cập nhật số lượng trong bảng product
+                    $totalQty = Product_detail::where('id_product', $value->id_product)->sum('size_qty');
+                    $product = Product::find($value->id_product);
+                    $product->total_qty = $totalQty;
+                    $product->save();
+            }
+            
+        return redirect()->back()->with('delete',__('Đã xoá đơn nhập thành công'));
     }
+
+
+
+
+
 }

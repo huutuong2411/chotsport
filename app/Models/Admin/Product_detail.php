@@ -19,4 +19,5 @@ class Product_detail extends Model
     public function Purchase_detail() {
         return $this->hasMany('App\Models\Admin\Purchase_detail', 'id_size');
     }
+
 }
