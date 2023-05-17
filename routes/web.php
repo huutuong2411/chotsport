@@ -13,7 +13,9 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\PrintPDFController;
-
+// user:
+use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\UserProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,12 +26,10 @@ use App\Http\Controllers\PrintPDFController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['namespace' => 'User',], function () {
+Route::get('/', [HomeController::class, 'index'])->name('user.home');
+Route::get('/product/{id}', [UserProductController::class, 'show'])->name('user.productdetail');
 });
-
-
 
 
 
@@ -40,7 +40,7 @@ Auth::routes();
 
 
 // route của admin
-Route::group(['prefix'=>'/admin',], function () {
+Route::group(['prefix'=>'/admin','namespace' => 'Admin',], function () {
 	// Login-logout
 	Route::get('/login', [LoginController::class, 'index'])->name('admin.login');
 	Route::post('/login', [LoginController::class, 'login'])->name('admin.login.post');

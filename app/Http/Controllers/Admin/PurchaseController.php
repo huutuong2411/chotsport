@@ -19,7 +19,7 @@ class PurchaseController extends Controller
     public function index()
     {
         $purchase = Purchase::join('vendor', 'purchase.id_vendor', '=', 'vendor.id')
-        ->select('purchase.*','vendor.name as vendor')->paginate(5);
+        ->select('purchase.*','vendor.name as vendor')->get();
       
         return view('Admin.purchase.purchase',compact('purchase'));
     }

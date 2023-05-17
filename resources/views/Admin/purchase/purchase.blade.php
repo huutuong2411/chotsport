@@ -62,7 +62,6 @@ Quản lý nhập kho
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{$purchase->links('pagination::bootstrap-4')}}
                             </div> 
                         </div>
 </div>

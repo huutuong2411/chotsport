@@ -40,7 +40,11 @@ Chi tiết sản phẩm
                                                     <label class="small mb-1 font-weight-bold">Giá: </label>
                                                     <label>{{number_format($product->price, 0, ',', '.')}}</label>   
                                                     <label style="margin-left: 5%" class="small mb-1 font-weight-bold">Giảm giá: </label>
-                                                    <label >{{$product->discount}}</label>
+                                                    @if($product->discount !=0)
+                                                    <label >{{$product->discount}}%</label>
+                                                    @else
+                                                    <label >Không</label>
+                                                    @endif
                                                     <label style="margin-left: 5%" class="small mb-1 font-weight-bold">Số lượng: </label>
                                                     <label >{{$product->total_qty}}</label>     
                                                 </div>
