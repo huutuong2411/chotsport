@@ -31,9 +31,9 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#offcanvas-add-cart" class="offcanvas-toggle">
+                                    <a href="{{route('user.cart')}}" >
                                         <i class="icon-bag"></i>
-                                        <span class="item-count">3</span>
+                                        <span class="item-count">{{session()->has('cartQty')? session()->get('cartQty') : 0}}</span>
                                     </a>
                                 </li>
                                 <li>

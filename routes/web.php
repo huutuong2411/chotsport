@@ -16,6 +16,7 @@ use App\Http\Controllers\PrintPDFController;
 // user:
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\UserProductController;
+use App\Http\Controllers\User\CartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,8 +28,15 @@ use App\Http\Controllers\User\UserProductController;
 |
 */
 Route::group(['namespace' => 'User',], function () {
+
 Route::get('/', [HomeController::class, 'index'])->name('user.home');
 Route::get('/product/{id}', [UserProductController::class, 'show'])->name('user.productdetail');
+
+
+	//check session:
+	Route::get('/checkcart',[CartController::class,'checkcart']);
+Route::get('/cart',[CartController::class,'index'])->name('user.cart');
+Route::post('/cart/addcart',[CartController::class,'addcart'])->name('user.addcart');
 });
 
 

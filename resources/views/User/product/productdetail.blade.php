@@ -5,6 +5,14 @@ Chotsport-giày bóng đá chính hãng
 @endsection
 
 @section('content')
+<div class="breadcrumb-nav p-3 mb-2 text-dark" style="background-color:#e1e3e8!important;padding: 3px 20px!important; margin-bottom: 50px!important">
+                            <nav aria-label="breadcrumb">
+                                <ul>
+                                    <li class="active" aria-current="page">Trang chủ</li>
+                                    <li class="active" aria-current="page">{{$product->name}}</li>
+                                </ul>
+                            </nav>
+</div>
 <!-- Start Product Details Section -->
     <div class="product-details-section" style="margin-top:30px">
         <div class="container">
@@ -85,7 +93,7 @@ Chotsport-giày bóng đá chính hãng
                                     </label>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center ">
+                            <div class="d-flex align-items-center actioncart">
                                 <div class="variable-single-item ">
                                     <span>Số lượng</span>
                                     <div class="product-variable-quantity">
@@ -96,7 +104,7 @@ Chotsport-giày bóng đá chính hãng
                                     <a href="#" data-bs-toggle="modal" data-bs-target="">Thanh toán</a>
                                 </div>
                                 <div class="product-add-to-cart-btn">
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">+ Thêm vào giỏ hàng</a>
+                                    <a href="javascript:void(0)" id="addtocart" data-bs-target="#modalAddcart">+ Thêm vào giỏ hàng</a>
                                 </div>
                             </div>
                         </div> <!-- End Product Variable Area -->
@@ -618,4 +626,60 @@ Chotsport-giày bóng đá chính hãng
         </div>
     </div> 
     <!-- End Product Default Slider Section -->
+
+
+
+
+
+<!-- Jquery -->
+<script type="text/javascript">
+   $(document).ready(function() { 
+        $('#addtocart').click(function(){ //bắt buộc chọn size
+            
+            if($('.btn-check').is(':checked') ){
+                var Id_product =  "{{$product->id}}";
+                var Price = "{{$product->price*(100-$product->discount)/100}}";
+                var Name_product = "{{$product->name}}"
+                var Imgsrc = $('.product-image-large-image').find('img').first().attr('src');
+                var Qty =  $('#addtocart').closest('.actioncart').find('.product-variable-quantity').find('input').val();
+                var Product_detail = $('.btn-check:checked').attr('id');
+                var Sizename = $('.btn-check:checked').next('label').text();
+              
+                $.ajax({
+                url: '{{route('user.addcart')}}', 
+                method: 'POST', // phương thức POST
+                dataType: 'json',
+                data: { // dữ liệu gửi đi
+                    id_product: Id_product, // giá trị id_product
+                    price: Price, // giá trị giá mỗi mặt hàng (sau cùng)
+                    name_product: Name_product, // giá trị tên product
+                    imgsrc: Imgsrc, // giá trị đường dẫn ảnh
+                    qty: Qty, // giá trị số lượng sản phẩm
+                    product_detail: Product_detail,
+                    sizename: Sizename,
+                    _token: '{{ csrf_token() }}' // token để bảo svệ form
+                },
+                success: function(data){ // nhận kết quả trả về
+                    $('span.item-count').text(data.count);
+                    $('#modalAddcart').find('.modal-add-cart-info').html("<i class='fa fa-check-square'></i>"+data.success);
+                    $('#modalAddcart').find('.imagecart').find('img').attr('src',Imgsrc);
+                
+                    $('#modalAddcart').find('ul.modal-add-cart-product-shipping-info').html(
+                        "<li> <strong>"+Name_product+"</strong></li>"+
+                        "<li> <strong>Kích thước:</strong><span>"+Sizename+"</span></li>"+
+                        "<li> <strong>Số lượng:</strong> <span>"+Qty+"</span></li>"+
+                        "<li> <strong>"+Price+"</strong></li>"
+                        );
+                 }
+                });  // dấu đóng AJAX               
+                $('#modalAddcart').modal("show");
+                }
+                else{
+                    alert("Vui lòng chọn kích thước giày");  
+                }
+        });
+
+
+    }); //dấu đóng hàm ready
+</script>
 @endsection
