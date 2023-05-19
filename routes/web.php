@@ -15,8 +15,10 @@ use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\PrintPDFController;
 // user:
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\UserLoginController;
 use App\Http\Controllers\User\UserProductController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\CheckoutController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,15 +30,17 @@ use App\Http\Controllers\User\CartController;
 |
 */
 Route::group(['namespace' => 'User',], function () {
-
-Route::get('/', [HomeController::class, 'index'])->name('user.home');
-Route::get('/product/{id}', [UserProductController::class, 'show'])->name('user.productdetail');
-
-
-	//check session:
-	Route::get('/checkcart',[CartController::class,'checkcart']);
-Route::get('/cart',[CartController::class,'index'])->name('user.cart');
-Route::post('/cart/addcart',[CartController::class,'addcart'])->name('user.addcart');
+	Route::get('/', [HomeController::class, 'index'])->name('user.home');
+	Route::get('/userlogin', [UserLoginController::class, 'index'])->name('user.login');
+	Route::get('/product/{id}', [UserProductController::class, 'show'])->name('user.productdetail');
+		//check session:
+		Route::get('/checkcart',[CartController::class,'checkcart']);
+	// create-update cart
+	Route::get('/cart',[CartController::class,'index'])->name('user.cart');
+	Route::post('/cart/addcart',[CartController::class,'addcart'])->name('user.addcart');
+	Route::post('/cart/updatecart',[CartController::class,'updatecart'])->name('user.updatecart');
+	//check out
+	Route::get('/checkout',[CheckoutController::class,'index'])->name('user.checkout');
 });
 
 

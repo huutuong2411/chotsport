@@ -37,22 +37,35 @@ Chotsport - Giỏ hàng của bạn
                                     <tbody>
                                         <!-- Start Cart Single Item-->
                                     @if(session()->has('cart'))
-                                        @foreach(session()->get('cart') as $value )
+                                        @php $totalPayment=0; @endphp 
+                                        @foreach(session()->get('cart') as $key => $value )
                                         <tr>
                                             <td class="product_remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
                                             <td class="product_thumb"><a href="product-details-default.html"><img src="{{$value['cartImg']}}" alt=""></a></td>
-                                            <td class="product_name"><a href="product-details-default.html">{{$value['Name_product']}}</a></td>
-                                            <td class="product-price">{{$value['cartPrice']}}</td>
-                                            <td class="product_quantity"><input min="1" max="100" value="{{$value['cartQty']}}" type="number"></td>
-                                            <td class="product_total">{{$value['cartPrice']*$value['cartQty']}}</td>
+                                            <td class="product_name" style="text-align: left;">
+                                                <a href="product-details-default.html">{{$value['Name_product']}}</a>
+                                                <br>
+                                                <span>Kích thước:{{$value['Sizename']}}</span>
+                                                <input type="hidden" value="{{$key}}">
+                                            </td>
+                                            <td class="product-price">{{number_format($value['cartPrice'], 0, '.', ',')}}</td>
+                                            <td class="product_quantity"><input onKeyDown="return false" min="1" max="100" value="{{$value['cartQty']}}" type="number"></td>
+                                            <td class="product_total">{{number_format($value['cartPrice']*$value['cartQty'], 0, '.', ',')}}đ</td>
                                         </tr> <!-- End Cart Single Item-->
+                                         @php $totalPayment += $value['cartPrice'] * $value['cartQty']; @endphp
                                         @endforeach
                                     @endif
                                     </tbody>
                                 </table>
                             </div>
                             <div class="cart_submit">
-                                <button class="btn btn-md btn-golden" type="submit">update cart</button>
+                                @if(!empty(session()->get('cart')))
+                                <h5>Tổng tiền: <strong style="color:red">{{number_format($totalPayment,0,','.',')}} đ</strong></h5>
+                                <div class="float-left"><a href="{{route('user.home')}}" style="color: #b1935e; text-decoration: underline;">Tiếp tục mua sắm</a></div>
+                                <div class="checkout_btn">
+                                    <a href="{{route('user.checkout')}}" id="checkout" data-target="#exampleModal" class="btn btn-md btn-golden">Thanh toán</a>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -60,51 +73,103 @@ Chotsport - Giỏ hàng của bạn
             </div>
         </div> <!-- End Cart Table -->
 
-        <!-- Start Coupon Start -->
-        <div class="coupon_area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="coupon_code left"  data-aos="fade-up"  data-aos-delay="200">
-                            <h3>Coupon</h3>
-                            <div class="coupon_inner">
-                                <p>Enter your coupon code if you have one.</p>
-                                <input class="mb-2" placeholder="Coupon code" type="text">
-                                <button type="submit" class="btn btn-md btn-golden">Apply coupon</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="coupon_code right"  data-aos="fade-up"  data-aos-delay="400">
-                            <h3>Cart Totals</h3>
-                            <div class="coupon_inner">
-                                <div class="cart_subtotal">
-                                    <p>Subtotal</p>
-                                    <p class="cart_amount">$215.00</p>
-                                </div>
-                                <div class="cart_subtotal ">
-                                    <p>Shipping</p>
-                                    <p class="cart_amount"><span>Flat Rate:</span> $255.00</p>
-                                </div>
-                                <a href="#">Calculate shipping</a>
-
-                                <div class="cart_subtotal">
-                                    <p>Total</p>
-                                    <p class="cart_amount">$215.00</p>
-                                </div>
-                                <div class="checkout_btn">
-                                    <a href="#" class="btn btn-md btn-golden">Thanh toán</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> <!-- End Coupon Start -->
     </div> <!-- ...:::: End Cart Section:::... -->
 
 
-
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 76px!important;min-width: 461px!important;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn cần đăng nhập trước khi thanh toán
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <a href="{{route('user.login')}}" class="btn btn-primary">Đăng nhập</a>
+        
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Jquery -->
+
+<script type="text/javascript">
+   $(document).ready(function() { 
+        // xử lý tăng giảm tiền theo số lượng
+        $('td.product_quantity').find('input').change(function(){  
+            var id_cartchange= $(this).closest('tr').find('td.product_name').find('input').val();   
+            var thisPrice =parseInt($(this).closest('tr').find('td.product-price').text().replace(/\D/g,'')); //giá
+            var oldTotalpayment = parseInt($('.cart_submit').find('strong').text().replace(/\D/g,''));        //Tổng tiền cũ
+            var thisTotal = parseInt($(this).closest('tr').find('td.product_total').text().replace(/\D/g,'')); // thành tiền sản phẩm chưa tăng
+            // \D là viết tắt của [^\d] tức không phải số 0-9;
+            var nowQty = $(this).val();
+            var nowTotal = thisPrice*nowQty;
+            var nowTotalpayment= oldTotalpayment-thisTotal+nowTotal;
+            $(this).closest('tr').find('td.product_total').text(nowTotal.toLocaleString('en-US')+"đ");
+            $('.cart_submit').find('strong').text(nowTotalpayment.toLocaleString('en-US')+"đ");
+            // xử lý ajax
+            $.ajax({
+                url: '{{route('user.updatecart')}}', 
+                method: 'POST', // phương thức POST
+                dataType: 'json',
+                data: { // dữ liệu gửi đi
+                    id_cartChange: id_cartchange,
+                    newQty: nowQty, // giá trị id_cart
+                    _token: '{{ csrf_token() }}' // token để bảo svệ form
+                },
+                success: function(data){ // nhận kết quả trả về
+                    $('span.item-count').text(data);
+                 }
+            });  // dấu đóng AJAX        
+        });
+
+
+
+        // xử lý xoá bớt sản phẩm trong cart
+        $('td.product_remove').find('a').click(function(){
+            if (confirm('Bạn có chắc muốn xoá?')) {
+                var id_cartdelete= $(this).closest('tr').find('td.product_name').find('input').val();   
+                var oldTotalpayment = parseInt($('.cart_submit').find('strong').text().replace(/\D/g,''));        //Tổng tiền cũ
+                var thisTotal = parseInt($(this).closest('tr').find('td.product_total').text().replace(/\D/g,'')); //tiền sản phẩm trước lúc xoá
+
+                $(this).closest('tr').remove(); //xoá hàng của sản phẩm đó
+
+                var nowTotalpayment= oldTotalpayment-thisTotal;
+                $('.cart_submit').find('strong').text(nowTotalpayment.toLocaleString('en-US')+"đ"); 
+                // xử lý ajax
+                $.ajax({
+                    url: '{{route('user.updatecart')}}', 
+                    method: 'POST', // phương thức POST
+                    dataType: 'json',
+                    data: { // dữ liệu gửi đi
+                        id_cartDelete: id_cartdelete, // giá trị id_cart
+                        _token: '{{ csrf_token() }}' // token để bảo svệ form
+                    },
+                    success: function(data){ // nhận kết quả trả về
+                    $('span.item-count').text(data);
+                    }
+                });  // dấu đóng AJAX        
+            }    
+        });
+
+        $('#checkout').click(function(){
+            var checklogin = "{{Auth::check()}}";
+            if(!checklogin){
+                $('#exampleModal').modal("show")
+                return false;
+            }
+
+        });
+
+    }); //dấu đóng hàm ready
+</script>
 @endsection
+               

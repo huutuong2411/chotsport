@@ -205,7 +205,7 @@
                                     
                                 </ul>
                                 <div class="modal-add-cart-product-cart-buttons">
-                                            <a href="cart.html">Xem giỏ hàng</a>        
+                                            <a href="{{route('user.cart')}}">Xem giỏ hàng</a>        
                                 </div>
                                 <a href="javascript:void(0)" class="text-decoration-underline" data-bs-dismiss="modal">Tiếp tục mua sắm</a>
                             </div>

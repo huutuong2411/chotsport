@@ -1,7 +1,7 @@
 @extends('User.layout.main')
 
 @section('title')
-Chotsport-giày bóng đá chính hãng
+Chotsport-{{$product->name}}
 @endsection
 
 @section('content')
@@ -639,6 +639,7 @@ Chotsport-giày bóng đá chính hãng
             if($('.btn-check').is(':checked') ){
                 var Id_product =  "{{$product->id}}";
                 var Price = "{{$product->price*(100-$product->discount)/100}}";
+                var formatPrice = "{{number_format($product->price*(100-$product->discount)/100, 0, '.', ',')}}";
                 var Name_product = "{{$product->name}}"
                 var Imgsrc = $('.product-image-large-image').find('img').first().attr('src');
                 var Qty =  $('#addtocart').closest('.actioncart').find('.product-variable-quantity').find('input').val();
@@ -668,7 +669,7 @@ Chotsport-giày bóng đá chính hãng
                         "<li> <strong>"+Name_product+"</strong></li>"+
                         "<li> <strong>Kích thước:</strong><span>"+Sizename+"</span></li>"+
                         "<li> <strong>Số lượng:</strong> <span>"+Qty+"</span></li>"+
-                        "<li> <strong>"+Price+"</strong></li>"
+                        "<li><strong>Đơn giá: </strong><strong style='color:red!important'>"+ formatPrice+"</strong></li>" 
                         );
                  }
                 });  // dấu đóng AJAX               

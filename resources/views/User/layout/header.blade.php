@@ -33,7 +33,8 @@
                                 <li>
                                     <a href="{{route('user.cart')}}" >
                                         <i class="icon-bag"></i>
-                                        <span class="item-count">{{session()->has('cartQty')? session()->get('cartQty') : 0}}</span>
+                                        <span class="item-count">{{session()->has('cart')?array_sum(array_column(session()->get('cart'), 'cartQty')): 0}}</span>
+                                        
                                     </a>
                                 </li>
                                 <li>

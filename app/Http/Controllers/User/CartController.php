@@ -13,11 +13,17 @@ class CartController extends Controller
     public function checkcart()
     {
        dd(session()->all());
+       //Session::flush('cart'); // lệnh này để xoá hết cart
     }
 
     public function index()
     {
-       return view ('User.cart.cart');
+       if(!empty(session()->get('cart'))) 
+        {
+            return view ('User.cart.cart');
+        }else {
+            return view ('User.cart.emptycart');
+        }
     }
 
     /**
@@ -33,7 +39,6 @@ class CartController extends Controller
      */
     public function addcart(Request $request)
     {
-       //Session::flush('cart'); // lệnh này để xoá hết cart
         $id_product_detail = $request->product_detail;
         $cart=Session::get('cart');
         if(isset($cart[$id_product_detail])){
@@ -49,12 +54,10 @@ class CartController extends Controller
         );
         }
         Session::put('cart',$cart);
-        $cartQty=Session::get('cartQty');
         $totalQty = 0;
         foreach ($cart as $item) {
             $totalQty += $item['cartQty'];
         }
-        Session::put('cartQty',$totalQty);
         
         return response()->json(['count'=>$totalQty,'success'=>'Thêm vào giỏ hàng thành công!']);
     }
@@ -78,9 +81,27 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updatecart(Request $request)
     {
-        //
+        $cart=session()->get('cart'); 
+        if($request->has(['id_cartChange','newQty'])) {
+            if(isset($cart[$request->id_cartChange]))
+            {
+                $cart[$request->id_cartChange]['cartQty']=$request->newQty;
+            }
+        }
+        if($request->has('id_cartDelete')) {
+            if(isset($cart[$request->id_cartDelete]))
+            {
+                unset($cart[$request->id_cartDelete]);
+            }
+        }
+        Session::put('cart',$cart);
+        $totalQty = 0;
+        foreach ($cart as $item) {
+            $totalQty += $item['cartQty'];
+        }
+        return response()->json($totalQty);
     }
 
     /**

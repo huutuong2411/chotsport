@@ -1,5 +1,5 @@
 <!-- Start Footer Section -->
-    <footer class="footer-section footer-bg" style="margin-top: 50px">
+    <footer class="footer-section footer-bg" style="margin-top: 50px;">
         <div class="footer-wrapper">
         <!-- Start Footer Top -->
         <div class="footer-top">
