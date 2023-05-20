@@ -1,7 +1,7 @@
 @extends('User.layout.main')
 
 @section('title')
-Chotsport - Đăng nhập
+Chotsport - Đăng ký
 @endsection
 
 @section('content')
@@ -17,11 +17,12 @@ Chotsport - Đăng nhập
      <div class="customer-login" style="margin: 130px 0">
         <div class="container">
             <div class="row">
-                <!--login area start-->
+                <!--register area start-->
                 <div class="col-lg-6 col-md-6 mx-auto">
-                    <div class="account_form" data-aos="fade-up"  data-aos-delay="0">
-                        <h3>Đăng nhập</h3>
-                        <form action="{{route('user.login.post')}}" method="POST">
+                     
+                    <div class="account_form register" data-aos="fade-up"  data-aos-delay="200">
+                        <h3>Đăng ký tài khoản</h3>
+                        <form action="{{route('user.register.post')}}" method="POST">
                             @if ($errors->any())
                                                 <div class="alert alert-danger">
                                                     <ul>
@@ -33,25 +34,32 @@ Chotsport - Đăng nhập
                             @endif
                             @csrf
                             <div class="default-form-box">
-                                <label>Email của bạn <span>*</span></label>
+                                <label>Tên của bạn <span>*</span></label>
+                                <input name="name" type="text" required>
+                            </div>
+                            <div class="default-form-box">
+                                <label>Email address <span>*</span></label>
                                 <input name="email" type="email" required>
                             </div>
                             <div class="default-form-box">
-                                <label>Mật khẩu <span>*</span></label>
+                                <label>Passwords <span>*</span></label>
                                 <input name="password" type="password" required>
                             </div>
+                            <div class="default-form-box">
+                                <label>Nhập lại mật khẩu <span>*</span></label>
+                                <input name="confirm_password" type="password" required>
+                            </div>
                             <div class="login_submit">
-                                <label class="checkbox-default mb-4" for="offer" style="line-height: 1.5"> 
-                                    <input name="remember_me" type="checkbox" id="offer">
-                                    <span>Remember me</span>
-                                </label>
-                                <button class="btn btn-md btn-black-default-hover mb-4" type="submit">Đăng nhập</button>
-                                
+                                <button class="btn btn-md btn-black-default-hover" type="submit">Đăng ký</button>
                             </div>
                         </form>
+                            <div class="default-form-box">
+                                <br>
+                            <label>bạn đã có tài khoản? <a href="">Đăng nhập</a></label>
+                            </div>
                     </div>
                 </div>
-                <!--login area start-->
+                <!--register area end-->
             </div>
         </div>
     </div> <!-- ...:::: End Customer Login Section :::... -->

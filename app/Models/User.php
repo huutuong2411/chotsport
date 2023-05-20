@@ -40,6 +40,9 @@ class User extends Authenticatable
     public function address() {
         return $this->belongsTo('App\Models\Address', 'id_address');
     }
+    public function Roles() {
+        return $this->belongsTo('App\Models\Roles', 'id_role');
+    }
     /**
      * The attributes that should be cast.
      *

@@ -39,13 +39,23 @@
                                 </li>
                                 <li>
                                     <div class="dropdown">
-                                        <button class="offside-about" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button style="padding: 0px" class="offside-about" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @if(Auth::check())
+                                            @php $avatar= Illuminate\Support\Facades\Auth::user()->avatar; @endphp
+                                            <img style="width:100%" class="rounded-circle" src="http://localhost/chotsport/public/admin/assets/img/user/avatar messi.jpg">  
+                                            @else
                                             <i class="fa-regular fa-user" style="color: #000000; font-size: 18px;"></i>
+                                            @endif
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right" >
-                                        <a class="dropdown-item" style="letter-spacing: -1px; font-size: 20px;" href="#">Đăng nhập</a>
+                                            @if(Auth::check())
+                                        <a class="dropdown-item" style="letter-spacing: -1px;font-size: 20px;" href="{{route('user.profile')}}">Trang cá nhân</a>
                                         <a class="dropdown-item" style="letter-spacing: -1px;font-size: 20px;"  href="#">Xem đơn hàng</a>
-                                        <a class="dropdown-item" style="letter-spacing: -1px;font-size: 20px;" href="#">Profile</a>
+                                        <a class="dropdown-item" style="letter-spacing: -1px;font-size: 20px;" href="{{route('user.logout')}}">Đăng xuất</a>
+                                            @else
+                                        <a class="dropdown-item" style="letter-spacing: -1px; font-size: 20px;" href="{{route('user.login')}}">Đăng nhập</a>
+                                        <a class="dropdown-item" style="letter-spacing: -1px; font-size: 20px;" href="{{route('user.register')}}">Đăng ký</a>    
+                                            @endif
                                       </div>
                                       </div>
                                 </li>

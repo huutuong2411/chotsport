@@ -4,7 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Roles;
 class UserLoginController extends Controller
 {
     /**
@@ -26,40 +28,28 @@ class UserLoginController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function login(Request $request)
     {
-        //
+        $login = [
+            'email'=>$request->email,
+            'password'=>$request->password,
+            'id_role'=> Roles::select('id')->where('role','=','user')->first(),
+        ];
+
+        $remember_me=$request->has('remember_me')?true:false;
+
+        if(Auth::attempt($login,$remember_me)) { 
+             return redirect()->route('user.home');
+        } else {    
+            return redirect()->back()->withErrors('Sai email hoặc mật khẩu');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+   // ĐĂNG XUẤT
+    public function logout()
     {
-        //
+        Auth::logout();
+        return redirect()->route('user.login');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

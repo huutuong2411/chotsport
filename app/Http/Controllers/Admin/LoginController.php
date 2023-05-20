@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use App\Models\Roles;
 class LoginController extends Controller
 {
     /**
@@ -22,6 +22,7 @@ class LoginController extends Controller
         $login = [
             'email'=>$request->email,
             'password'=>$request->password,
+            'id_role'=> Roles::select('id')->where('role','=','admin')->first(),
         ];
 
         $remember_me=$request->has('remember_me')?true:false;

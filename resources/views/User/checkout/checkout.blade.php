@@ -193,8 +193,8 @@ Chotsport - Thanh toán đơn hàng
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>Product</th>
-                                            <th>Total</th>
+                                            <th>Sản phẩm</th>
+                                            <th>Thành tiền</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -221,12 +221,12 @@ Chotsport - Thanh toán đơn hàng
                                             <td>$215.00</td>
                                         </tr>
                                         <tr>
-                                            <th>Shipping</th>
-                                            <td><strong>$5.00</strong></td>
+                                            <th>Phí ship</th>
+                                            <td><strong>Miễn phí</strong></td>
                                         </tr>
                                         <tr class="order_total">
-                                            <th>Order Total</th>
-                                            <td><strong>$220.00</strong></td>
+                                            <th><h5 class="font-weight-bold text-success">Tổng tiền thanh toán</h4></th>
+                                            <td><h5 class="font-weight-bold text-danger">30.000.000 đ</h4></td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -234,29 +234,29 @@ Chotsport - Thanh toán đơn hàng
                             <div class="payment_method">
                                 <div class="panel-default">
                                     <label class="checkbox-default" for="currencyCod" data-bs-toggle="collapse" data-bs-target="#methodCod">
-                                        <input type="checkbox" id="currencyCod">
-                                        <span>Cash on Delivery</span>
+                                        <input type="radio" id="currencyCod" name="payment_method">
+                                        <span>Thanh toán sau khi nhận hàng</span>
                                     </label>
 
                                     <div id="methodCod" class="collapse" data-parent="#methodCod">
                                         <div class="card-body1">
-                                            <p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
+                                            <p>Khách hàng được kiểm tra hàng, vui lòng chỉ thử giày trực tiếp trước shipper</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="panel-default">
                                     <label class="checkbox-default" for="currencyPaypal" data-bs-toggle="collapse" data-bs-target="#methodPaypal">
-                                        <input type="checkbox" id="currencyPaypal">
-                                        <span>PayPal</span>
+                                        <input type="radio" id="currencyPaypal" name="payment_method">
+                                        <span>Thanh toán online</span>
                                     </label>
                                     <div id="methodPaypal" class="collapse " data-parent="#methodPaypal">
                                         <div class="card-body1">
-                                            <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
+                                            <p>Khách hàng chọn thanh toán online sẽ nhận được hàng sớm nhất có thể. Vui lòng giữ hoá đơn chuyển tiền để chúng tôi dễ dàng xử lý nếu gặp lỗi</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="order_button pt-3">
-                                    <button class="btn btn-md btn-black-default-hover" type="submit">Proceed to PayPal</button>
+                                    <button class="btn btn-md btn-black-default-hover" type="submit">Hoàn tất đơn hàng</button>
                                 </div>
                             </div>
                         </form>
@@ -265,6 +265,20 @@ Chotsport - Thanh toán đơn hàng
             </div> <!-- Start User Details Checkout Form -->
         </div>
     </div><!-- ...:::: End Checkout Section:::... -->
+
+
+
+
+
+
 <!-- Jquery -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('input[type="radio"]').click(function() {
+            $('.collapse').removeClass('show');
+            $(this).parent().siblings('.collapse').addClass('show');
+        });
+    });
+</script>
 @endsection
                

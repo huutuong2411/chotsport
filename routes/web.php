@@ -16,7 +16,9 @@ use App\Http\Controllers\PrintPDFController;
 // user:
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\UserLoginController;
+use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\User\UserProductController;
+use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
 /*
@@ -31,7 +33,15 @@ use App\Http\Controllers\User\CheckoutController;
 */
 Route::group(['namespace' => 'User',], function () {
 	Route::get('/', [HomeController::class, 'index'])->name('user.home');
-	Route::get('/userlogin', [UserLoginController::class, 'index'])->name('user.login');
+	Route::get('/userlogin', [UserLoginController::class, 'index'])->name('user.login'); // đăng nhập
+	Route::post('/userlogin', [UserLoginController::class, 'login'])->name('user.login.post'); // đăng nhập
+	Route::get('/userlogout', [UserLoginController::class, 'logout'])->name('user.logout'); //đăng xuất
+	Route::get('/userregister', [UserRegisterController::class, 'index'])->name('user.register'); // đăng ký
+	Route::post('/userregister', [UserRegisterController::class, 'register'])->name('user.register.post'); // đăng ký
+	Route::get('/profile', [UserProfileController::class, 'index'])->name('user.profile'); // profile
+	Route::post('/profile', [UserProfileController::class, 'updateprofile'])->name('user.profile.post'); // profile
+	Route::get('/changepass', [UserProfileController::class, 'changepass'])->name('user.changepass'); // profile
+	Route::post('/changepass', [UserProfileController::class, 'updatepass'])->name('user.changepass.post'); // profile
 	Route::get('/product/{id}', [UserProductController::class, 'show'])->name('user.productdetail');
 		//check session:
 		Route::get('/checkcart',[CartController::class,'checkcart']);

@@ -92,7 +92,7 @@ Chotsport - Giỏ hàng của bạn
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <a href="{{route('user.login')}}" class="btn btn-primary">Đăng nhập</a>
+        <a href="{{route('user.login')}}" class="btn btn-warning">Đăng nhập</a>
         
       </div>
     </div>
