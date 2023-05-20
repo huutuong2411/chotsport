@@ -60,7 +60,7 @@ Thông tin cá nhân
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="small mb-1" for="inputUsername">Email</label>
-                                                    <input name="email" class="form-control" id="inputUsername" type="email" readonly value="{{Auth::user()->email}}">
+                                                    <input name="email" class="form-control" id="inputUsername" type="email"  value="{{Auth::user()->email}}">
                                                 </div>
                                                  <!-- Form Group (email address)-->
                                                 <div class="mb-3">

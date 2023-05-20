@@ -62,7 +62,6 @@ Quản lý nhập kho
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{$purchase->links('pagination::bootstrap-4')}}
                             </div> 
                         </div>
 </div>
@@ -143,8 +142,8 @@ Quản lý nhập kho
                 $.each(data.groupDetails, function(key, value) {
                     $.each(value, function(index, detail) {
                         total_money += detail.sum_money;
-                        var price = detail.price.toLocaleString('vi-VN');
-                        var sum_money = detail.sum_money.toLocaleString('vi-VN');
+                        var price = detail.price.toLocaleString('en-US');
+                        var sum_money = detail.sum_money.toLocaleString('en-US');
                         i++
                             $('#showdetail').find('tbody').append("<tr>"+
                                                             "<td style='text-align: center'>"+i+"</td>"+
@@ -156,7 +155,7 @@ Quản lý nhập kho
                                                             "</tr>");
                     });
                 });
-                total_money= total_money.toLocaleString('vi-VN');
+                total_money= total_money.toLocaleString('en-US');
                 $('#showdetail').find('tbody').append("<tr class='font-weight-bold'>"+
                                                              "<td colspan='6'>Tổng tiền thanh toán:<p class='float-right'>"+total_money+"</p></td>"+   
                                                         "</tr>");

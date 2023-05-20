@@ -1,30 +1,36 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\City;
 use App\Models\District;
 use App\Models\Address;
 use Hash;
-class ProfileController extends Controller
+
+class UserProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $province=Auth::user()->address->ward->district->city->name;
-        $district=Auth::user()->address->ward->district->name;
-        $ward=Auth::user()->address->ward->name;
-        $address=Auth::user()->address->address;
-        $full_address= $address.', '.$ward.', '.$district.', '.$province;
+        $idAddress= Auth::user()->address;
+        $full_address="";
+        if($idAddress){
+            $province=$idAddress->ward->district->city->name;
+            $district=$idAddress->ward->district->name;
+            $ward=$idAddress->ward->name;
+            $address=$idAddress->address;
+            $full_address= $address.', '.$ward.', '.$district.', '.$province;
+        }
 
         $city=City::all();
-        return view('admin.account.profile',compact('city','full_address'));
+        return view('user.account.profile',compact('city','full_address'));
+        
     }
 
     /**
@@ -38,7 +44,7 @@ class ProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function update_profile(Request $request)
+    public function updateprofile(Request $request)
     {
         if(!empty($request->id_city)){
         $district= City::find($request->id_city)->district;
@@ -48,71 +54,58 @@ class ProfileController extends Controller
         $ward= District::find($request->id_district)->ward;
         return response()->json($ward);
         }
-
         $IDuser = Auth::id();
         $user= User::findOrFail($IDuser);
         $data=$request->all();
-
-        $listAddress=Address::pluck('address')->toArray();
-        $listID_ward=Address::pluck('id_ward')->toArray();
         // nếu đã có địa chỉ từ trước:
         if($request->has('full_address') && empty($request->chitiet)){
             $data['id_address'] = Auth::user()->id_address;
         } else{
             if(!empty($request->ward)){
                 // check xem nếu trùng xã trùng địa chỉ thì thôi không tạo bảng address
-                if(in_array($request->chitiet,$listAddress) && in_array($request->ward,$listID_ward)){
-                    $address = Address::where('address', $request->chitiet)->where('id_ward', $request->ward)->first();
+                    $address = Address::updateOrCreate(
+                        ['id_ward' => $request->ward, 'address' => $request->chitiet],
+                        ['id_ward' => $request->ward, 'address' => $request->chitiet]
+                    );
                     $data['id_address'] = $address->id;
-                    
-                }else{
-                    $address=new Address();
-                    $address->id_ward=$request->ward;
-                    if($request->has('chitiet')){
-                        $address->address=$request->chitiet; 
-                    }
-                    if($address->save()){
-                            // lấy ra id của bảng address vừa lưu:
-                            $id_address = $address->id;
-                            // gán vào id_address của bảnng user
-                            $data['id_address'] = $id_address;     
-                        }
-                    }   
                 }
             
         }   
         $image=$request->avatar;
         // lấy tên hình ảnh
         if(!empty($image)) {
-                $data['avatar'] = $image->getClientOriginalName();
+            if (file_exists('user/assets/images/user/'.$user->avatar)) // tìm ảnh cũ và xoá
+            {
+                unlink('user/assets/images/user/'.$user->avatar);
+            }
+             $data['avatar'] = $image->getClientOriginalName(); // lấy tên hình ảnh
         } 
         // Lưu vào user và xử lý move hình ảnh sang public 
         if($user->update($data)){
 
             if(!empty($image)) { 
-                $image->move(public_path('/admin/assets/img/user'), $image->getClientOriginalName());
+                $image->move(public_path('/user/assets/images/user'), $image->getClientOriginalName());
             }
-            return redirect()->route('admin.profile')->with('success',__('Cập nhật thông tin thành công'));
+            return redirect()->route('user.profile')->with('success',__('Cập nhật thông tin thành công'));
         
         } else {
-            return redirect()->route('admin.profile')->withErrors('Cập nhật thông tin không thành công');
+            return redirect()->route('user.profile')->withErrors('Cập nhật thông tin không thành công');
         }
     }
 
     /**
      * Display the specified resource.
      */
+
+
+
     public function changepass()
     {
-        return view ('Admin.account.changepass');
+        return view('user.account.changepass');
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function updatepass(Request $request)
     {
-        $curentPasswordStatus = Hash::check($request->password, Auth()->user()->password);
+        $curentPasswordStatus = Hash::check($request->password, Auth::user()->password);
         if($curentPasswordStatus){
             if($request->new_password==$request->re_password){
                 if(User::findOrFail(Auth::user()->id)->update([
@@ -129,7 +122,14 @@ class ProfileController extends Controller
         }else{
              return redirect()->back()->withErrors('Mật khẩu cũ không đúng');
         }
-        
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
     }
 
     /**
