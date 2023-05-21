@@ -49,8 +49,13 @@ Route::group(['namespace' => 'User',], function () {
 	Route::get('/cart',[CartController::class,'index'])->name('user.cart');
 	Route::post('/cart/addcart',[CartController::class,'addcart'])->name('user.addcart');
 	Route::post('/cart/updatecart',[CartController::class,'updatecart'])->name('user.updatecart');
-	//check out
+	//set lại qty cart với trường hợp bị vượt tồn kho
+	Route::get('/reducecart/{id}',[CartController::class,'reducecart'])->name('user.reducecart');
+	Route::get('/deletecart/{id}',[CartController::class,'deletecart'])->name('user.deletecart');
+	//checkout
 	Route::get('/checkout',[CheckoutController::class,'index'])->name('user.checkout');
+	Route::post('/checkout',[CheckoutController::class,'store'])->name('user.checkout.post');
+	
 });
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\admin\Product_detail;
 use Session;
 class CartController extends Controller
 {
@@ -62,21 +63,7 @@ class CartController extends Controller
         return response()->json(['count'=>$totalQty,'success'=>'Thêm vào giỏ hàng thành công!']);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -104,6 +91,23 @@ class CartController extends Controller
         return response()->json($totalQty);
     }
 
+    // Hàm giảm số lượng nếu vượt tồn kho ở errorCheckout
+    public function reducecart(string $id)
+    {
+        $realQty = Product_detail::find($id)->size_qty;
+        $cart=Session::get('cart');
+        $cart[$id]['cartQty']=$realQty;
+        Session::put('cart',$cart);
+        return redirect()->route('user.cart');
+    }
+    // Hàm xoá sản phẩm khỏi cart ở errorCheckout
+    public function deletecart(string $id)
+    {
+        $cart=Session::get('cart');
+        unset($cart[$id]);
+        Session::put('cart',$cart);
+        return redirect()->route('user.cart');
+    }
     /**
      * Remove the specified resource from storage.
      */

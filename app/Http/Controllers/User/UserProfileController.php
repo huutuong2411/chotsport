@@ -57,19 +57,17 @@ class UserProfileController extends Controller
         $IDuser = Auth::id();
         $user= User::findOrFail($IDuser);
         $data=$request->all();
+        dd($request);
         // nếu đã có địa chỉ từ trước:
         if($request->has('full_address') && empty($request->chitiet)){
             $data['id_address'] = Auth::user()->id_address;
-        } else{
-            if(!empty($request->ward)){
+        } elseif(!empty($request->ward)){
                 // check xem nếu trùng xã trùng địa chỉ thì thôi không tạo bảng address
                     $address = Address::updateOrCreate(
                         ['id_ward' => $request->ward, 'address' => $request->chitiet],
                         ['id_ward' => $request->ward, 'address' => $request->chitiet]
                     );
                     $data['id_address'] = $address->id;
-                }
-            
         }   
         $image=$request->avatar;
         // lấy tên hình ảnh
