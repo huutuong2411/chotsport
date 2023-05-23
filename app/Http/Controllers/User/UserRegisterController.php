@@ -31,22 +31,27 @@ class UserRegisterController extends Controller
      */
     public function register(Request $request)
     {
-        
+        $email= $request->email;
+        $checkemail= User::where('email',$email)->first();
         if($request->password==$request->confirm_password)
         {
-            $newUser= User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'id_role' => Roles::where('role','=','user')->first()->id,
-            ]);
-            if($newUser){
-                Auth::login($newUser);
-                return redirect()->route('user.home');
-            }
-            else{
-                return redirect()->back()->withErrors('Lỗi đăng ký, vui lòng thử lại');
-            }
+            if($checkemail){
+                return redirect()->back()->withErrors('Email đã tồn tại');
+            }else{
+                            $newUser= User::create([
+                                'name' => $request->name,
+                                'email' => $email,
+                                'password' => Hash::make($request->password),
+                                'id_role' => Roles::where('role','=','user')->first()->id,
+                            ]);
+                            if($newUser){
+                                Auth::login($newUser);
+                                return redirect()->route('user.home');
+                            }
+                            else{
+                                return redirect()->back()->withErrors('Lỗi đăng ký, vui lòng thử lại');
+                            }              
+            }                 
             
         }else{
             return redirect()->back()->withErrors('Nhập lại mật khẩu không đúng');

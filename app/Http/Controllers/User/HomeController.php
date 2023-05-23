@@ -5,7 +5,11 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\Banner;
+use App\Models\admin\Brand;
+use App\Models\User\Order;
+use App\Models\User\Order_detail;
 use App\Models\admin\Product;
+use App\Models\admin\Product_detail;
 use App\Models\admin\Blog;
 use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
@@ -17,30 +21,29 @@ class HomeController extends Controller
     {
         $banner= Banner::join('brand', 'id_brand', '=', 'brand.id')
         ->select('banner.*','brand.name as brand_name')->get();
-        $newProducts = Product::take(16)->orderBy('created_at', 'DESC')->get();
+        $newProducts = Product::limit(16)->orderBy('created_at', 'DESC')->get();
 
-        $adidasProducts = Product::join('brand', 'products.id_brand', '=', 'brand.id')
-                            ->where('brand.name', 'Adidas')
-                            ->select('brand.id as id_brand', DB::raw('count(*) as total'))
-                            ->groupBy('brand.id', 'brand.name')
-                            ->get();
-        $nikeProducts = Product::join('brand', 'products.id_brand', '=', 'brand.id')
-                            ->where('brand.name', 'Nike')
-                            ->select('brand.id as id_brand', DB::raw('count(*) as total'))
-                            ->groupBy('brand.id', 'brand.name')
-                            ->get();               
-        $pumaProducts = Product::join('brand', 'products.id_brand', '=', 'brand.id')
-                            ->where('brand.name', 'Puma')
-                            ->select('brand.id as id_brand', DB::raw('count(*) as total'))
-                            ->groupBy('brand.id', 'brand.name')
-                            ->get();      
-        $mizunoProducts = Product::join('brand', 'products.id_brand', '=', 'brand.id')
-                            ->where('brand.name', 'Mizuno')
-                            ->select('brand.id as id_brand', DB::raw('count(*) as total'))
-                            ->groupBy('brand.id', 'brand.name')
-                            ->get();                               
+        $adidasProducts = Brand::withCount('Product')
+                        ->where('name', 'Adidas')
+                        ->get();
+        
+        $nikeProducts = Brand::withCount('Product')
+                        ->where('name', 'Nike')
+                        ->get();          
+        $pumaProducts = Brand::withCount('Product')
+                        ->where('name', 'Puma')
+                        ->get();    
+        $mizunoProducts = Brand::withCount('Product')
+                        ->where('name', 'Mizuno')
+                        ->get();
+        $bestseller = Product::join('product_details', 'products.id', '=', 'product_details.id_product')
+                        ->join('order_details', 'order_details.id_product_detail', '=', 'product_details.id')
+                        ->groupBy('products.id')
+                        ->orderBy('products.created_at', 'DESC')
+                        ->limit(12)
+                        ->get();
         $blog = Blog::select('id','image','title','description','updated_at')->take(5)->orderBy('created_at', 'DESC')->get();
-        return view ('User.home.home',compact('banner','newProducts','adidasProducts','nikeProducts','pumaProducts','mizunoProducts','blog'));
+        return view ('User.home.home',compact('banner','newProducts','bestseller','adidasProducts','nikeProducts','pumaProducts','mizunoProducts','blog'));
     }
 
     /**

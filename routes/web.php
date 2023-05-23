@@ -21,6 +21,7 @@ use App\Http\Controllers\User\UserProductController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,6 +43,9 @@ Route::group(['namespace' => 'User',], function () {
 	Route::post('/profile', [UserProfileController::class, 'updateprofile'])->name('user.profile.post'); // profile
 	Route::get('/changepass', [UserProfileController::class, 'changepass'])->name('user.changepass'); // profile
 	Route::post('/changepass', [UserProfileController::class, 'updatepass'])->name('user.changepass.post'); // profile
+	// product
+	Route::get('/product', [UserProductController::class, 'index'])->name('user.allproduct');
+	
 	Route::get('/product/{id}', [UserProductController::class, 'show'])->name('user.productdetail');
 		//check session:
 		Route::get('/checkcart',[CartController::class,'checkcart']);
@@ -55,6 +59,11 @@ Route::group(['namespace' => 'User',], function () {
 	//checkout
 	Route::get('/checkout',[CheckoutController::class,'index'])->name('user.checkout');
 	Route::post('/checkout',[CheckoutController::class,'store'])->name('user.checkout.post');
+	// Xem order
+	Route::get('/myorder',[OrderController::class,'index'])->name('user.order');
+	Route::get('/myorder/{id}',[OrderController::class,'show'])->name('user.order.show');
+	Route::get('/myorder/{id}/cancel',[OrderController::class,'cancel'])->name('user.order.cancel');
+
 	
 });
 

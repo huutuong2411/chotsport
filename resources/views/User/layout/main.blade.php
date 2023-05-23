@@ -36,6 +36,7 @@
     <!-- Use the minified version files listed below for better performance and remove the files listed above -->
     <link rel="stylesheet" href="{{asset('user/assets/css/vendor/vendor.min.css')}}">
     <link rel="stylesheet" href="{{asset('user/assets/css/plugins/plugins.min.css')}}">
+    <link rel="stylesheet" href="{{asset('user/assets/css/tracking.min.css')}}">
     <link rel="stylesheet" href="{{asset('user/assets/css/style.min.css')}}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 

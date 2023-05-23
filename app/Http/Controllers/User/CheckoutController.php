@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use App\Models\admin\Product_detail;
 use App\Models\User\Order_detail;
 use App\Models\User\Order;
@@ -97,11 +98,13 @@ class CheckoutController extends Controller
                     $id_address = $address->id;
         }   
         $error = false; // biến kiểm tra lỗi
+        // xử lý thêm bảng order và odder_detail
         $newOrder= Order::create([
                 'id_user' => Auth::user()->id,
                 'id_address' => $id_address,
                 'name' => $request->name,
                 'email' => $request->email,
+                'email' => $request->note,
                 'phone' => $request->phone,
                 'sum_money' => $sum_money,
                 'status' => 0,
@@ -109,6 +112,8 @@ class CheckoutController extends Controller
             ]);
         if($newOrder)
         {
+            $newOrder->order_code = '#'.Str::random(4).$newOrder->id;
+            $newOrder->save();
             foreach ($cart as $item) 
             {
                 $thisProductDetail = Product_detail::find($item['id_product_detail']);
@@ -140,6 +145,7 @@ class CheckoutController extends Controller
         }
         if($error==false){
             $request->session()->forget('cart');
+            return redirect()->route('user.order')->with('success',__('Tạo đơn hàng thành công'));
         }else{
             return redirect()->back()->withErrors('Có lỗi tạo đơn hàng, vui lòng thử lại');
         }

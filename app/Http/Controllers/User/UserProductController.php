@@ -11,9 +11,35 @@ class UserProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $allproduct= Product::orderBy('created_at','DESC');
+
+        if($request->sortby){
+                switch ($request->sortby) {
+                    case 'bestseller':
+                    $allproduct= Product::join('product_details', 'products.id', '=', 'product_details.id_product')
+                            ->join('order_details', 'order_details.id_product_detail', '=', 'product_details.id')
+                            ->select('products.*')
+                            ->groupBy('products.id')
+                            ->orderBy('products.created_at', 'DESC');
+                        break;
+                    case 'newest':
+                    $allproduct= Product::orderBy('created_at', 'DESC');
+                        break;
+                    case 'oldest':
+                    $allproduct= Product::orderBy('created_at', 'ASC');
+                        break;
+                    case 'price-ascending':
+                    $allproduct= Product::orderBy('price', 'ASC');
+                        break;
+                    case 'price-descending':
+                    $allproduct= Product::orderBy('price', 'DESC');
+                        break;
+                }
+        }
+        $allproduct = $allproduct->paginate(12);
+        return view ('user.product.allproduct',compact('allproduct'));
     }
 
     /**
@@ -27,10 +53,7 @@ class UserProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    
 
     /**
      * Display the specified resource.

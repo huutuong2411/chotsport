@@ -23,6 +23,15 @@ Chotsport - Thanh toán đơn hàng
                 <form action="{{route('user.checkout.post')}}" method="POST">
                     @csrf
                 <div class="row">
+                    @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                    @endif
                     <div class="col-lg-6 col-md-6">
                             <h3>Thông tin giao hàng</h3>
                             <div class="row">
@@ -64,7 +73,9 @@ Chotsport - Thanh toán đơn hàng
                                                 <div class="col-md-4">
                                                         <select  class="form-select" id="city" aria-label=".form-select-sm" name="city"  >
                                                             <option value="" >Chọn tỉnh thành</option>   
-                                                         
+                                                         @foreach($city as $value)       
+                                                           <option value="{{$value->id}}">{{$value->name}}</option>
+                                                          @endforeach
                                                          </select>
                                                 </div>
                                                 <div class="col-md-4">
@@ -174,7 +185,7 @@ Chotsport - Thanh toán đơn hàng
                                         <span>Thanh toán sau khi nhận hàng</span>
                                     </label>
 
-                                    <div id="methodCod" class="collapse" data-parent="#methodCod">
+                                    <div id="methodCod" class="collapse method" data-parent="#methodCod">
                                         <div class="card-body1">
                                             <p>Khách hàng được kiểm tra hàng, vui lòng chỉ thử giày trực tiếp trước shipper</p>
                                         </div>
@@ -185,7 +196,7 @@ Chotsport - Thanh toán đơn hàng
                                         <input type="radio" id="currencyPaypal" name="payment_method" value="prepay">
                                         <span>Thanh toán online</span>
                                     </label>
-                                    <div id="methodPaypal" class="collapse " data-parent="#methodPaypal">
+                                    <div id="methodPaypal" class="collapse method" data-parent="#methodPaypal">
                                         <div class="card-body1">
                                             <p>Khách hàng chọn thanh toán online sẽ nhận được hàng sớm nhất có thể. Vui lòng giữ hoá đơn thanh toán để chúng tôi dễ dàng xử lý nếu gặp lỗi</p>
                                         </div>
@@ -214,8 +225,8 @@ Chotsport - Thanh toán đơn hàng
         $('select').niceSelect('destroy');
 
         $('input[type="radio"]').click(function() {
-            $('.collapse').removeClass('show');
-            $(this).parent().siblings('.collapse').addClass('show'); //siblings tìm anh em cùng cấp với parent(phần tử cha)
+            $('.method').removeClass('show');
+            $(this).parent().siblings('.method').addClass('show'); //siblings tìm anh em cùng cấp với parent(phần tử cha)
             
         });
         $('form').submit(function() { //bắt buộc chọn phương thức thanh toán

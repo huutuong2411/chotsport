@@ -17,5 +17,16 @@ class Order extends Model
     public function Order_detail() {
         return $this->hasMany('App\Models\User\Order_detail', 'id_order');
     }
+
+    
+    public function getCreatedAtAttribute($date)
+	{
+	    return \Carbon\Carbon::parse($date)->format('d-m-Y');
+	}
+
+	public function getUpdatedAtAttribute($date)
+	{
+	    return \Carbon\Carbon::parse($date)->format('d-m-Y');
+	}
 }
 

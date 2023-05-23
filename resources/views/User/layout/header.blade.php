@@ -12,7 +12,7 @@
                              <!-- Start Header Logo -->
                             <div class="header-logo col-2">
                                 <div class="logo">
-                                    <a href="index.html"><img src="{{asset('user/assets/images/logo/logo_chot.png')}}" alt="" style="width: 200%;"></a>
+                                    <a href="{{route('user.home')}}"><img src="{{asset('user/assets/images/logo/logo_chot.png')}}" alt="" style="width: 200%;"></a>
                                 </div>
                             </div>
                             <!-- End Header Logo -->
@@ -42,7 +42,11 @@
                                         <button style="padding: 0px" class="offside-about" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             @if(Auth::check())
                                             @php $avatar= Illuminate\Support\Facades\Auth::user()->avatar; @endphp
-                                            <img style="width:100%" class="rounded-circle" src="http://localhost/chotsport/public/admin/assets/img/user/avatar messi.jpg">  
+                                                @if($avatar)
+                                            <img style="width:85%;height:85%" class="rounded-circle" src="{{asset('/user/assets/images/user/'.$avatar)}}">  
+                                                @else
+                                            <i class="fa-regular fa-user" style="color: #000000; font-size: 18px;"></i>    
+                                                @endif
                                             @else
                                             <i class="fa-regular fa-user" style="color: #000000; font-size: 18px;"></i>
                                             @endif
@@ -50,7 +54,7 @@
                                         <div class="dropdown-menu dropdown-menu-right" >
                                             @if(Auth::check())
                                         <a class="dropdown-item" style="letter-spacing: -1px;font-size: 20px;" href="{{route('user.profile')}}">Trang cá nhân</a>
-                                        <a class="dropdown-item" style="letter-spacing: -1px;font-size: 20px;"  href="#">Xem đơn hàng</a>
+                                        <a class="dropdown-item" style="letter-spacing: -1px;font-size: 20px;"  href="{{route('user.order')}}">Xem đơn hàng</a>
                                         <a class="dropdown-item" style="letter-spacing: -1px;font-size: 20px;" href="{{route('user.logout')}}">Đăng xuất</a>
                                             @else
                                         <a class="dropdown-item" style="letter-spacing: -1px; font-size: 20px;" href="{{route('user.login')}}">Đăng nhập</a>
@@ -68,7 +72,7 @@
                             <nav>
                                 <ul>
                                     <li class="has-dropdown">
-                                        <a class="active main-menu-link" href="index.html">Trang chủ</a>
+                                        <a class="active main-menu-link" href="{{route('user.home')}}">Trang chủ</a>
                                     </li>
                                     <li class="has-dropdown">
                                         <a href="blog-single-sidebar-left.html">Giày bóng đá <i class="fa fa-angle-down"></i></a>
