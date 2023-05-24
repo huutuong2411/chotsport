@@ -1,7 +1,7 @@
 @extends('User.layout.main')
 
 @section('title')
-Chotsport-Tất cả sản phẩm
+Chotsport - Tất cả sản phẩm
 @endsection
 
 @section('content')
@@ -32,12 +32,22 @@ Chotsport-Tất cả sản phẩm
                                         <form action="{{route('user.allproduct')}}" method="get">
                                             <fieldset>
                                                 <select class="form-select" name="sortby" id="speed" onchange="this.form.submit()">
-                                                	<option value="newest">Mới nhất</option>
-                                                    <option  value="bestseller">Bán chạy</option>
-                                                    <option value="oldest">Cũ nhất</option>
-                                                    <option  value="price-ascending">Giá tăng dần</option>
-                                                    <option value="price-descending">Giá giảm dần</option>
-                                                    <option  value="best-rating">Đánh giá tốt</option>
+                                                	<option {{request('sortby')=='newest'?'selected':''}} value="newest">Mới nhất</option>
+                                                    <option {{request('sortby')=='bestseller'?'selected':''}}  value="bestseller">Bán chạy</option>
+                                                    <option {{request('sortby')=='oldest'?'selected':''}} value="oldest">Cũ nhất</option>
+                                                    <option {{request('sortby')=='price-ascending'?'selected':''}} value="price-ascending">Giá tăng dần</option>
+                                                    <option {{request('sortby')=='price-descending'?'selected':''}} value="price-descending">Giá giảm dần</option>
+                                                    <option {{request('sortby')=='sale'?'selected':''}} value="sale">Đang Giảm giá</option>
+                                                    <option {{request('sortby')=='best-rating'?'selected':''}} value="best-rating">Đánh giá tốt</option>
+                                                    @if(!empty(request('category')))
+                                                    <input type="hidden" name="category"  value="{{request('category')}}">
+                                                    @endif
+                                                    @if(!empty(request('brand')))
+                                                    <input type="hidden" name="brand"  value="{{request('brand')}}">
+                                                    @endif
+                                                    @if(!empty(request('price')))
+                                                    <input type="hidden" name="price"  value="{{request('price')}}">
+                                                    @endif
                                                 </select>
                                             </fieldset>
                                         </form>
@@ -58,8 +68,9 @@ Chotsport-Tất cả sản phẩm
                                     <div class="tab-content tab-animate-zoom">
                                         <!-- Start Grid View Product -->
                                         <div class="tab-pane active show sort-layout-single" id="layout-3-grid">
+                                         @if($allproduct->total()!=0)
                                             <div class="row">
-                                         @if(!empty($allproduct))
+                                        
                                             @foreach($allproduct as $value)
                                                 <div class="col-xl-4 col-sm-6 col-12">
                                                     <!-- Start Product Default Single Item -->
@@ -98,10 +109,12 @@ Chotsport-Tất cả sản phẩm
                                                     <!-- End Product Default Single Item -->
                                                 </div>
                                             @endforeach 
-                                        @else
-                                        KHÔNG CÓ SẢN PHẨM NÀO PHÙ HỢP!!!
-                                        @endif
                                             </div>
+                                        @else
+                                        <div class="product-default-single-item product-color--golden col-10 mx-auto" data-aos="fade-up"  data-aos-delay="0">
+                                       	<h2>KHÔNG CÓ SẢN PHẨM NÀO PHÙ HỢP!!!</h2> 
+                                       </div>
+                                        @endif
                                         </div> <!-- End Grid View Product -->
                                     </div>
                                 </div>
@@ -125,6 +138,29 @@ Chotsport-Tất cả sản phẩm
 <script type="text/javascript">
     $(document).ready(function() {
         $('select').niceSelect('destroy');  
-    });
+
+     	var priceURL = "{{request('price')}}";
+        var priceValues = [{{$minprice}}, {{$maxprice}}];
+
+        if (priceURL) {
+            var priceRange = priceURL.split(" - ");
+            if (priceRange.length === 2) {
+                priceValues[0] = parseInt(priceRange[0].replace(/[^0-9]/g, ''));
+                priceValues[1] = parseInt(priceRange[1].replace(/[^0-9]/g, ''));
+            }
+        }
+     $("#slider-range").slider({
+            range: true,
+            min: {{$minprice}},
+            max: {{$maxprice}},
+            values: priceValues,
+            step: 100000,
+            slide: function(event, ui) {
+                $("#amount").val(ui.values[0].toLocaleString('en-US') + "đ - " + ui.values[1].toLocaleString('en-US') + "đ");
+            }
+        });
+	    $("#amount").val($("#slider-range").slider("values", 0).toLocaleString('en-US') +
+	        "đ - " + $("#slider-range").slider("values", 1).toLocaleString('en-US')+'đ');
+	});
 </script>
 @endsection

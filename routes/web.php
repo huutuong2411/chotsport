@@ -17,6 +17,7 @@ use App\Http\Controllers\PrintPDFController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\UserLoginController;
 use App\Http\Controllers\User\UserRegisterController;
+use App\Http\Controllers\User\SearchController;
 use App\Http\Controllers\User\UserProductController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\CartController;
@@ -43,6 +44,8 @@ Route::group(['namespace' => 'User',], function () {
 	Route::post('/profile', [UserProfileController::class, 'updateprofile'])->name('user.profile.post'); // profile
 	Route::get('/changepass', [UserProfileController::class, 'changepass'])->name('user.changepass'); // profile
 	Route::post('/changepass', [UserProfileController::class, 'updatepass'])->name('user.changepass.post'); // profile
+	// Tìm kiếm
+	Route::get('/search',[SearchController::class,'search'])->name('user.search');
 	// product
 	Route::get('/product', [UserProductController::class, 'index'])->name('user.allproduct');
 	

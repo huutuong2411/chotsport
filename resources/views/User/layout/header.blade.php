@@ -3,9 +3,18 @@
     $categorys = App\Models\admin\Category::select('name','id')->get();
     $brands = App\Models\admin\Brand::select('name','id')->get();
 @endphp
+<style type="text/css">
+    #formSearch {
+            position: absolute;
+            background-color: #fff;
+            left: 4%;
+            border-radius: 5px;
+            z-index: 999;
+        }
+</style>
     <header class="header-section d-none d-xl-block">
         <div class="header-wrapper">
-            <div class="header-bottom header-bottom-color--golden section-fluid sticky-header sticky-color--golden">
+            <div class="header-bottom header-bottom-color--golden section-fluid  sticky-color--golden">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12 d-flex align-items-center justify-content-between">
@@ -20,8 +29,9 @@
                             <!-- Start Header Main Menu -->
                            
                             <!-- End Header Main Menu Start -->
-                            <div class="col-5">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm..." aria-label="Search">
+                            <div class="col-5 search_form">
+                                <input class="form-control mr-sm-2" id="search" type="search" placeholder="Tìm kiếm..." aria-label="Search" style="position: relative">
+                                <!-- Start Offcanvas Addcart Section -->
                             </div>
                             <!-- Start Header Action Link -->
                             <ul class="header-action-link action-color--black action-hover-color--golden col-5-auto">
@@ -67,6 +77,10 @@
                             <!-- End Header Action Link -->
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="sticky-header header-bottom header-bottom-color--golden section-fluid  sticky-color--golden">
+                <div class="container-fluid">
                     <div class="text-center">
                         <div class="main-menu menu-color--black menu-hover-color--golden col-12" >
                             <nav>
@@ -104,9 +118,10 @@
                                 </ul>
                             </nav>
                         </div>
-                    </div> 
+            </div> 
                 </div>
             </div>
+            
         </div>
     </header>
     <!-- Start Header Area -->
