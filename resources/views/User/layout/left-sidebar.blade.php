@@ -10,10 +10,9 @@
 <div class="col-lg-3">
                     <!-- Start Sidebar Area -->
                     <div class="siderbar-section" data-aos="fade-up"  data-aos-delay="0">
-
                         <!-- Start Single Sidebar Widget -->
                         <div class="sidebar-single-widget" >
-                            <h6 class="sidebar-title"><a href="{{url('/product')}}">DANH MỤC</a></h6>
+                            <h6 class="sidebar-title"><a href="">DANH MỤC</a></h6>
                             <div class="sidebar-content">
                                 <ul class="sidebar-menu">
                                  @foreach ($categorys as $category)

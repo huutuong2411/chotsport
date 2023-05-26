@@ -14,6 +14,8 @@ Chotsport-{{$product->name}}
                             </nav>
 </div>
 <!-- Start Product Details Section -->
+<div class="container">
+</div>
     <div class="product-details-section" style="margin-top:30px">
         <div class="container">
             <div class="row">
@@ -101,7 +103,7 @@ Chotsport-{{$product->name}}
                                     </div>
                                 </div>
                                 <div class="product-add-to-cart-btn" style="margin-right: 20px">
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="">Thanh toán</a>
+                                    <a href="#" id="gotocheckout" data-bs-toggle="modal" data-target="#exampleModal">Mua ngay</a>
                                 </div>
                                 <div class="product-add-to-cart-btn">
                                     <a href="javascript:void(0)" id="addtocart" data-bs-target="#modalAddcart">+ Thêm vào giỏ hàng</a>
@@ -183,9 +185,6 @@ Chotsport-{{$product->name}}
                                                                     <li class="empty"><i class="ion-android-star"></i></li>
                                                                 </ul>
                                                             </div>
-                                                            <div class="comment-content-right">
-                                                                <a href="#"><i class="fa fa-reply"></i>Reply</a>
-                                                            </div>
                                                         </div>
 
                                                         <div class="para-content">
@@ -193,30 +192,6 @@ Chotsport-{{$product->name}}
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- Start - Review Comment Reply-->
-                                                <ul class="comment-reply">
-                                                    <li class="comment-reply-list">
-                                                        <div class="comment-wrapper">
-                                                            <div class="comment-img">
-                                                                <img src="assets/images/user/image-2.png" alt="">
-                                                            </div>
-                                                            <div class="comment-content">
-                                                                <div class="comment-content-top">
-                                                                    <div class="comment-content-left">
-                                                                        <h6 class="comment-name">Oaklee Odom</h6>
-                                                                    </div>
-                                                                    <div class="comment-content-right">
-                                                                        <a href="#"><i class="fa fa-reply"></i>Reply</a>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="para-content">
-                                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora inventore dolorem a unde modi iste odio amet, fugit fuga aliquam, voluptatem maiores animi dolor nulla magnam ea! Dignissimos aspernatur cumque nam quod sint provident modi alias culpa, inventore deserunt accusantium amet earum soluta consequatur quasi eum eius laboriosam, maiores praesentium explicabo enim dolores quaerat! Voluptas ad ullam quia odio sint sunt. Ipsam officia, saepe repellat. </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul> <!-- End - Review Comment Reply-->
                                             </li> <!-- End - Review Comment list-->
                                             <!-- Start - Review Comment list-->
                                             <li class="comment-list">
@@ -236,9 +211,6 @@ Chotsport-{{$product->name}}
                                                                     <li class="empty"><i class="ion-android-star"></i></li>
                                                                 </ul>
                                                             </div>
-                                                            <div class="comment-content-right">
-                                                                <a href="#"><i class="fa fa-reply"></i>Reply</a>
-                                                            </div>
                                                         </div>
 
                                                         <div class="para-content">
@@ -248,38 +220,41 @@ Chotsport-{{$product->name}}
                                                 </div>
                                             </li> <!-- End - Review Comment list-->
                                         </ul> <!-- End - Review Comment -->
+                                        @if($review)
                                         <div class="review-form">
-                                            <div class="review-form-text-top">
-                                                <h5>ADD A REVIEW</h5>
-                                                <p>Your email address will not be published. Required fields are marked *</p>
-                                            </div>
-
                                             <form action="#" method="post">
                                                 <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="default-form-box">
-                                                            <label for="comment-name">Your name <span>*</span></label>
-                                                            <input id="comment-name" type="text" placeholder="Enter your name" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="default-form-box">
-                                                            <label for="comment-email">Your Email <span>*</span></label>
-                                                            <input id="comment-email" type="email" placeholder="Enter your email" required>
-                                                        </div>
-                                                    </div>
                                                     <div class="col-12">
                                                         <div class="default-form-box">
-                                                            <label for="comment-review-text">Your review <span>*</span></label>
-                                                            <textarea id="comment-review-text" placeholder="Write a review" required></textarea>
+                                                            <label for="comment-review-text">Đánh giá của bạn<span>*</span></label>
+                                                            <div class="rating-css float-left">
+                                                                <div class="star-icon">
+                                                                    <input type="radio" value="1" name="product_rating" checked id="rating1">
+                                                                    <label for="rating1" class="fa fa-star"></label>
+                                                                    <input type="radio" value="2" name="product_rating" id="rating2">
+                                                                    <label for="rating2" class="fa fa-star"></label>
+                                                                    <input type="radio" value="3" name="product_rating" id="rating3">
+                                                                    <label for="rating3" class="fa fa-star"></label>
+                                                                    <input type="radio" value="4" name="product_rating" id="rating4">
+                                                                    <label for="rating4" class="fa fa-star"></label>
+                                                                    <input type="radio" value="5" name="product_rating" id="rating5">
+                                                                    <label for="rating5" class="fa fa-star"></label>
+                                                                </div>
+                                                            </div>
+                                                            <textarea id="comment-review-text" placeholder="Viết bình luận..." required></textarea>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-12">
-                                                        <button class="btn btn-md btn-black-default-hover" type="submit">Submit</button>
+                                                        <button class="btn btn-md btn-black-default-hover" type="submit">Gửi</button>
                                                     </div>
                                                 </div>
                                             </form>
                                         </div>
+                                        @else
+                                            <hr>
+                                            <h5 class="text-danger">Chỉ những người đã mua hàng mới được đánh giá sản phẩm này (*)</h5>
+                                        @endif
                                     </div>
                                 </div> <!-- End Product Details Tab Content Singel -->
                             </div>
@@ -626,7 +601,28 @@ Chotsport-{{$product->name}}
         </div>
     </div> 
     <!-- End Product Default Slider Section -->
-
+<!-- modal check login trước khi thanh toán
+ -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 76px!important;min-width: 461px!important;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn cần đăng nhập trước khi thanh toán
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <a href="{{route('user.login')}}" class="btn btn-warning">Đăng nhập</a>
+        
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -635,7 +631,6 @@ Chotsport-{{$product->name}}
 <script type="text/javascript">
    $(document).ready(function() { 
         $('#addtocart').click(function(){ //bắt buộc chọn size
-            
             if($('.btn-check').is(':checked') ){
                 var Id_product =  "{{$product->id}}";
                 var Price = "{{$product->price*(100-$product->discount)/100}}";
@@ -645,7 +640,7 @@ Chotsport-{{$product->name}}
                 var Qty =  $('#addtocart').closest('.actioncart').find('.product-variable-quantity').find('input').val();
                 var Product_detail = $('.btn-check:checked').attr('id');
                 var Sizename = $('.btn-check:checked').next('label').text();
-              
+               
                 $.ajax({
                 url: '{{route('user.addcart')}}', 
                 method: 'POST', // phương thức POST
@@ -680,7 +675,51 @@ Chotsport-{{$product->name}}
                 }
         });
 
-
+        $('#gotocheckout').click(function(){ //bắt buộc chọn size
+            var checklogin = "{{Auth::check()}}";
+            if($('.btn-check').is(':checked') ){
+                //kiểm tra đăng nhập
+                if(!checklogin){
+                    $('#exampleModal').modal("show")
+                    return false;
+                }
+                // 
+                var Id_product =  "{{$product->id}}";
+                var Price = "{{$product->price*(100-$product->discount)/100}}";
+                var formatPrice = "{{number_format($product->price*(100-$product->discount)/100, 0, '.', ',')}}";
+                var Name_product = "{{$product->name}}"
+                var Imgsrc = $('.product-image-large-image').find('img').first().attr('src');
+                var Qty =  $('#gotocheckout').closest('.actioncart').find('.product-variable-quantity').find('input').val();
+                var Product_detail = $('.btn-check:checked').attr('id');
+                var Sizename = $('.btn-check:checked').next('label').text();
+              
+                $.ajax({
+                url: '{{route('user.addcart')}}', 
+                method: 'POST', // phương thức POST
+                dataType: 'json',
+                data: { // dữ liệu gửi đi
+                    id_product: Id_product, // giá trị id_product
+                    price: Price, // giá trị giá mỗi mặt hàng (sau cùng)
+                    name_product: Name_product, // giá trị tên product
+                    imgsrc: Imgsrc, // giá trị đường dẫn ảnh
+                    qty: Qty, // giá trị số lượng sản phẩm
+                    product_detail: Product_detail,
+                    sizename: Sizename,
+                    _token: '{{ csrf_token() }}' // token để bảo svệ form
+                },
+                success: function(data){ // nhận kết quả trả về
+                    window.location.href = "{{route('user.checkout')}}";
+                 }
+                });  // dấu đóng AJAX                  
+            }
+            else{
+                alert("Vui lòng chọn kích thước giày");  
+            }
+        });
     }); //dấu đóng hàm ready
 </script>
+
+
+
+
 @endsection

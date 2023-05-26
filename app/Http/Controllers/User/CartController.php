@@ -47,6 +47,7 @@ class CartController extends Controller
         } else {
         $cart[$request->product_detail] = array(
             'id_product_detail'=>$id_product_detail,
+            'id_product'=>$request->id_product,
             'Name_product'=>$request->name_product,
             'Sizename'=>$request->sizename,
             'cartPrice'=>$request->price,

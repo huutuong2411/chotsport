@@ -57,7 +57,6 @@ class UserProfileController extends Controller
         $IDuser = Auth::id();
         $user= User::findOrFail($IDuser);
         $data=$request->all();
-        dd($request);
         // nếu đã có địa chỉ từ trước:
         if($request->has('full_address') && empty($request->chitiet)){
             $data['id_address'] = Auth::user()->id_address;

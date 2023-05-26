@@ -3,15 +3,6 @@
     $categorys = App\Models\admin\Category::select('name','id')->get();
     $brands = App\Models\admin\Brand::select('name','id')->get();
 @endphp
-<style type="text/css">
-    #formSearch {
-            position: absolute;
-            background-color: #fff;
-            left: 4%;
-            border-radius: 5px;
-            z-index: 999;
-        }
-</style>
     <header class="header-section d-none d-xl-block">
         <div class="header-wrapper">
             <div class="header-bottom header-bottom-color--golden section-fluid  sticky-color--golden">
@@ -30,14 +21,14 @@
                            
                             <!-- End Header Main Menu Start -->
                             <div class="col-5 search_form">
-                                <input class="form-control mr-sm-2" id="search" type="search" placeholder="Tìm kiếm..." aria-label="Search" style="position: relative">
+                                <input class="form-control mr-sm-2" id="inputsearch" type="search" placeholder="Tìm kiếm..." aria-label="Search" style="position: relative">
                                 <!-- Start Offcanvas Addcart Section -->
                             </div>
                             <!-- Start Header Action Link -->
                             <ul class="header-action-link action-color--black action-hover-color--golden col-5-auto">
                                 <li style="margin-right: 20px;">
                                     <a href="#search">
-                                        <button   type="button" class="btn btn-warning btn-sm">Tư vấn size <i class="fa-solid fa-shoe-prints" style="color: #c8ab19;"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm">Tư vấn size <i class="fa-solid fa-shoe-prints" style="color: #c8ab19;"></i></button>
                                     </a>
                                 </li>
                                 <li>

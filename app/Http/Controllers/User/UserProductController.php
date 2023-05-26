@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\admin\Product;
 use App\Models\admin\Category;
 use App\Models\admin\Product_detail;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User\Order;
 class UserProductController extends Controller
 {
     /**
@@ -90,8 +92,18 @@ class UserProductController extends Controller
         $listsize=   Product_detail::where('id_product', $id)->join('size', 'id_size', '=', 'size.id')
         ->select('product_details.id','size.size')->orderBy('size.length','ASC')
         ->get();
-       
-        return view('User.product.productdetail',compact('product','listsize'));
+        $review=false;
+        if(Auth::check()){
+             $bought= Order::where('id_user',Auth::user()->id)
+                ->join('order_details', 'order.id', '=', 'order_details.id_order')
+                ->join('product_details', 'product_details.id', '=', 'order_details.id_product_detail')
+                ->where('product_details.id_product',$product->id)
+                ->first();
+            if(!empty($bought)){
+            $review=true;
+            }
+        }
+        return view('User.product.productdetail',compact('product','listsize','review'));
     }
 
     /**

@@ -62,6 +62,7 @@ Route::group(['namespace' => 'User',], function () {
 	//checkout
 	Route::get('/checkout',[CheckoutController::class,'index'])->name('user.checkout');
 	Route::post('/checkout',[CheckoutController::class,'store'])->name('user.checkout.post');
+	Route::get('/checkout/vnPayCheck',[CheckoutController::class,'vnPayCheck'])->name('vnPayCheck');
 	// Xem order
 	Route::get('/myorder',[OrderController::class,'index'])->name('user.order');
 	Route::get('/myorder/{id}',[OrderController::class,'show'])->name('user.order.show');

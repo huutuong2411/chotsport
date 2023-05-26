@@ -34,6 +34,7 @@
     <!-- <link rel="stylesheet" href="assets/sass/style.css"> -->
 
     <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+    <link rel="stylesheet" href="{{asset('user/assets/css/custom.css')}}">
     <link rel="stylesheet" href="{{asset('user/assets/css/vendor/vendor.min.css')}}">
     <link rel="stylesheet" href="{{asset('user/assets/css/plugins/plugins.min.css')}}">
     <link rel="stylesheet" href="{{asset('user/assets/css/tracking.min.css')}}">
@@ -41,8 +42,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script type="text/javascript">
    $(document).ready(function() { 
-        $('#search').keyup(function(){ //bắt buộc chọn size
+         $('#inputsearch').on('input', function() { //bắt buộc chọn size
             $('#formSearch').remove();
+            
         var word= $(this).val();
            $.ajax({
                 url: '{{route('user.search')}}', 
@@ -52,31 +54,46 @@
                     word: word, // giá trị id_product 
                 },
                 success: function(data){ // nhận kết quả trả về
-                     $('#formSearch').empty(); // Xóa các kết quả hiện có
-                    $('.search_form').append("<ul class='col-11' id='formSearch'>"+
-                                "</ul>");
-                   $.each(data, function(key, value) {
-                        var image = JSON.parse(value.image);
-                        var URL="{{url('admin/assets/img/product/')}}"+"/"+value.id+"/"+image[0];
-                        $('#formSearch').append(
-                            "<li class='offcanvas-cart-item-single'>"+
-                                "<div class='offcanvas-cart-item-block'>"+
-                                    "<a href='#'' class='offcanvas-cart-item-image-link'>"+
-                                                "<img src='"+URL+"' alt='' class='offcanvas-cart-image'>"+
-                                            "</a>"+
-                                            "<div class='offcanvas-cart-item-content'>"+
-                                                "<a href='#'' class='offcanvas-cart-item-link'>"+value.name+"</a>"+
-                                                "<div class='offcanvas-cart-item-details'>"+
-                                                    "<span class='offcanvas-cart-item-details-price'>$500.00</span>"+
+                    if(data!=""){
+                        $('#formSearch').empty(); // Xóa các kết quả hiện có
+                        $('.search_form').append("<ul class='col-11 card' id='formSearch'>"+
+                                    "</ul>");
+                        $.each(data, function(key, value) {
+                            var image = JSON.parse(value.image);
+                            var URL="{{url('admin/assets/img/product/')}}"+"/"+value.id+"/"+image[0];
+                            $('#formSearch').append(
+                                "<li class='offcanvas-cart-item-single'>"+
+                                    "<div class='offcanvas-cart-item-block'>"+
+                                        "<a href='{{url('product/')}}"+"/"+value.id+"' class='offcanvas-cart-item-image-link'>"+
+                                                    "<img src='"+URL+"' alt='' class='offcanvas-cart-image'>"+
+                                                "</a>"+
+                                                "<div class='offcanvas-cart-item-content'>"+
+                                                    "<a href='{{url('product/')}}"+"/"+value.id+"' class='offcanvas-cart-item-link'>"+value.name+"</a>"+
+                                                    "<div class='offcanvas-cart-item-details'>"+
+                                                        "<span class='offcanvas-cart-item-details-price'>$500.00</span>"+
+                                                    "</div>"+
                                                 "</div>"+
                                             "</div>"+
-                                        "</div>"+
-                                    "</li>"
-                            );
-                    });
+                                        "</li>"
+                                );
+                        });
+
+                    }
                 }
+                   
             }); // dấu đóng ajax
+           if (word == '') {
+                $('#formSearch').remove(); // Xóa phần tử formSearch
+            }
         });
+
+        $(document).click(function(event) {
+        var target = event.target;
+        // Kiểm tra xem phần tử được click có là input hoặc formSearch hay không
+        if (!$(target).is('#inputsearch') && !$(target).is('#formSearch')) {
+            $('#formSearch').remove();
+        }
+    });
     }); //dấu đóng hàm ready
 </script>
 </head>
