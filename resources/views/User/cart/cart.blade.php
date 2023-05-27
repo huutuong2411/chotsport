@@ -8,11 +8,12 @@ Chotsport - Giỏ hàng của bạn
 <div class="breadcrumb-nav p-3 mb-2 text-dark" style="background-color:#e1e3e8!important;padding: 3px 20px!important; margin-bottom: 50px!important">
                             <nav aria-label="breadcrumb">
                                 <ul>
-                                    <li class="active" aria-current="page">Trang chủ</li>
-                                    <li class="active" aria-current="page">Giỏ hàng</li>
+                                    <li class="active" aria-current="page"><a href="{{route('user.home')}}">Trang chủ</a></li>
+                                    <li class="active" aria-current="page"><a href="{{url('/cart')}}">Giỏ hàng</a></li>
                                 </ul>
                             </nav>
 </div>
+
 <!-- ...:::: Start Cart Section:::... -->
     <div class="cart-section">
         <!-- Start Cart Table -->
@@ -41,9 +42,9 @@ Chotsport - Giỏ hàng của bạn
                                         @foreach(session()->get('cart') as $key => $value )
                                         <tr>
                                             <td class="product_remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
-                                            <td class="product_thumb"><a href="product-details-default.html"><img src="{{$value['cartImg']}}" alt=""></a></td>
+                                            <td class="product_thumb"><a href="{{route('user.productdetail',['id'=>$value['id_product']])}}"><img src="{{$value['cartImg']}}" alt=""></a></td>
                                             <td class="product_name" style="text-align: left;">
-                                                <a href="product-details-default.html">{{$value['Name_product']}}</a>
+                                                <a href="{{route('user.productdetail',['id'=>$value['id_product']])}}">{{$value['Name_product']}}</a>
                                                 <br>
                                                 <span>Kích thước:{{$value['Sizename']}}</span>
                                                 <input type="hidden" value="{{$key}}">

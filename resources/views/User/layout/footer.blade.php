@@ -23,10 +23,10 @@
                     <div class="footer-widget-single-item footer-widget-color--golden" data-aos="fade-up"  data-aos-delay="200">
                         <h5 class="title">CHÍNH SÁCH</h5>
                         <ul class="footer-nav"> 
-                            <li>Chính sách bảo hành</li>
-                            <li>Chính sách đổi trả</li>
-                            <li>Chính sách giao nhận hàng</li>
-                            <li>Chương trình khách hàng thân thiết</li>
+                            <li><a href="#">Chính sách bảo hành</a></li>
+                            <li><a href="#">Chính sách đổi trả</a></li>
+                            <li><a href="#">Chính sách giao nhận hàng</a></li>
+                            <li><a href="#">Chương trình khách hàng thân thiết</a></li>
                         </ul>
                     </div>
                     <!-- End Footer Single Item -->

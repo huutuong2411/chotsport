@@ -63,7 +63,7 @@ class PurchaseController extends Controller
                             $sum_money = $price*$quantity;
 
                             // check xem đã tồn tại id_sze+id_product này trong product_detail chưa - lấy id_product_deatail
-                            $check_product_detail  = Product_detail::where('id_product', $product)->where('id_size', $id_size)->first();
+                            $check_product_detail  = Product_detail::withTrashed()->where('id_product', $product)->where('id_size', $id_size)->first();
                             if(!empty($check_product_detail)){
                                     Purchase_detail::create([
                                     'id_product_detail' => $check_product_detail->id,
@@ -72,6 +72,8 @@ class PurchaseController extends Controller
                                     'price'=> $price,
                                     'sum_money'=>$sum_money,
                                     ]);
+                                // nếu id_product_detail đó đã bị xoá trước đó thì khôi phục rồi tăng số lượng
+                                $check_product_detail->restore();
                                 // tăng size_qty lên $quantity
                                 $check_product_detail->increment('size_qty', $quantity); 
                             }else{
@@ -181,7 +183,7 @@ class PurchaseController extends Controller
                             $quantity = $value;
                             $sum_money = $price*$quantity;
                             // check xem đã tồn tại id_sze+id_product này trong product_detail chưa - lấy id_product_deatail
-                            $check_product_detail  = Product_detail::where('id_product', $product)->where('id_size', $id_size)->first();
+                            $check_product_detail  = Product_detail::withTrashed()->where('id_product', $product)->where('id_size', $id_size)->first();
 
                             if(!empty($check_product_detail)){       //trường hợp nếu chỉ sửa/thêm số lượng những size có trước
                                     // tạo mới hoặc cập nhật dữ liệu cho purchase_detail
@@ -197,12 +199,17 @@ class PurchaseController extends Controller
                                         'price'=> $price,
                                         'sum_money'=>$sum_money,
                                     ]); // lưu hoặc cập nhật   
+                                // nếu id_product_detail đó đã bị xoá trước đó thì khôi phục rồi tăng số lượng
+                                $check_product_detail->restore();
                                 // check xem id_product_detail này có được lưu trước đó không, nếu có thì - số cũ + số mới
                                 // nếu chưa được lưu trước đó thì tăng lên 1 đơn vị Qty
                                 if(array_key_exists($check_product_detail->id, $oldQty)){  
                                     $i = $oldQty[$check_product_detail->id];
                                     // tăng size_qty lên $quantity- số lượng cũ
                                     $check_product_detail->increment('size_qty', $quantity-$i); 
+                                    if ($check_product_detail->size_qty <= 0) {
+                                    $check_product_detail->delete();
+                                    }
                                 }else{
                                 // tăng size_qty lên $quantity
                                 $check_product_detail->increment('size_qty', $quantity); 
@@ -228,7 +235,7 @@ class PurchaseController extends Controller
                             // Lấy id_size từ tên của input
                             $id_size = explode('_', $index)[2];
                             // check xem đã tồn tại id_sze+id_product này trong product_detail chưa - lấy id_product_deatail
-                            $check_product_detail  = Product_detail::where('id_product', $product)->where('id_size', $id_size)->first();
+                            $check_product_detail  = Product_detail::withTrashed()->where('id_product', $product)->where('id_size', $id_size)->first();
                             if(!empty($check_product_detail)&&array_key_exists($check_product_detail->id, $oldQty)){
                                 // Xoá dữ liệu trong purchase_detail
                                 $i = $oldQty[$check_product_detail->id];
@@ -294,9 +301,6 @@ class PurchaseController extends Controller
      */
     public function destroy(string $id)
     {
-        
-        
-        
             $listSizeQty = Purchase_detail::where('id_purchase',$id)
                 ->join('product_details', 'purchase_details.id_product_detail', '=', 'product_details.id')
                 ->join('products', 'product_details.id_product', '=', 'products.id')

@@ -17,10 +17,14 @@ use App\Http\Controllers\PrintPDFController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\UserLoginController;
 use App\Http\Controllers\User\UserRegisterController;
+use App\Http\Controllers\User\SearchController;
+use App\Http\Controllers\User\UserBlogController;
 use App\Http\Controllers\User\UserProductController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\OrderController;
+use App\Http\Controllers\User\FeedbackController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,6 +46,14 @@ Route::group(['namespace' => 'User',], function () {
 	Route::post('/profile', [UserProfileController::class, 'updateprofile'])->name('user.profile.post'); // profile
 	Route::get('/changepass', [UserProfileController::class, 'changepass'])->name('user.changepass'); // profile
 	Route::post('/changepass', [UserProfileController::class, 'updatepass'])->name('user.changepass.post'); // profile
+	//Bài viết:
+	Route::get('/blog',[UserBlogController::class,'index'])->name('user.blog');
+	Route::get('/blog/{id}',[UserBlogController::class,'show'])->name('user.blog_detail');
+	// Tìm kiếm
+	Route::get('/search',[SearchController::class,'search'])->name('user.search');
+	// product
+	Route::get('/product', [UserProductController::class, 'index'])->name('user.allproduct');
+	
 	Route::get('/product/{id}', [UserProductController::class, 'show'])->name('user.productdetail');
 		//check session:
 		Route::get('/checkcart',[CartController::class,'checkcart']);
@@ -49,8 +61,20 @@ Route::group(['namespace' => 'User',], function () {
 	Route::get('/cart',[CartController::class,'index'])->name('user.cart');
 	Route::post('/cart/addcart',[CartController::class,'addcart'])->name('user.addcart');
 	Route::post('/cart/updatecart',[CartController::class,'updatecart'])->name('user.updatecart');
-	//check out
+	//set lại qty cart với trường hợp bị vượt tồn kho
+	Route::get('/reducecart/{id}',[CartController::class,'reducecart'])->name('user.reducecart');
+	Route::get('/deletecart/{id}',[CartController::class,'deletecart'])->name('user.deletecart');
+	//checkout
 	Route::get('/checkout',[CheckoutController::class,'index'])->name('user.checkout');
+	Route::post('/checkout',[CheckoutController::class,'store'])->name('user.checkout.post');
+	Route::get('/checkout/vnPayCheck',[CheckoutController::class,'vnPayCheck'])->name('vnPayCheck');
+	// Xem order
+	Route::get('/myorder',[OrderController::class,'index'])->name('user.order');
+	Route::get('/myorder/{id}',[OrderController::class,'show'])->name('user.order.show');
+	Route::get('/myorder/{id}/cancel',[OrderController::class,'cancel'])->name('user.order.cancel');	
+	//gửi feedback
+	Route::get('/feedback/{id}',[FeedbackController::class,'show'])->name('user.feedback');
+	Route::post('/feedback/{id}/add',[FeedbackController::class,'store'])->name('user.feedback.post');
 });
 
 

@@ -73,7 +73,7 @@ Chotsport - Thông tin tài khoản
                                             @if(Auth::user()->id_address)
                                             <div class="default-form-box mb-20">
                                                 <label>Địa chỉ đã lưu</label>
-                                                <input type="password" name="password">
+                                                <input name="full_address"  type="text" readonly value="{{$full_address}}">
                                             </div>
                                             @endif
                                             <div class="row default-form-box mb-20">

@@ -13,4 +13,7 @@ class Brand extends Model
     public function Size() {
         return $this->hasMany('App\Models\Admin\Size', 'id_brand');
     }
+    public function Product() {
+        return $this->hasMany('App\Models\Admin\Product', 'id_brand');
+    }
 }
