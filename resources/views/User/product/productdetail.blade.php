@@ -55,11 +55,14 @@ Chotsport-{{$product->name}}
                             <h4 class="title">{{$product->name}}</h4>
                             <div class="d-flex align-items-center">
                                 <ul class="review-star">
-                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                    <li class="empty"><i class="ion-android-star"></i></li>
+                                @php
+                                    $averageRating = App\Models\User\Rating::where('id_product', $product->id)->avg('star');
+                                    $roundedRating = round($averageRating);
+                                @endphp
+                                    @for($i = 1; $i <= $roundedRating; $i++)
+                                        <li class="fill"><i class="ion-android-star"></i></li>
+                                    @endfor
+                                    
                                 </ul>
                             </div>
                             @if($product->discount!= 0)
@@ -168,93 +171,45 @@ Chotsport-{{$product->name}}
                                         <!-- Start - Review Comment -->
                                         <ul class="comment">
                                             <!-- Start - Review Comment list-->
+                                            @foreach($feedback as $value)
                                             <li class="comment-list">
                                                 <div class="comment-wrapper">
                                                     <div class="comment-img">
-                                                        <img src="assets/images/user/image-1.png" alt="">
+                                                        @if($value->user_avatar)
+                                                        <img src="{{asset('/user/assets/images/user/'.$value->user_avatar)}}" alt="">
+                                                        @else
+                                                        <img src="{{asset('/user/assets/images/user/userdefault.webp')}}" alt="">
+                                                        @endif
                                                     </div>
                                                     <div class="comment-content">
                                                         <div class="comment-content-top">
                                                             <div class="comment-content-left">
-                                                                <h6 class="comment-name">Kaedyn Fraser</h6>
+                                                                <h6 class="comment-name">{{$value->user_name}}</h6>
                                                                 <ul class="review-star">
-                                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                                    <li class="empty"><i class="ion-android-star"></i></li>
+                                                                    @for($i = 1; $i <= $value->star; $i++)
+                                                                        <li class="fill"><i class="ion-android-star"></i></li>
+                                                                    @endfor
                                                                 </ul>
                                                             </div>
                                                         </div>
 
                                                         <div class="para-content">
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora inventore dolorem a unde modi iste odio amet, fugit fuga aliquam, voluptatem maiores animi dolor nulla magnam ea! Dignissimos aspernatur cumque nam quod sint provident modi alias culpa, inventore deserunt accusantium amet earum soluta consequatur quasi eum eius laboriosam, maiores praesentium explicabo enim dolores quaerat! Voluptas ad ullam quia odio sint sunt. Ipsam officia, saepe repellat. </p>
+                                                            <p>
+                                                        {{ App\Models\User\Comment::where('id_product', $value->id)
+                                                               ->where('id_order', $value->id_order)
+                                                               ->where('id_user', $value->id_user)
+                                                               ->value('message') }}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </li> <!-- End - Review Comment list-->
+                                            @endforeach
                                             <!-- Start - Review Comment list-->
-                                            <li class="comment-list">
-                                                <div class="comment-wrapper">
-                                                    <div class="comment-img">
-                                                        <img src="assets/images/user/image-3.png" alt="">
-                                                    </div>
-                                                    <div class="comment-content">
-                                                        <div class="comment-content-top">
-                                                            <div class="comment-content-left">
-                                                                <h6 class="comment-name">Jaydin Jones</h6>
-                                                                <ul class="review-star">
-                                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                                    <li class="empty"><i class="ion-android-star"></i></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="para-content">
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora inventore dolorem a unde modi iste odio amet, fugit fuga aliquam, voluptatem maiores animi dolor nulla magnam ea! Dignissimos aspernatur cumque nam quod sint provident modi alias culpa, inventore deserunt accusantium amet earum soluta consequatur quasi eum eius laboriosam, maiores praesentium explicabo enim dolores quaerat! Voluptas ad ullam quia odio sint sunt. Ipsam officia, saepe repellat. </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li> <!-- End - Review Comment list-->
                                         </ul> <!-- End - Review Comment -->
-                                        @if($review)
-                                        <div class="review-form">
-                                            <form action="#" method="post">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="default-form-box">
-                                                            <label for="comment-review-text">Đánh giá của bạn<span>*</span></label>
-                                                            <div class="rating-css float-left">
-                                                                <div class="star-icon">
-                                                                    <input type="radio" value="1" name="product_rating" checked id="rating1">
-                                                                    <label for="rating1" class="fa fa-star"></label>
-                                                                    <input type="radio" value="2" name="product_rating" id="rating2">
-                                                                    <label for="rating2" class="fa fa-star"></label>
-                                                                    <input type="radio" value="3" name="product_rating" id="rating3">
-                                                                    <label for="rating3" class="fa fa-star"></label>
-                                                                    <input type="radio" value="4" name="product_rating" id="rating4">
-                                                                    <label for="rating4" class="fa fa-star"></label>
-                                                                    <input type="radio" value="5" name="product_rating" id="rating5">
-                                                                    <label for="rating5" class="fa fa-star"></label>
-                                                                </div>
-                                                            </div>
-                                                            <textarea id="comment-review-text" placeholder="Viết bình luận..." required></textarea>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-12">
-                                                        <button class="btn btn-md btn-black-default-hover" type="submit">Gửi</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        @else
                                             <hr>
                                             <h5 class="text-danger">Chỉ những người đã mua hàng mới được đánh giá sản phẩm này (*)</h5>
-                                        @endif
+                                    
                                     </div>
                                 </div> <!-- End Product Details Tab Content Singel -->
                             </div>

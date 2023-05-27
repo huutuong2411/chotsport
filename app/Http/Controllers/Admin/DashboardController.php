@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\City;
-use App\Models\District;
-
+use App\Models\admin\Product;
+use App\Models\admin\Blog;
+use App\Models\User;
+use App\Models\User\Order;
+use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     /**
@@ -15,8 +17,23 @@ class DashboardController extends Controller
     public function index()
     {
       
-        
-       return view('Admin.dashboard');
+        $allproduct= Product::count();
+        $allblog= Blog::count();
+        $neworder= Order::where('status',0)->count();
+        $customer= User::count();
+
+        $currentMonth = date('Y-m');
+        $currentYear = date('Y');
+
+        $Monthrevenue = Order::where('status', 2)
+            ->where(DB::raw('DATE_FORMAT(created_at, "%Y-%m")'), $currentMonth)
+            ->sum('sum_money');
+
+        $Yearrevenue = Order::where('status', 2)
+            ->where(DB::raw('YEAR(created_at)'), $currentYear)
+            ->sum('sum_money');
+
+       return view('Admin.dashboard',compact('allproduct','neworder','allblog','customer','Monthrevenue','Yearrevenue'));
     }
 
     /**

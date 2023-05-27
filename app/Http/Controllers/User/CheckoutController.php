@@ -188,7 +188,7 @@ class CheckoutController extends Controller
         if($error==false){
             //Gửi email 
             $data['subject']='Xác nhận đơn hàng';
-            $this->sendEmail($this->data);
+            $this->sendEmail($data);
             //Xoá đơn giỏ hàng
             $request->session()->forget('cart');
             $request->session()->forget('data');

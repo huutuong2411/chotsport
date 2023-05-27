@@ -98,11 +98,13 @@ Chotsport - Tất cả sản phẩm
                                                             <div class="content-left">
                                                                 <h6 class="title"><a href="{{route('user.productdetail',['id'=>$value->id])}}">{{$value->name}}</a></h6>
                                                                 <ul class="review-star">
-                                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                                    <li class="empty"><i class="ion-android-star"></i></li>
+                                                                    @php
+                                                        $averageRating = App\Models\User\Rating::where('id_product', $value->id)->avg('star');
+                                                        $roundedRating = round($averageRating);
+                                                    @endphp
+                                                        @for($i = 1; $i <= $roundedRating; $i++)
+                                                            <li class="fill"><i class="ion-android-star"></i></li>
+                                                        @endfor
                                                                 </ul>
                                                             </div>
                                                             <div class="content-right">
