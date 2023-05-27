@@ -15,5 +15,9 @@ class SearchController extends Controller
        
         return response()->json($product);
         }
+        if($request->has('inputsearch')){
+        	$product= Product::where('name','like','%'.$request->inputsearch.'%')->paginate(12);
+        	return view ('User.product.showsearch',compact('product'));
+        }
     }
 }

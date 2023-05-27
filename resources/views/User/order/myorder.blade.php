@@ -8,8 +8,8 @@ Chotsport - Thanh toán đơn hàng
 <div class="breadcrumb-nav p-3 mb-2 text-dark" style="background-color:#e1e3e8!important;padding: 3px 20px!important; margin-bottom: 50px!important">
                             <nav aria-label="breadcrumb">
                                 <ul>
-                                    <li class="active" aria-current="page">Tài khoản</li>
-                                    <li class="active" aria-current="page">Đơn hàng</li>
+                                    <li class="active" aria-current="page"><a href="{{route('user.home')}}">Trang chủ</a></li>
+                                    <li class="active" aria-current="page"><a href="{{route('user.order')}}">Đơn hàng</a></li>
                                 </ul>
                             </nav>
 </div>
@@ -78,9 +78,15 @@ Chotsport - Thanh toán đơn hàng
                                             </td>
                                             <td class="text-align">
                                             	<a href="{{route('user.order.show',['id'=>$value->id])}}" class="btn btn-md btn-golden">Chi tiết</a>
-                                            	@if($value->status!=3)
+                                            	@if($value->status==0 || $value->status==1)
                                             	<a href="{{route('user.order.cancel',['id'=>$value->id])}}" class="btn btn-danger" style="color:white">hủy đơn hàng</a>
                                             	@endif
+                                                @php
+                                                     $rated = \App\Models\User\Rating::where('id_user', Auth::user()->id)->where('id_order', $value->id)->exists();
+                                                @endphp
+                                                @if($value->status==2 && !$rated)
+                                                <a href="{{route('user.feedback',['id'=>$value->id])}}"  class="btn btn-success" style="color:white">Gửi Đánh giá</a>
+                                                @endif
                                             </td>
                                         </tr> 
                                         @endforeach
@@ -100,7 +106,10 @@ Chotsport - Thanh toán đơn hàng
 
     </div> <!-- ...:::: End Cart Section:::... -->
 
+
+<!-- Jquery -->
+
 @endsection
-           
+         
 
 

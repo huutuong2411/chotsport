@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Models\admin\Product;
 use App\Models\admin\Product_detail;
 use App\Models\User\Order_detail;
 use App\Models\User\Order;
@@ -28,7 +29,7 @@ class CheckoutController extends Controller
         $overQty= false;
         $id_overQty = [];
         foreach($cart as $key => $value){
-            if($value['cartQty'] > Product_detail::find($key)->size_qty){
+            if($value['cartQty'] > Product_detail::withTrashed()->find($key)->size_qty){
                $overQty= true; 
                $id_overQty[]=[
                 'id_product_detail'=>$key,
@@ -129,6 +130,7 @@ class CheckoutController extends Controller
             $data =[]; //chứa thông tin email
             
             $data=[
+                'id_order'=> $newOrder->id,
                 'name'=> $newOrder->name,
                 'email'=>$newOrder->email,
                 'order_code'=>$newOrder->order_code,
@@ -142,7 +144,7 @@ class CheckoutController extends Controller
 
             foreach ($cart as $item) 
             {
-                $thisProductDetail = Product_detail::find($item['id_product_detail']);
+                $thisProductDetail = Product_detail::withTrashed()->find($item['id_product_detail']);
 
                 if (!$thisProductDetail || $thisProductDetail->size_qty < $item['cartQty']) {
                     return redirect()->back()->withErrors('Tồn kho không đủ số lượng, vui lòng cập nhật lại giỏ hàng');
@@ -153,7 +155,13 @@ class CheckoutController extends Controller
                                 $thisProductDetail->delete();
                             }
                         }
-                        
+                        // Cập nhật số lượng trong bảng product
+                        $totalQty = Product_detail::where('id_product',  $item['id_product'])->sum('size_qty');
+                        $product = Product::find($item['id_product']);
+                        $product->total_qty = $totalQty;
+                        $product->save();    
+
+
                         $newOrder_detail = Order_detail::create([
                             'id_order' => $newOrder->id,
                             'id_product_detail' => $item['id_product_detail'],
@@ -164,9 +172,9 @@ class CheckoutController extends Controller
                         if (!$newOrder_detail) {
                             $error = true;
                         }
-                    }
-                }else{
-                 $error = true; 
+            }
+        }else{
+            $error = true; 
         }
         if($paymentstatus==1){ //Nếu thanh toán online
             // Lấy URL thanh toán VNPAY
@@ -181,10 +189,30 @@ class CheckoutController extends Controller
             //Gửi email 
             $data['subject']='Xác nhận đơn hàng';
             $this->sendEmail($this->data);
+            //Xoá đơn giỏ hàng
             $request->session()->forget('cart');
+            $request->session()->forget('data');
             return redirect()->route('user.order')->with('success',__('Tạo đơn hàng thành công'));
         }else{
-            return redirect()->back()->withErrors('Có lỗi tạo đơn hàng, vui lòng thử lại');
+            // xoá chi tiết đơn hàng
+            Order_detail::where('id_order',$newOrder->id)->delete();
+            // xoá đơn hàng
+            Order::find($newOrder->id)->delete();
+            foreach ($cart as $item) 
+            {
+                $thisProductDetail = Product_detail::withTrashed()->find($item['id_product_detail']);
+                    $thisProductDetail->restore();
+                    $thisProductDetail->increment('size_qty', $item['cartQty']); //trả lại số lượng của product_detail
+                            
+                    // Cập nhật số lượng trong bảng product
+                    $totalQty = Product_detail::where('id_product',  $item['id_product'])->sum('size_qty');
+                    $product = Product::find($item['id_product']);
+                    $product->total_qty = $totalQty;
+                    $product->save();    
+            }
+            // xoá data
+            $request->session()->forget('data');
+            return redirect()->route('user.checkout')->withErrors('Có lỗi tạo đơn hàng, vui lòng thử lại');
         }
         
     }
@@ -200,14 +228,36 @@ class CheckoutController extends Controller
         $vnp_Amount=$request->get('vnp_Amount'); //số tiền thanh toán 
         // kiểm tra kết quả giao dịch:
         if($vnp_ResponseCode==00){ //nếu thành công
+
             //gửi email: 
             $data=Session::get('data');
             $data['subject']='Xác nhận đơn hàng';
-             Session::put('data',$data);
+            Session::put('data',$data);
             $this->sendEmail($data);
+            // xoá giỏ hàng
             $request->session()->forget('cart');
+            $request->session()->forget('data');
             return redirect()->route('user.order')->with('success',__('Tạo đơn hàng thành công'));
         }else{
+            $data=Session::get('data');
+            // xoá chi tiết đơn hàng
+            Order_detail::where('id_order',$data['id_order'])->delete();
+            // xoá đơn hàng
+            Order::find($data['id_order'])->delete();
+            foreach ($cart as $item) 
+            {
+                $thisProductDetail = Product_detail::withTrashed()->find($item['id_product_detail']);
+                        $thisProductDetail->restore();
+                        $thisProductDetail->increment('size_qty', $item['cartQty']); //trả lại số lượng của product_detail
+                            
+                        // Cập nhật số lượng trong bảng product
+                        $totalQty = Product_detail::where('id_product',  $item['id_product'])->sum('size_qty');
+                        $product = Product::find($item['id_product']);
+                        $product->total_qty = $totalQty;
+                        $product->save();    
+            }
+            // xoá data
+            $request->session()->forget('data');
             return redirect()->route('user.checkout')->withErrors('Có lỗi tạo đơn hàng, vui lòng thử lại');
         }
     }

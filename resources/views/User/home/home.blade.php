@@ -27,7 +27,7 @@ Chotsport-giày bóng đá chính hãng
                                     <div class="hero-slider-content">
                                         <h4 class="subtitle">Sản phẩm của</h4>
                                         <h2 class="title">Thương hiệu<br>{{$value->brand_name}}</h2>
-                                        <a href="" class="btn btn-lg btn-outline-golden">Mua ngay</a>
+                                        <a href="{{url('/product?brand='.$value->id)}}" class="btn btn-lg btn-outline-golden">Mua ngay</a>
                                     </div>
                                 </div>
                             </div>
@@ -275,7 +275,7 @@ Chotsport-giày bóng đá chính hãng
                 <div class="image">
                     <img class="img-fluid" src="{{asset('/user/assets/images/banner/anh7.jpg')}}" alt="">
                 </div>
-                <a href="product-details-default.html" class="content">
+                <a href="{{url('/product?brand='.$nikeProducts[0]->id)}}" class="content">
                     <div class="inner">
                         <h4 style="color: #f29f1b" class="title">Nike x Cr7</h4>
                         <h6 style="color: #f29f1b" class="sub-title">{{!empty($nikeProducts)&&isset($nikeProducts[0])?$nikeProducts[0]->product_count : 0 }} Sản phẩm</h6>
@@ -289,7 +289,7 @@ Chotsport-giày bóng đá chính hãng
                 <div class="image">
                     <img class="img-fluid" src="{{asset('/user/assets/images/banner/anh10.jpg')}}" alt="">
                 </div>
-                <a href="product-details-default.html" class="content">
+                <a href="{{url('/product?brand='.$adidasProducts[0]->id)}}" class="content">
                     <div class="inner">
                         <h4 style="color: #f29f1b" class="title">Adidas x Messi</h4>
                         <h6 style="color: #f29f1b" class="sub-title">{{!empty($adidasProducts)&&isset($adidasProducts[0])?$adidasProducts[0]->product_count : 0 }} Sản phẩm</h6>
@@ -303,7 +303,7 @@ Chotsport-giày bóng đá chính hãng
                 <div class="image">
                     <img class="img-fluid" src="{{asset('/user/assets/images/banner/anhney.jpg')}}" alt="">
                 </div>
-                <a href="product-details-default.html" class="content">
+                <a href="{{url('/product?brand='.$pumaProducts[0]->id)}}" class="content">
                     <div class="inner">
                         <h4 style="color: #f29f1b" class="title">Puma x Neymar</h4>
                         <h6 style="color: #f29f1b" class="sub-title">{{!empty($pumaProducts)&&isset($pumaProducts[0])?$pumaProducts[0]->product_count : 0 }} Sản phẩm</h6>
@@ -317,7 +317,7 @@ Chotsport-giày bóng đá chính hãng
                 <div class="image">
                     <img class="img-fluid" src="{{asset('/user/assets/images/banner/anh4.jpg')}}" alt="">
                 </div>
-                <a href="product-details-default.html" class="content">
+                <a href="{{url('/product?brand='.$mizunoProducts[0]->id)}}" class="content">
                     <div class="inner">
                         <h4 style="color: #f29f1b" class="title">Mizuno x Ramos</h4>
                         <h6 style="color: #f29f1b" class="sub-title">{{!empty($mizunoProducts)&&isset($mizunoProducts[0])?$mizunoProducts[0]->product_count : 0 }} Sản phẩm</h6>
@@ -361,15 +361,15 @@ Chotsport-giày bóng đá chính hãng
                                     @foreach($blog as $value)
                                     <div class="blog-default-single-item blog-color--golden swiper-slide">
                                         <div class="image-box">
-                                            <a href="blog-single-sidebar-left.html" class="image-link">
+                                            <a href="{{route('user.blog_detail',['id'=>$value->id])}}" class="image-link">
                                                 <img class="img-fluid" src="{{asset('/admin/assets/img/blog/'.$value->image)}}" alt="">
                                             </a>
                                         </div>
                                         <div class="content">
-                                            <h6 style="min-height: 81px;" class="title"><a href="blog-single-sidebar-left.html">{{$value->title}}</a></h6>
+                                            <h6 style="min-height: 81px;" class="title"><a href="{{route('user.blog_detail',['id'=>$value->id])}}">{{$value->title}}</a></h6>
                                             <p>{{ \Illuminate\Support\Str::limit($value->description, 100, '...')}}</p>
                                             <div class="inner">
-                                                <a href="blog-single-sidebar-left.html" class="read-more-btn icon-space-left">Xem thêm<span><i class="ion-ios-arrow-thin-right"></i></span></a>
+                                                <a href="{{route('user.blog_detail',['id'=>$value->id])}}" class="read-more-btn icon-space-left">Xem thêm<span><i class="ion-ios-arrow-thin-right"></i></span></a>
                                                 <div class="post-meta">
                                                     <a href="#" class="date">{{$value->updated_at}}</a>
                                                 </div>

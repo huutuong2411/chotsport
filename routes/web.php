@@ -18,11 +18,13 @@ use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\UserLoginController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\User\SearchController;
+use App\Http\Controllers\User\UserBlogController;
 use App\Http\Controllers\User\UserProductController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\OrderController;
+use App\Http\Controllers\User\FeedbackController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,6 +46,9 @@ Route::group(['namespace' => 'User',], function () {
 	Route::post('/profile', [UserProfileController::class, 'updateprofile'])->name('user.profile.post'); // profile
 	Route::get('/changepass', [UserProfileController::class, 'changepass'])->name('user.changepass'); // profile
 	Route::post('/changepass', [UserProfileController::class, 'updatepass'])->name('user.changepass.post'); // profile
+	//Bài viết:
+	Route::get('/blog',[UserBlogController::class,'index'])->name('user.blog');
+	Route::get('/blog/{id}',[UserBlogController::class,'show'])->name('user.blog_detail');
 	// Tìm kiếm
 	Route::get('/search',[SearchController::class,'search'])->name('user.search');
 	// product
@@ -66,9 +71,10 @@ Route::group(['namespace' => 'User',], function () {
 	// Xem order
 	Route::get('/myorder',[OrderController::class,'index'])->name('user.order');
 	Route::get('/myorder/{id}',[OrderController::class,'show'])->name('user.order.show');
-	Route::get('/myorder/{id}/cancel',[OrderController::class,'cancel'])->name('user.order.cancel');
-
-	
+	Route::get('/myorder/{id}/cancel',[OrderController::class,'cancel'])->name('user.order.cancel');	
+	//gửi feedback
+	Route::get('/feedback/{id}',[FeedbackController::class,'show'])->name('user.feedback');
+	Route::post('/feedback/{id}/add',[FeedbackController::class,'store'])->name('user.feedback.post');
 });
 
 

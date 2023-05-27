@@ -29,7 +29,7 @@ class HomeController extends Controller
         
         $nikeProducts = Brand::withCount('Product')
                         ->where('name', 'Nike')
-                        ->get();          
+                        ->get();      
         $pumaProducts = Brand::withCount('Product')
                         ->where('name', 'Puma')
                         ->get();    

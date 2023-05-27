@@ -18,7 +18,9 @@ class Order extends Model
         return $this->hasMany('App\Models\User\Order_detail', 'id_order');
     }
 
-    
+    public function User() {
+        return $this->belongsTo('App\Models\Users', 'id_user');
+    }
     public function getCreatedAtAttribute($date)
 	{
 	    return \Carbon\Carbon::parse($date)->format('d-m-Y');
@@ -28,5 +30,6 @@ class Order extends Model
 	{
 	    return \Carbon\Carbon::parse($date)->format('d-m-Y');
 	}
+
 }
 

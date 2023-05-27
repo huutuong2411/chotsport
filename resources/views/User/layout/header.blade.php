@@ -20,10 +20,14 @@
                             <!-- Start Header Main Menu -->
                            
                             <!-- End Header Main Menu Start -->
+                           
                             <div class="col-5 search_form">
-                                <input class="form-control mr-sm-2" id="inputsearch" type="search" placeholder="Tìm kiếm..." aria-label="Search" style="position: relative">
+                                 <form action="{{route('user.search')}}">
+                                <input class="form-control mr-sm-2" id="inputsearch" name="inputsearch" type="search" placeholder="Tìm kiếm..." aria-label="Search" style="position: relative">
                                 <!-- Start Offcanvas Addcart Section -->
+                                </form>
                             </div>
+                            
                             <!-- Start Header Action Link -->
                             <ul class="header-action-link action-color--black action-hover-color--golden col-5-auto">
                                 <li style="margin-right: 20px;">
@@ -80,25 +84,25 @@
                                         <a class="active main-menu-link" href="{{route('user.home')}}">Trang chủ</a>
                                     </li>
                                     <li class="has-dropdown">
-                                        <a href="blog-single-sidebar-left.html">Giày bóng đá <i class="fa fa-angle-down"></i></a>
+                                        <a href="{{route('user.allproduct')}}">Giày bóng đá <i class="fa fa-angle-down"></i></a>
                                         <!-- Sub Menu -->
                                         <ul class="sub-menu">
                                             @foreach ($categorys as $category)
-                                            <li><a href="">{{$category->name}}</a></li>
+                                            <li><a href="{{url('/product?category='.$category->id)}}">{{$category->name}}</a></li>
                                             @endforeach
                                         </ul>
                                     </li>
                                     <li class="has-dropdown">
-                                        <a href="blog-single-sidebar-left.html">Thương hiệu<i class="fa fa-angle-down"></i></a>
+                                        <a href="{{route('user.allproduct')}}">Thương hiệu<i class="fa fa-angle-down"></i></a>
                                         <!-- Sub Menu -->
                                         <ul class="sub-menu">
                                             @foreach ($brands as $brand)
-                                            <li><a href="">{{$brand->name}}</a></li>
+                                            <li><a href="{{url('/product?brand='.$brand->id)}}">{{$brand->name}}</a></li>
                                             @endforeach 
                                         </ul>
                                     </li>
                                     <li class="has-dropdown">
-                                        <a id="blog" href="#">Bài viết</a>
+                                        <a id="blog" href="{{route('user.blog')}}">Bài viết</a>
                                     </li>
                                     <li>
                                         <a href="">Về chúng tôi</a>

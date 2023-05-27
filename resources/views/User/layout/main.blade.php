@@ -70,7 +70,7 @@
                                                 "<div class='offcanvas-cart-item-content'>"+
                                                     "<a href='{{url('product/')}}"+"/"+value.id+"' class='offcanvas-cart-item-link'>"+value.name+"</a>"+
                                                     "<div class='offcanvas-cart-item-details'>"+
-                                                        "<span class='offcanvas-cart-item-details-price'>$500.00</span>"+
+                                                        "<span class='offcanvas-cart-item-details-price'>"+value.price+"đ"+"</span>"+
                                                     "</div>"+
                                                 "</div>"+
                                             "</div>"+
