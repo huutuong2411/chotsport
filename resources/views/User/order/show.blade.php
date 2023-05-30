@@ -57,15 +57,21 @@ Chotsport - Thanh toán đơn hàng
                 @foreach($orderDetail as $value)
                 <li class="col-md-6">
                     <div class="row col-12">
+                        
                         <div class="col-4">
+                            <a href="{{route('user.productdetail',['id'=>$value->id_product])}}">
                             <label><img src="{{asset('/admin/assets/img/product/'.$value->id_product.'/'.json_decode($value->image)[0])}}" style="width:66%"><span>× {{$value->qty}}</span></label>
+                            </a>
                         </div>
+                
                         <div class="col-8" style="padding:0">
+                            <a href="{{route('user.productdetail',['id'=>$value->id_product])}}">
                              {{$value->product_name}}
                             <br>
                             <span style="font-size: 13px">Kích thước:{{$value->size_name}}</span>
                             <br>
                             <span>{{number_format($value->price, 0, '.', ',')}}đ</span>
+                            </a>
                         </div>
                     </div>
                 </li>

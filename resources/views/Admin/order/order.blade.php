@@ -72,7 +72,7 @@ Quản lý đơn hàng
                                                 <span class="badge badge-danger">Đã huỷ</span>
                                               @endif
                                             </td>
-                                            <td class="name">{{$value->created_at}}</td>
+                                            <td class="name" data-sort="{{$value->created_at}}">{{$value->created_at}}</td>
                                             <td class="name">{{number_format($value->sum_money, 0, '.', ',')}}</td>
                                             <td class="name">
                                                 <form action="{{route('admin.order.change',['id'=>$value->id])}}" method="post">

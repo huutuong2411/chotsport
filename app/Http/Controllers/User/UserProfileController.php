@@ -54,6 +54,7 @@ class UserProfileController extends Controller
         $ward= District::find($request->id_district)->ward;
         return response()->json($ward);
         }
+
         $IDuser = Auth::id();
         $user= User::findOrFail($IDuser);
         $data=$request->all();

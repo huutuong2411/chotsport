@@ -8,7 +8,7 @@ Chotsport-{{$product->name}}
 <div class="breadcrumb-nav p-3 mb-2 text-dark" style="background-color:#e1e3e8!important;padding: 3px 20px!important; margin-bottom: 50px!important">
                             <nav aria-label="breadcrumb">
                                 <ul>
-                                    <li class="active" aria-current="page">Trang chủ</li>
+                                    <li class="active" aria-current="page"><a href="{{route('user.home')}}">Trang chủ</a></li>
                                     <li class="active" aria-current="page">{{$product->name}}</li>
                                 </ul>
                             </nav>

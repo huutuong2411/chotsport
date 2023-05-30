@@ -107,12 +107,14 @@ Route::group(['prefix'=>'/admin','namespace' => 'Admin',], function () {
 	Route::post('/login', [LoginController::class, 'login'])->name('admin.login.post');
 	Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
-
 	Route::group([
 	'middleware'=>'Adminlogin',
 	],function(){
-		// dashboard
+	// dashboard
 	Route::get('/home', [DashboardController::class, 'index'])->name('admin.dashboard');
+		// Ajax xử lý 
+	Route::get('/earning', [DashboardController::class, 'earning'])->name('admin.dashboard.earning');
+	Route::get('/bestseller', [DashboardController::class, 'bestseller'])->name('admin.dashboard.bestseller');
 	// profile
 	Route::get('/profile', [ProfileController::class, 'index'])->name('admin.profile');
 	Route::post('/profile', [ProfileController::class, 'update_profile'])->name('admin.profile.post');
@@ -185,7 +187,7 @@ Route::group(['prefix'=>'/admin','namespace' => 'Admin',], function () {
 		// Quản lý người dùng
 	Route::get('/user', [UserManagerController::class, 'index'])->name('admin.user');
 	Route::post('/changerole/{id}', [UserManagerController::class, 'changerole'])->name('admin.user.change');
-	
+		
 	});
 	
 });

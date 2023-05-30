@@ -62,7 +62,7 @@ Quản lý sản phẩm
                                                 <td>{{$value->discount}}</td>
                                                 <td>{{$value->total_qty}}</td>
                                                 <td>*****</td>
-                                                <td>XXXXX</td>
+                                                <td>{{$value->qty_count}}</td>
                                                 <td style="text-align: center">
                                                     <a href="{{route('admin.product.show',['id'=>$value->id])}}" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
                                                     <a href="{{route('admin.product.edit',['id'=>$value->id])}}" class="btn btn-warning btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-pencil-alt"></i></a>

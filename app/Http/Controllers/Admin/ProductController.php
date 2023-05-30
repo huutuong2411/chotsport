@@ -9,6 +9,9 @@ use App\Models\admin\Product_detail;
 use App\Models\admin\Category;
 use App\Models\admin\Brand;
 use App\Models\admin\Size;
+use App\Models\User\Order;
+use App\Models\User\Order_detail;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -18,6 +21,21 @@ class ProductController extends Controller
     public function index()
     {
         $product = Product::all();
+
+        $product = Product::leftJoin('product_details', 'products.id', '=', 'product_details.id_product')
+            ->leftJoin('order_details', 'order_details.id_product_detail', '=', 'product_details.id')
+            ->leftJoin('order', 'order.id', '=', 'order_details.id_order')
+            ->where(function ($query) {
+                $query->where('order.status', '!=', 3)
+                      ->orWhereNull('order.status');
+            })
+            ->select('products.*', DB::raw('COUNT(order_details.qty) as qty_count'))
+            ->groupBy('products.id')
+            ->orderBy('products.id')
+            ->get();
+        
+
+
         return view ('admin.product.product', compact('product'));
     }
 
