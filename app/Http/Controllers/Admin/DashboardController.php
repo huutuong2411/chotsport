@@ -37,6 +37,7 @@ class DashboardController extends Controller
                         ->whereMonth('created_at', $thisMonth)
                         ->whereYear('created_at', $thisYear)
                         ->sum('sum_money');
+
         //tổng doanh thu năm               
         $Yearrevenue = Order::where('status', 2)
                         ->whereYear('created_at', $thisYear)
@@ -47,6 +48,7 @@ class DashboardController extends Controller
                     ->groupBy('year')
                     ->orderBy('year','DESC')
                     ->get();
+                    
         // thống kê doanh thu tháng hiện tại
         $monthEarn=[];
         for ($i=1; $i <=12 ; $i++) { 
