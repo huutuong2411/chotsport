@@ -16,9 +16,11 @@ class PrintPDFController extends Controller
         
     }
     public function print_purchase_detail($id_purchase){
-        $purchase = Purchase::find($id_purchase)->join('vendor', 'purchase.id_vendor', '=', 'vendor.id')
-            ->select('purchase.sum_money','purchase.date','vendor.name as vendor')->first();  
-
+        $purchase = Purchase::join('vendor', 'vendor.id', '=', 'purchase.id_vendor')
+        ->where('purchase.id', $id_purchase)
+        ->select('purchase.sum_money', 'purchase.date', 'vendor.name as vendor')
+        ->first();
+    
             $purchaseDetail = Purchase_detail::where('id_purchase', $id_purchase)
             ->join('product_details', 'purchase_details.id_product_detail', '=', 'product_details.id')
             ->join('products', 'product_details.id_product', '=', 'products.id')

@@ -1,26 +1,19 @@
-@extends('User.layout.main')
+@extends('admin.layout.main')
 
 @section('title')
-Chotsport - Thanh toán đơn hàng
+Chi tiết đơn hàng
 @endsection
 
 @section('content')
-<div class="breadcrumb-nav p-3 mb-2 text-dark" style="background-color:#e1e3e8!important;padding: 3px 20px!important; margin-bottom: 50px!important">
-                            <nav aria-label="breadcrumb">
-                                <ul>
-                                    <li class="active" aria-current="page">Trang chủ</li>
-                                    <li class="active" aria-current="page">Chi tiết đơn hàng</li>
-                                </ul>
-                            </nav>
-</div>
 
-
-<div class="container">
-    <article class="card">
-        <header class="card-header"> Chi tiết đơn hàng </header>
-        <div class="card-body">
+<h1 class="h3 mb-2 text-gray-800  border-bottom bg-white mb-4"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Thông tin đơn hàng </h1>
+<div class="card shadow mb-4">
+                         
+                        <div class="card">
+                          <div class="card-header text-primary font-weight-bold">Thông tin chi tiết đơn hàng<a style="float: right;" href="{{route('admin.order')}}" class="btn btn-danger"><i class="fas fa-sharp fa-solid fa-arrow-left"></i> Quay lại</a></div>
+                        <div class="card-body">
             <h6>Mã đơn hàng: {{$order->order_code}}</h6>
-            <article class="card">
+            <article class="card mb-4 py-3 border-left-info">
                 <div class="card-body row">
                     <div class="col"> <strong>Ngày mua:</strong> <br>{{$order->created_at}}</div>
                     <div class="col"> <strong>Thôn tin nhận hàng</strong> <br> {{$order->name}} | <i class="fa fa-phone"></i> {{$order->phone}} </div>
@@ -40,49 +33,37 @@ Chotsport - Thanh toán đơn hàng
                 </div>
                 <div class="card-body row">
                     <div class="col-12"> <strong>Địa chỉ nhận hàng:</strong>  {{$full_address}} </div>
-                    <div class="col-12"> <strong>Ghi chú:</strong>  {{$order->note}} </div>
+                    <div class="col-12"> <strong>Ghi chú:</strong>{{$order->note}} </div>
                 </div>
             </article>
-            @if($order->status==0||$order->status==1||$order->status==2)
-            <div class="track mx-auto" style="width: 90%">
-                <div class="{{$order->status==0||$order->status==1||$order->status==2?'step active':'step'}}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Chờ xác nhận</span> </div>
-                <div class="{{$order->status==1||$order->status==2?'step active':'step'}}"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Đã xác nhận </span> </div>
-                <div class="{{$order->status==2?'step active':'step'}}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Đã nhận hàng</span> </div>
-            </div>
-            @endif
-            
             <hr>
             <ul class="row">
                
                 @foreach($orderDetail as $value)
                 <li class="col-md-6">
                     <div class="row col-12">
-                        
                         <div class="col-4">
-                            <a href="{{route('user.productdetail',['id'=>$value->id_product])}}">
                             <label><img src="{{asset('/admin/assets/img/product/'.$value->id_product.'/'.json_decode($value->image)[0])}}" style="width:66%"><span>× {{$value->qty}}</span></label>
-                            </a>
                         </div>
-                
                         <div class="col-8" style="padding:0">
-                            <a href="{{route('user.productdetail',['id'=>$value->id_product])}}">
                              {{$value->product_name}}
                             <br>
                             <span style="font-size: 13px">Kích thước:{{$value->size_name}}</span>
                             <br>
                             <span>{{number_format($value->price, 0, '.', ',')}}đ</span>
-                            </a>
                         </div>
                     </div>
                 </li>
                 @endforeach
             </ul>
             <hr>
-            <a href="{{route('user.order')}}" class="btn btn-md btn-golden" data-abc="true"> <i class="fa fa-chevron-left"></i> Danh sách đơn hàng</a>
-        </div>
-    </article>
+            
+        </div>     
+                        </div>
+
 </div>
+        
+
+
+
 @endsection
-           
-
-

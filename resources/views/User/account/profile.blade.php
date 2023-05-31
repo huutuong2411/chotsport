@@ -154,7 +154,7 @@ Chotsport - Thông tin tài khoản
        $('#district').change(function(){
         var id_district=$(this).val();
         $.ajax({
-            url: '{{route('admin.profile.post') }}', // đường dẫn đến controller
+            url: '{{route('user.profile.post') }}', // đường dẫn đến controller
             method: 'POST', // phương thức POST
             data: { // dữ liệu gửi đi
                 id_district: id_district, // giá trị id_district

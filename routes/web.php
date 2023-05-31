@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\PrintPDFController;
+use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\UserManagerController;
 // user:
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\UserLoginController;
@@ -25,6 +27,8 @@ use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\FeedbackController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,48 +38,59 @@ use App\Http\Controllers\User\FeedbackController;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
-Route::group(['namespace' => 'User',], function () {
-	Route::get('/', [HomeController::class, 'index'])->name('user.home');
+*/Route::group([
+	'middleware'=>'NotUser',
+	],function(){
+		Route::get('/', [HomeController::class, 'index'])->name('user.home');
+		Route::get('/profile', [UserProfileController::class, 'index'])->name('user.profile'); // profile
+		Route::post('/profile', [UserProfileController::class, 'updateprofile'])->name('user.profile.post'); // profile
+		Route::get('/changepass', [UserProfileController::class, 'changepass'])->name('user.changepass'); // profile
+		Route::post('/changepass', [UserProfileController::class, 'updatepass'])->name('user.changepass.post'); // profile
+		//Bài viết:
+		Route::get('/blog',[UserBlogController::class,'index'])->name('user.blog');
+		Route::get('/blog/{id}',[UserBlogController::class,'show'])->name('user.blog_detail');
+		// Tìm kiếm
+		Route::get('/search',[SearchController::class,'search'])->name('user.search');
+		// product
+		Route::get('/product', [UserProductController::class, 'index'])->name('user.allproduct');
+	
+		Route::get('/product/{id}', [UserProductController::class, 'show'])->name('user.productdetail');
+		//check session:
+		Route::get('/checkcart',[CartController::class,'checkcart']);
+		// create-update cart
+		Route::get('/cart',[CartController::class,'index'])->name('user.cart');
+		Route::post('/cart/addcart',[CartController::class,'addcart'])->name('user.addcart');
+		Route::post('/cart/updatecart',[CartController::class,'updatecart'])->name('user.updatecart');
+		//set lại qty cart với trường hợp bị vượt tồn kho
+		Route::get('/reducecart/{id}',[CartController::class,'reducecart'])->name('user.reducecart');
+		Route::get('/deletecart/{id}',[CartController::class,'deletecart'])->name('user.deletecart');
+	});
+
+	
 	Route::get('/userlogin', [UserLoginController::class, 'index'])->name('user.login'); // đăng nhập
 	Route::post('/userlogin', [UserLoginController::class, 'login'])->name('user.login.post'); // đăng nhập
 	Route::get('/userlogout', [UserLoginController::class, 'logout'])->name('user.logout'); //đăng xuất
 	Route::get('/userregister', [UserRegisterController::class, 'index'])->name('user.register'); // đăng ký
 	Route::post('/userregister', [UserRegisterController::class, 'register'])->name('user.register.post'); // đăng ký
-	Route::get('/profile', [UserProfileController::class, 'index'])->name('user.profile'); // profile
-	Route::post('/profile', [UserProfileController::class, 'updateprofile'])->name('user.profile.post'); // profile
-	Route::get('/changepass', [UserProfileController::class, 'changepass'])->name('user.changepass'); // profile
-	Route::post('/changepass', [UserProfileController::class, 'updatepass'])->name('user.changepass.post'); // profile
-	//Bài viết:
-	Route::get('/blog',[UserBlogController::class,'index'])->name('user.blog');
-	Route::get('/blog/{id}',[UserBlogController::class,'show'])->name('user.blog_detail');
-	// Tìm kiếm
-	Route::get('/search',[SearchController::class,'search'])->name('user.search');
-	// product
-	Route::get('/product', [UserProductController::class, 'index'])->name('user.allproduct');
 	
-	Route::get('/product/{id}', [UserProductController::class, 'show'])->name('user.productdetail');
-		//check session:
-		Route::get('/checkcart',[CartController::class,'checkcart']);
-	// create-update cart
-	Route::get('/cart',[CartController::class,'index'])->name('user.cart');
-	Route::post('/cart/addcart',[CartController::class,'addcart'])->name('user.addcart');
-	Route::post('/cart/updatecart',[CartController::class,'updatecart'])->name('user.updatecart');
-	//set lại qty cart với trường hợp bị vượt tồn kho
-	Route::get('/reducecart/{id}',[CartController::class,'reducecart'])->name('user.reducecart');
-	Route::get('/deletecart/{id}',[CartController::class,'deletecart'])->name('user.deletecart');
-	//checkout
-	Route::get('/checkout',[CheckoutController::class,'index'])->name('user.checkout');
-	Route::post('/checkout',[CheckoutController::class,'store'])->name('user.checkout.post');
-	Route::get('/checkout/vnPayCheck',[CheckoutController::class,'vnPayCheck'])->name('vnPayCheck');
-	// Xem order
-	Route::get('/myorder',[OrderController::class,'index'])->name('user.order');
-	Route::get('/myorder/{id}',[OrderController::class,'show'])->name('user.order.show');
-	Route::get('/myorder/{id}/cancel',[OrderController::class,'cancel'])->name('user.order.cancel');	
-	//gửi feedback
-	Route::get('/feedback/{id}',[FeedbackController::class,'show'])->name('user.feedback');
-	Route::post('/feedback/{id}/add',[FeedbackController::class,'store'])->name('user.feedback.post');
-});
+	
+	Route::group([
+	'middleware'=>'Notlogin',
+	],function(){
+		//checkout
+		Route::get('/checkout',[CheckoutController::class,'index'])->name('user.checkout');
+		Route::post('/checkout',[CheckoutController::class,'store'])->name('user.checkout.post');
+		Route::get('/checkout/vnPayCheck',[CheckoutController::class,'vnPayCheck'])->name('vnPayCheck');
+		// Xem order
+		Route::get('/myorder',[OrderController::class,'index'])->name('user.order');
+		Route::get('/myorder/{id}',[OrderController::class,'show'])->name('user.order.show');
+		Route::get('/myorder/{id}/cancel',[OrderController::class,'cancel'])->name('user.order.cancel');	
+		//gửi feedback
+		Route::get('/feedback/{id}',[FeedbackController::class,'show'])->name('user.feedback');
+		Route::post('/feedback/{id}/add',[FeedbackController::class,'store'])->name('user.feedback.post');	
+	
+	});
+
 
 
 
@@ -91,8 +106,15 @@ Route::group(['prefix'=>'/admin','namespace' => 'Admin',], function () {
 	Route::get('/login', [LoginController::class, 'index'])->name('admin.login');
 	Route::post('/login', [LoginController::class, 'login'])->name('admin.login.post');
 	Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
+
+	Route::group([
+	'middleware'=>'Adminlogin',
+	],function(){
 	// dashboard
 	Route::get('/home', [DashboardController::class, 'index'])->name('admin.dashboard');
+		// Ajax xử lý 
+	Route::get('/earning', [DashboardController::class, 'earning'])->name('admin.dashboard.earning');
+	Route::get('/bestseller', [DashboardController::class, 'bestseller'])->name('admin.dashboard.bestseller');
 	// profile
 	Route::get('/profile', [ProfileController::class, 'index'])->name('admin.profile');
 	Route::post('/profile', [ProfileController::class, 'update_profile'])->name('admin.profile.post');
@@ -153,10 +175,22 @@ Route::group(['prefix'=>'/admin','namespace' => 'Admin',], function () {
 	Route::get('/purchase', [PurchaseController::class, 'index'])->name('admin.purchase');
 	Route::get('/purchase/add', [PurchaseController::class, 'create'])->name('admin.purchase.create');
 	Route::post('/purchase/add', [PurchaseController::class, 'store'])->name('admin.purchase.store');
-	Route::get('/purchase/{id}/show', [PurchaseController::class, 'show'])->name('admin.purchase.show');
+	Route::get('/purchase/{id}', [PurchaseController::class, 'show'])->name('admin.purchase.show');
 	Route::get('/purchase/{id}/edit', [PurchaseController::class, 'edit'])->name('admin.purchase.edit');
 	Route::post('/purchase/{id}/edit', [PurchaseController::class, 'update'])->name('admin.purchase.update');
 	Route::get('/purchase/{id}/delete', [PurchaseController::class, 'destroy'])->name('admin.purchase.delete');
 	Route::get('/purchase/print/{id_purchase}', [PrintPDFController::class, 'printPDF'])->name('admin.purchase.print');
+		//Quản lý đơn hàng
+	Route::get('/order', [AdminOrderController::class, 'index'])->name('admin.order');
+	Route::post('/changeorder/{id}', [AdminOrderController::class, 'changeorder'])->name('admin.order.change');
+	Route::get('/order/{id}', [AdminOrderController::class, 'show'])->name('admin.orderdetail');
+		// Quản lý người dùng
+	Route::get('/user', [UserManagerController::class, 'index'])->name('admin.user');
+	Route::post('/changerole/{id}', [UserManagerController::class, 'changerole'])->name('admin.user.change');
+		
+	});
+	
 });
+
+
 

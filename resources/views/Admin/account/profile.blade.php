@@ -143,7 +143,7 @@ Thông tin cá nhân
         });
         
        
-      })
+      });
 
       // xử lý gọi xã theo huyện
        $('#district').change(function(){

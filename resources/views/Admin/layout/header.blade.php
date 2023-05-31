@@ -39,7 +39,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @if(Auth::user()->id_role==1)
-                                <div class="badge bg-info rounded-pill">Admin</div>
+                                <div class="badge bg-info rounded-pill">Quản trị viên</div>
                                 @endif
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">_{{Auth::user()->name}}</span>
                                 <img class="img-profile rounded-circle"

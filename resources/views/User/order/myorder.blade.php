@@ -63,7 +63,7 @@ Chotsport - Thanh toán đơn hàng
                                             <td class="">{{$key+1}}</td>
                                             <td class="">{{$value->order_code}}</td>
                                             <td class="">{{$value->name}}</td>
-                                            <td class="">{{$value->created_at}}</td>
+                                            <td class="">{{date('d/m/Y', strtotime($value->created_at))}}</td>
                                             <td class="">{{number_format($value->sum_money, 0, '.', ',')}}đ</td>
                                             <td class="">
                                             	@if($value->status==0)

@@ -115,8 +115,8 @@ class PurchaseController extends Controller
     {
         // xử lý trả về ajax
         if(!empty($id)) {
-            $purchase = Purchase::find($id)->join('vendor', 'purchase.id_vendor', '=', 'vendor.id')
-            ->select('purchase.sum_money','purchase.date','vendor.name as vendor')->first();  
+            $purchase = Purchase::join('vendor', 'purchase.id_vendor', '=', 'vendor.id')
+            ->select('purchase.sum_money','purchase.date','vendor.name as vendor')->find($id);  
 
             $purchaseDetail = Purchase_detail::where('id_purchase', $id)
             ->join('product_details', 'purchase_details.id_product_detail', '=', 'product_details.id')

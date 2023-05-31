@@ -155,11 +155,13 @@ Chotsport-giày bóng đá chính hãng
                                             </div>
                                             <div class="content-right col-12">
                                             	<ul class="review-star float-left">
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="empty"><i class="ion-android-star"></i></li>
+                                                    @php
+                                                        $averageRating = App\Models\User\Rating::where('id_product', $value->id)->avg('star');
+                                                        $roundedRating = round($averageRating);
+                                                    @endphp
+                                                        @for($i = 1; $i <= $roundedRating; $i++)
+                                                            <li class="fill"><i class="ion-android-star"></i></li>
+                                                        @endfor
                                                 </ul>
                                                 <div class="price float-right">
                                                 	@if($value->discount!= 0)
