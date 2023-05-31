@@ -52,7 +52,7 @@ class AdminOrderController extends Controller
     public function show(string $id)
     {
         $order = Order::find($id);
-
+       
         $province=$order->address->ward->district->city->name;
         $district=$order->address->ward->district->name;
         $ward=$order->address->ward->name;
@@ -66,5 +66,6 @@ class AdminOrderController extends Controller
             ->select('order_details.*','products.id as id_product','products.name as product_name','products.image as image','size.size as size_name')
             ->get();
         return response()->json(['order'=>$order,'orderDetail'=>$orderDetail,'full_address'=>$full_address]);
+        
     }
 }

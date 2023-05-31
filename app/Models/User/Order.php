@@ -21,15 +21,6 @@ class Order extends Model
     public function User() {
         return $this->belongsTo('App\Models\Users', 'id_user');
     }
-    public function getCreatedAtAttribute($date)
-	{
-	    return \Carbon\Carbon::parse($date)->format('d-m-Y');
-	}
-
-	public function getUpdatedAtAttribute($date)
-	{
-	    return \Carbon\Carbon::parse($date)->format('d-m-Y');
-	}
 
 }
 

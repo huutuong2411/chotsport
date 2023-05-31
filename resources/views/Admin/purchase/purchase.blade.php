@@ -51,7 +51,7 @@ Quản lý nhập kho
                                         <tr>   
                                             <th class="id" scope="row">{{$value->id}}</th>
                                             <td>{{$value->vendor}}</td>
-                                            <td>{{date('d/m/Y', strtotime($value->date))}}</td>
+                                            <td><span style="display: none">{{$value->date}}</span>{{date('d/m/Y', strtotime($value->date))}}</td>
                                             <td>{{number_format($value->sum_money, 0, '.', ',')}} (VND)</td>
                                             <td style="text-align: center">
                                                 <button style="margin-left:2%" type="button" class="btn btn-info btn-circle btn-sm show" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-solid fa-eye"></i></button>
@@ -85,10 +85,10 @@ Quản lý nhập kho
             $('#showdetail').removeClass('fade show');
             var id_purchase = $(this).closest('tr').find('.id').text(); // lấy id purchase
             $.ajax({
-                url: '{{route('admin.purchase.show',['id'=>'cache']) }}'.replace('cache',id_purchase), 
+                url:"{{ route('admin.purchase') }}" + '/' + id_purchase,
                 method: 'GET', // phương thức GET
                 data: { // dữ liệu gửi đi
-                    id: id_purchase, // giá trị id_purchase
+                   
                 },
                 success: function(data){ // nhận kết quả trả về
                     
@@ -102,7 +102,7 @@ Quản lý nhập kho
                                             "<div class='mb-3 row'>"+
                                                 "<div class='col-6'>"+
                                                         "<label class='mb-1 font-weight-bold'>Nhà cung cấp:</label>"+
-                                                        "<label>"+data.purchase.vendor+"</label>"+
+                                                        "<label>"+ data.purchase.vendor+"</label>"+
                                                 "</div>"+
                                                 "<div class='col-6'>"+
                                                         "<label class='mb-1 font-weight-bold'>Ngày nhập:</label>"+

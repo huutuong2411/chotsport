@@ -19,8 +19,6 @@ class DashboardController extends Controller
      */
     public function index()
     {  
-        
-       
         $allproduct= Product::count();
         $allblog= Blog::count();
 

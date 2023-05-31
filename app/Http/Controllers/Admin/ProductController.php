@@ -26,7 +26,7 @@ class ProductController extends Controller
             ->leftJoin('order_details', 'order_details.id_product_detail', '=', 'product_details.id')
             ->leftJoin('order', 'order.id', '=', 'order_details.id_order')
             ->where(function ($query) {
-                $query->where('order.status', '!=', 3)
+                $query->where('order.status',2)
                       ->orWhereNull('order.status');
             })
             ->select('products.*', DB::raw('COUNT(order_details.qty) as qty_count'))

@@ -11,7 +11,7 @@ Chi tiết đơn hàng
                          
                         <div class="card">
                           <div class="card-header text-primary font-weight-bold">Thông tin chi tiết đơn hàng<a style="float: right;" href="{{route('admin.order')}}" class="btn btn-danger"><i class="fas fa-sharp fa-solid fa-arrow-left"></i> Quay lại</a></div>
-                           <div class="card-body">
+                        <div class="card-body">
             <h6>Mã đơn hàng: {{$order->order_code}}</h6>
             <article class="card mb-4 py-3 border-left-info">
                 <div class="card-body row">

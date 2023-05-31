@@ -175,7 +175,7 @@ Route::group(['prefix'=>'/admin','namespace' => 'Admin',], function () {
 	Route::get('/purchase', [PurchaseController::class, 'index'])->name('admin.purchase');
 	Route::get('/purchase/add', [PurchaseController::class, 'create'])->name('admin.purchase.create');
 	Route::post('/purchase/add', [PurchaseController::class, 'store'])->name('admin.purchase.store');
-	Route::get('/purchase/{id}/show', [PurchaseController::class, 'show'])->name('admin.purchase.show');
+	Route::get('/purchase/{id}', [PurchaseController::class, 'show'])->name('admin.purchase.show');
 	Route::get('/purchase/{id}/edit', [PurchaseController::class, 'edit'])->name('admin.purchase.edit');
 	Route::post('/purchase/{id}/edit', [PurchaseController::class, 'update'])->name('admin.purchase.update');
 	Route::get('/purchase/{id}/delete', [PurchaseController::class, 'destroy'])->name('admin.purchase.delete');

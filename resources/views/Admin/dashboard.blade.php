@@ -259,7 +259,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Đơn hàng chờ xử lý 7 ngày gần nhất</h6>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered" id="dataTable" cellspacing="0">
+                                    <table class="table table-bordered" id="mytable" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th class="col-1" style="display: none">id</th>
@@ -294,7 +294,7 @@
                                                 <span class="badge badge-danger">Đã huỷ</span>
                                               @endif
                                             </td>
-                                            <td class="name" data-sort="{{$value->created_at}}">{{$value->created_at}}</td>
+                                            <td class="name" data-sort="{{$value->created_at}}">{{date('d/m/Y', strtotime($value->created_at))}}</td>
                                             <td class="name">
                                                 <form action="{{route('admin.order.change',['id'=>$value->id])}}" method="post">
                                                     @csrf
@@ -308,7 +308,7 @@
                                             </td>
                                            
                                             <td style="text-align: center">
-                                                <a href="javascript:void(0)" class="btn btn-info btn-circle btn-sm showorder" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
+                                                <a type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-info btn-circle btn-sm showorder" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
                                             </td>
                                         </tr>
                                       @endforeach
@@ -320,13 +320,50 @@
                         </div>
                     </div>
 
-
+<div class="modal bd-example-modal-lg" id="showdetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" style='max-width: 80%;'>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Chi tiết đơn hàng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary">Duyệt đơn hàng</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
 <script type="text/javascript">
  
 $(document).ready(function(){
+    $('#mytable').dataTable( {
+            order: [[0, 'desc']],
+            "aLengthMenu": [[5,10,20,50,-1], [5,10,20,50, "All"]],
+            "pageLength": 5,
+            "language": {
+            "lengthMenu": "Hiển thị _MENU_ hàng",
+            "zeroRecords": "Nothing found - sorry",
+            "info": "Trang _PAGE_ của _PAGES_",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+           "search":         "Tìm kiếm:",
+           "paginate": {
+                    "first":      "First",
+                    "last":       "Last",
+                    "next":       ">",
+                    "previous":   "<"
+                },
+            },
+    });
+
     var ctx = document.getElementById("myPieChart");
     var myPieChart = new Chart(ctx, {
       type: 'doughnut',
@@ -651,15 +688,72 @@ $(document).ready(function(){
             },
             success: function(data){ // nhận kết quả trả về
                 console.log(data);
+                if(data != ""){
+                    var date = moment(data.order.created_at).format('DD/MM/YYYY'); // định dạng lại ngày
+                    var sum_money = data.order.sum_money.toLocaleString('en-US');
+                    var note = data.order.note !== null ? data.order.note : "Không";
+                    var payment_status= data.order.payment_status==0? "Thanh toán sau khi nhận hàng":"Thanh toán online (đã thanh toán)";
+                    $('#showdetail').find('.modal-body').html(
+                        "<div class='card shadow mb-4'>"+
+                            "<div class='card'>"+
+                                "<div class='card-body'>"+
+                                    "<h6>Mã đơn hàng:"+data.order.order_code+"</h6>"+
+                                    "<article class='card mb-4 py-3 border-left-info'>"+
+                                        "<div class='card-body row'>"+
+                                            "<div class='col'> <strong>Ngày mua:</strong><br>"+date+"</div>"+
+                                            "<div class='col'> <strong>Thôn tin nhận hàng</strong> <br>"+data.order.name+"  | <i class='fa fa-phone'></i>"+data.order.phone+"</div>"+
+                                            "<div class='col'> <strong>Trạng thái:</strong> <br>"+
+                                                "<span class='badge badge-info'>Chờ xác nhận</span>"+
+                                            "</div>"+
+                                            "<div class='col'> <strong>Phương thức thanh toán:</strong> <br>"+payment_status+"</div>"+
+                                            "<div class='col'> <strong>Tổng tiền:</strong> <br>"+sum_money+"đ</div>"+
+                                        "</div>"+
+                                        "<div class='card-body row'>"+
+                                            "<div class='col-12'> <strong>Địa chỉ nhận hàng:</strong>"+data.full_address+"</div>"+
+                                            "<div class='col-12'> <strong>Ghi chú:</strong> "+note+"</div>"+
+                                        "</div>"+
+                                    "</article>"+
+                                    "<hr>"+
+                                    "<ul class='row' style='list-style-type:none;'>"+
+                                    "</ul>"+
+                                   "<hr>"+
+                               "</div>"+     
+                           "</div>"+
+                       "</div>"
+                        );
+                    $.each(data.orderDetail, function(key, value) {
+                        var price = value.price.toLocaleString('en-US');
+                        var image = JSON.parse(value.image);
+                        var URL="{{url('admin/assets/img/product/')}}"+"/"+value.id_product+"/"+image[0];
+                            $('#showdetail').find('.modal-body').find('ul.row').append(
+                                "<li class='col-md-6'>"+
+                                            "<div class='row col-12'>"+
+                                                "<div class='col-4'>"+
+                                                    "<label><img src='"+URL+"' style='width:66%'><span>×"+value.qty+" </span></label>"+
+                                                "</div>"+
+                                                "<div class='col-8' style='padding:0'>"+value.product_name+
+                                                   "<br>"+
+                                                   "<span style='font-size: 13px'>Kích thước:"+value.size_name+"</span>"+
+                                                   "<br>"+
+                                                   "<span>"+price+"</span>"+
+                                               "</div>"+
+                                           "</div>"+
+                                       "</li>"
+                                );
+                    
+                    });
+                }
+               
             }
         }); // đấu đóng ajax
         
     });
 
 
-
-
 }); // dấu đóng hàm ready
 
 </script>
 @endsection
+
+
+
