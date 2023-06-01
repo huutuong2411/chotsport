@@ -36,7 +36,7 @@ Quản lý đơn hàng
                         <div class="card">
                           <div class="card-header text-primary font-weight-bold">Danh sách đơn hàng</div>
                             <div class="card-body table-responsive">
-                                <table class="table table-bordered" id="mytable" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th class="col-1" style="display: none">id</th>
@@ -78,10 +78,14 @@ Quản lý đơn hàng
                                                 <form action="{{route('admin.order.change',['id'=>$value->id])}}" method="post">
                                                     @csrf
                                                         <select class="form-select form-control" name="status" id="speed" onchange="this.form.submit()">
-                                                            <option class="btn btn-info"  value="0" {{$value->status==0?'selected':''}}>Chờ xác nhận</option>
-                                                            <option class="btn btn-warning"  value="1" {{$value->status==1?'selected':''}}>Xác nhận đơn hàng</option>
-                                                            <option class="btn btn-danger"  value="3" {{$value->status==3?'selected':''}}>Huỷ đơn hàng</option>
-                                                            <option class="btn btn-success"  value="2" {{$value->status==2?'selected':''}}>Đã giao hàng</option>
+                                                            <option selected class="btn">---chọn---</option>
+                                                             @if($value->status==0)
+                                                                <option class="btn btn-warning" value="1">Xác nhận đơn hàng</option>
+                                                                <option class="btn btn-danger"  value="3">Huỷ đơn hàng</option>
+                                                              @elseif($value->status==1)
+                                                                <option class="btn btn-success" value="2">Đã giao hàng</option>
+                                                                <option class="btn btn-danger" value="3">Huỷ đơn hàng</option>
+                                                              @endif
                                                         </select>
                                                 </form>
                                             </td>

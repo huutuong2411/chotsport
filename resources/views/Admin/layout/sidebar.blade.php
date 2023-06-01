@@ -25,7 +25,7 @@
             <li class="{{Request::is('admin/category*','admin/brand*','admin/product*','admin/size*') ? 'nav-item active' : 'nav-item'}}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-solid fa-shoe-prints"></i>
                     <span>Quản lý mặt hàng</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -43,7 +43,7 @@
             <li class="{{Request::is('admin/vendor*','admin/purchase*') ? 'nav-item active' : 'nav-item'}}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
+                    <i class="fas fa-solid fa-file-import"></i>
                     <span>Quản lý nhập kho</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
@@ -63,24 +63,24 @@
             <!-- Nav Item - Charts -->
             <li class="{{Request::is('admin/order*') ? 'nav-item active' : 'nav-item'}}">
                 <a class="nav-link" href="{{route('admin.order')}}">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-solid fa-truck"></i>
                     <span>Quản lý đơn hàng</span></a>
             </li>
-            <li class="nav-item">
+            <li class="{{Request::is('admin/user*') ? 'nav-item active' : 'nav-item'}}">
                 <a class="nav-link" href="{{route('admin.user')}}">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-solid fa-users"></i>
                     <span>Quản lý người dùng</span></a>
             </li>
             <!-- quản lý bài viết -->
             <li class="{{Request::is('admin/blog*') ? 'nav-item active' : 'nav-item'}}"> 
                 <a class="nav-link" href="{{route('admin.blog')}}">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-solid fa-newspaper"></i>
                     <span> Quản lý bài viết</span></a>
             </li>
             <!-- quản lý banner -->
             <li class="{{Request::is('admin/banner*') ? 'nav-item active' : 'nav-item'}}">
                 <a class="nav-link" href="{{route('admin.banner')}}">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-solid fa-tv"></i>
                     <span> Quản lý bảng hiệu</span></a>
             </li>
             <!-- Nav Item - Tables -->

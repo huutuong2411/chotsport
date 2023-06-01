@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Đổi mật khẩu</title>
+        <title>Tạo tài khoản nhân viên</title>
 
         <!-- Custom fonts for this template-->
         <link href="{{asset('admin/assets/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -32,29 +32,33 @@
                                 <div class="col-lg-12">
                                     <div class="p-5">
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">ĐỔI MẬT KHẨU</h1>
+                                            <h1 class="h4 text-gray-900 mb-4">Thông tin tài khoản</h1>
                                         </div>
-                                        <form  action="{{route('admin.changepass.post')}}" class="user" method="post">
+                                        <form  action="{{route('admin.user.addempoyee.post')}}" class="user" method="post">
                                             @csrf
                                             <div class="form-group">
-                                                <label>Mật khẩu cũ</label>
+                                                <label>Tên:</label>
+                                                <input type="text" name="name" class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="Tên..." required>
+                                                
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Email:</label>
+                                                <input type="email" name="email" class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="Email" required>
+                                                
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Mật khẩu:</label>
                                                 <input type="password" name="password" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Mật khẩu" required>
                                                 
                                             </div>
                                             <div class="form-group">
-                                                <label>Mật khẩu mới</label>
-                                                <input type="password" name="new_password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Mật khẩu" required>
-                                                
+                                                <label>Vai trò: </label>
+                                                <span class="badge badge-info">Nhân viên</span>
                                             </div>
-                                            <div class="form-group">
-                                                <label>Nhập lại mật khẩu mới</label>
-                                                <input type="password" name="re_password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Mật khẩu" required>
-                                                
-                                            </div>
-                                            <button type="submit" class="btn btn-primary btn-user btn-block">Đổi</button>
+                                            <button type="submit" class="btn btn-primary btn-user btn-block">Tạo</button>
                                             <hr>
                                             @if ($errors->any())
                                                 <div class="alert alert-danger">

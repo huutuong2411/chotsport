@@ -186,8 +186,11 @@ Route::group(['prefix'=>'/admin','namespace' => 'Admin',], function () {
 	Route::get('/order/{id}', [AdminOrderController::class, 'show'])->name('admin.orderdetail');
 		// Quản lý người dùng
 	Route::get('/user', [UserManagerController::class, 'index'])->name('admin.user');
-	Route::post('/changerole/{id}', [UserManagerController::class, 'changerole'])->name('admin.user.change');
-		
+	Route::get('/user/add', [UserManagerController::class, 'create'])->name('admin.user.addempoyee');
+	Route::post('/user/add', [UserManagerController::class, 'addempoyee'])->name('admin.user.addempoyee.post');
+	Route::get('/user/{id}', [UserManagerController::class, 'show'])->name('admin.user.show');
+	Route::get('/disable/{id}', [UserManagerController::class, 'disable'])->name('admin.user.disable');
+	Route::get('/enable/{id}', [UserManagerController::class, 'enable'])->name('admin.user.enable');
 	});
 	
 });
