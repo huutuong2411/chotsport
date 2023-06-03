@@ -45,7 +45,7 @@
          $('#inputsearch').on('input', function() { //bắt buộc chọn size
             $('#formSearch').remove();
             
-        var word= $(this).val();
+            var word= $(this).val();
            $.ajax({
                 url: '{{route('user.search')}}', 
                 method: 'GET', // phương thức POST
@@ -86,15 +86,76 @@
                 $('#formSearch').remove(); // Xóa phần tử formSearch
             }
         });
-
+        // xử lý click bên ngoài form search
         $(document).click(function(event) {
-        var target = event.target;
-        // Kiểm tra xem phần tử được click có là input hoặc formSearch hay không
-        if (!$(target).is('#inputsearch') && !$(target).is('#formSearch')) {
-            $('#formSearch').remove();
-        }
-    });
-    }); //dấu đóng hàm ready
+            var target = event.target;
+            // Kiểm tra xem phần tử được click có là input hoặc formSearch hay không
+            if (!$(target).is('#inputsearch') && !$(target).is('#formSearch')) {
+                $('#formSearch').remove();
+            }
+        });
+
+        // xử lý tư vấn size giày
+        $('form#advisesize').submit(function(event) {
+            event.preventDefault();
+            $('#result').html("");
+            var isChecked = $('#sock').prop('checked');
+            var length = $(this).find('input#length').val();
+            var width = $(this).find('input#width').val();
+            var havesock="";
+            isChecked==true?havesock="(Đo khi đã đi tất/vớ)":havesock="(Đo khi không đi tất/vớ)"
+            $.ajax({
+                url: '{{route('user.Advise')}}',
+                method: 'POST',
+                data: {
+                    length: length,
+                    width: width,
+                    isChecked:isChecked,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    console.log(data); // Kiểm tra kết quả trong tab Console
+                    if(data.form=="Thon"){
+                        var note="Vì form chân của bạn là:"+"<strong class='font-weight-bold text-danger'> "+data.form+"</strong>"+", bạn nên cân nhắc lùi size nếu vẫn muốn đi dòng giày cho chân bè";
+                    }else if(data.form=="Vừa"||data.form=="Bè"){
+                        var note="Vì form chân của bạn là:"+"<strong class='font-weight-bold text-danger'> "+data.form+"</strong>"+", đây là form chân thích hợp với đa số dòng giày bóng đá, bạn nên đi truesize (đúng size của mình)";
+                    }else if(data.form=="Bè nhiều"){
+                        var note="Vì form chân của bạn là:"+"<strong class='font-weight-bold text-danger'> "+data.form+"</strong>"+", bạn nên cân nhắc tăng size nếu vẫn muốn đi dòng giày cho chân thon";
+                    }else if(data.form=="Siêu bè"){
+                        var note="Vì form chân của bạn là:"+"<strong class='font-weight-bold text-danger'> "+data.form+"</strong>"+", đây là form chất khá kén với hầu hết giày bóng đá. Bạn phải tăng size nếu vẫn muốn đi dòng giày cho chân thon, và chịu khó mất thời gian thuần giày nếu đi truesize (đúng size chân của mình) khi đi những dòng giày còn lại";
+                    }
+                    $('#result').append(
+                    "<div class='card emptycart-content col-11' id='sizeresult'>"+
+                    "<h5 class='title text-center'>Thông tin kích thước chân</h5>"+
+                    "<label><strong>Chiều dài chân của bạn:</strong> "+length+" (cm)</label>"+
+                    "<label><strong>Chiều rộng chân của bạn:</strong> "+width+" (cm)</label>"+
+                    "<label>"+havesock+"</label>"+
+                   "<h5 class='font-weight-bold text-success'>Form chân của bạn:<strong class='font-weight-bold text-danger'> "+data.form+"</strong></h5>"+
+                   "<div class='row'>"+
+                   "<h5 class='font-weight-bold text-success col-5'>Size giày thích hợp:</h5>"+
+                    "<ul class='col-7' id='listsize'>"+
+                    "</ul>"+
+                    "</div>"+
+                   "<h5 class='font-weight-bold text-success'>Lời khuyên:</h5>"+
+                   "<label>- Nếu form chân thon nên chọn dòng giày: <strong>nike Mercurial, nike Phantom, adidas X, puma Ultra...</strong></label>"+
+                   "<label>- Nếu form chân bè nhiều hoặc siêu bè nên chọn dòng giày: <strong>nike Tiempo, adidas Predator, adidas Copa, puma Future, giày Mizuno, Kamito...</strong></label>"+
+                   "<h5 class='font-weight-bold text-danger'>*Lưu ý:</h5>"+
+                   "<label>- "+note+".</label>"+
+                   "<label>- Giày bóng đá cần thời gian giãn theo chân nên bạn không nên trả hàng ngay trừ khi nó quá bó hoặc kích mũi mà hãy kiên nhẫn đi lại trong nhà để cảm nhận đôi giày này có hợp hay không!</label>"+
+                   "<label class='text-danger'> #Đừng lo lắng vì chúng tôi có chính sách đổi trả trong vòng 7 ngày nếu giày chưa ra sân!</label>"+
+                   "</div>"
+                    );
+                    if(data.truesize){
+                      $.each(data.truesize, function(key, value) {
+                        $('#listsize').append(
+                            "<li>"+value.size+"  <strong>với "+value.brand+"</strong></li>"
+                        );
+                      });
+                    }
+                }
+            }); // dấu đóng ajax
+        });
+}); //dấu đóng hàm ready
 </script>
 </head>
 <body>
@@ -201,28 +262,34 @@
     <!-- tìm kiếm -->
     <div id="search" class="search-modal">
         <button type="button" class="close">×</button>
-        <div class="col-lg-6 col-md-6" style="float: left; margin: 40px 0px 0px 35px;">
-            <h1 class="col-8" style="color: yellow;">Hướng Dẫn Đo Chân</h1>
-            <h5 class="col-8" style="color: bisque;">bạn hãy đặt chân mình lên tờ giấy, vẽ chu vi bàn chân lên giấy và đo chiều dài, chiều rộng rồi nhập vào ô bên dưới</h5>
-            <img class="col-6" src="{{asset('assets/images/dochan/huongdandochan.jpg')}}" alt="">
-        <form class="col-4" style="">
+        <div class="row" style="margin: 40px 0px 0px 35px;">
+        <div class="col-lg-4 col-md-4" >
+            <h1 style="color: yellow;">Hướng Dẫn Đo Chân</h1>
+            <h5 style="color: bisque;">bạn hãy đặt chân mình lên tờ giấy, vẽ chu vi bàn chân lên giấy và đo chiều dài, chiều rộng rồi nhập vào ô bên dưới</h5>
+            <br>
+            <img  src="{{asset('user/assets/images/dochan/huongdandochan.jpg')}}" alt="">
+        </div>
+        <div class="col-lg-3 col-md-3">
+            <form id="advisesize">
             <div class="form-group">
               <label style="color: yellow;margin:10px 0px ;" >Chiều dài chân (cm)</label>
-              <input type="text" class="form-control" required>
+              <input class="form-control" id="length" type="text" pattern="[0-9]+([.][0-9]+)?" title="Vui lòng nhập số nguyên hoặc số thực, ngăn cách phần nguyên bằng dấu '.'" required/>
               
             </div>
             <div class="form-group">
                 <label style="color: yellow;" >Chiều Rộng chân (cm)</label>
-                <input type="text" class="form-control" required>
+                <input id="width" type="text" pattern="[0-9]+([.][0-9]+)?" title="Vui lòng nhập số nguyên hoặc số thực, ngăn cách phần nguyên bằng dấu '.'" class="form-control" required>
             </div>
             <div class="form-group form-check" >
-                <input type="checkbox" class="form-check-input" id="exampleCheck1" style="margin-top: 0px;">
-                <label class="form-check-label" style="color: rgb(151, 151, 20);" >Bạn đo khi có đi vớ/tất?</label>
+                <input type="checkbox" class="form-check-input" id="sock" style="margin-top: 0px;">
+                <label class="form-check-label"  style="color: rgb(151, 151, 20);" >Bạn đo khi có đi vớ/tất?</label>
             </div>
             <button type="submit" class="btn btn-lg btn-golden">Tìm size</button>
           </form>
         </div>
-      
+        <div class="col-lg-5 col-md-5" id="result">
+        </div>
+        </div>
         
     </div>
   

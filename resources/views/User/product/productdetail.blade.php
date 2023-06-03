@@ -102,7 +102,7 @@ Chotsport-{{$product->name}}
                                 <div class="variable-single-item ">
                                     <span>Số lượng</span>
                                     <div class="product-variable-quantity">
-                                        <input min="1" max="100" value="1" type="number">
+                                        <input min="1" max="100" value="1" type="number"> 
                                     </div>
                                 </div>
                                 <div class="product-add-to-cart-btn" style="margin-right: 20px">
@@ -595,7 +595,10 @@ Chotsport-{{$product->name}}
                 var Qty =  $('#addtocart').closest('.actioncart').find('.product-variable-quantity').find('input').val();
                 var Product_detail = $('.btn-check:checked').attr('id');
                 var Sizename = $('.btn-check:checked').next('label').text();
-               
+                if (Qty <= 0 || !Number.isInteger(Qty)) {
+                    alert('vui lòng chọn số lượng là số nguyên dương');
+                    return false; // Ngăn chặn việc gửi Ajax
+                }
                 $.ajax({
                 url: '{{route('user.addcart')}}', 
                 method: 'POST', // phương thức POST

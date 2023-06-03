@@ -27,6 +27,7 @@ use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\FeedbackController;
+use App\Http\Controllers\User\AdviseController;
 
 
 /*
@@ -42,10 +43,6 @@ use App\Http\Controllers\User\FeedbackController;
 	'middleware'=>'NotUser',
 	],function(){
 		Route::get('/', [HomeController::class, 'index'])->name('user.home');
-		Route::get('/profile', [UserProfileController::class, 'index'])->name('user.profile'); // profile
-		Route::post('/profile', [UserProfileController::class, 'updateprofile'])->name('user.profile.post'); // profile
-		Route::get('/changepass', [UserProfileController::class, 'changepass'])->name('user.changepass'); // profile
-		Route::post('/changepass', [UserProfileController::class, 'updatepass'])->name('user.changepass.post'); // profile
 		//Bài viết:
 		Route::get('/blog',[UserBlogController::class,'index'])->name('user.blog');
 		Route::get('/blog/{id}',[UserBlogController::class,'show'])->name('user.blog_detail');
@@ -53,20 +50,19 @@ use App\Http\Controllers\User\FeedbackController;
 		Route::get('/search',[SearchController::class,'search'])->name('user.search');
 		// product
 		Route::get('/product', [UserProductController::class, 'index'])->name('user.allproduct');
-	
 		Route::get('/product/{id}', [UserProductController::class, 'show'])->name('user.productdetail');
 		//check session:
 		Route::get('/checkcart',[CartController::class,'checkcart']);
 		// create-update cart
 		Route::get('/cart',[CartController::class,'index'])->name('user.cart');
-		Route::post('/cart/addcart',[CartController::class,'addcart'])->name('user.addcart');
+		Route::post('/cart/addcart',[CartController::class,'addcart'])->name('user.addcart'); //ajax
 		Route::post('/cart/updatecart',[CartController::class,'updatecart'])->name('user.updatecart');
 		//set lại qty cart với trường hợp bị vượt tồn kho
 		Route::get('/reducecart/{id}',[CartController::class,'reducecart'])->name('user.reducecart');
 		Route::get('/deletecart/{id}',[CartController::class,'deletecart'])->name('user.deletecart');
 	});
-
-	
+	// Ajax tư vấn size giày:
+	Route::post('/advise',[AdviseController::class,'AdviseSize'])->name('user.Advise'); //ajax
 	Route::get('/userlogin', [UserLoginController::class, 'index'])->name('user.login'); // đăng nhập
 	Route::post('/userlogin', [UserLoginController::class, 'login'])->name('user.login.post'); // đăng nhập
 	Route::get('/userlogout', [UserLoginController::class, 'logout'])->name('user.logout'); //đăng xuất
@@ -77,6 +73,11 @@ use App\Http\Controllers\User\FeedbackController;
 	Route::group([
 	'middleware'=>'Notlogin',
 	],function(){
+		// quản lý thông tin và đổi mật khẩu
+		Route::get('/profile', [UserProfileController::class, 'index'])->name('user.profile'); // profile
+		Route::post('/profile', [UserProfileController::class, 'updateprofile'])->name('user.profile.post'); // profile
+		Route::get('/changepass', [UserProfileController::class, 'changepass'])->name('user.changepass'); // profile
+		Route::post('/changepass', [UserProfileController::class, 'updatepass'])->name('user.changepass.post'); // profile
 		//checkout
 		Route::get('/checkout',[CheckoutController::class,'index'])->name('user.checkout');
 		Route::post('/checkout',[CheckoutController::class,'store'])->name('user.checkout.post');
@@ -88,14 +89,7 @@ use App\Http\Controllers\User\FeedbackController;
 		//gửi feedback
 		Route::get('/feedback/{id}',[FeedbackController::class,'show'])->name('user.feedback');
 		Route::post('/feedback/{id}/add',[FeedbackController::class,'store'])->name('user.feedback.post');	
-	
 	});
-
-
-
-
-
-
 
 Auth::routes();
 
