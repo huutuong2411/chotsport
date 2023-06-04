@@ -12,7 +12,7 @@
                     <div class="siderbar-section" data-aos="fade-up"  data-aos-delay="0">
                         <!-- Start Single Sidebar Widget -->
                         <div class="sidebar-single-widget" >
-                            <h6 class="sidebar-title"><a href="">DANH MỤC</a></h6>
+                            <h6 class="sidebar-title"><a href="{{request()->fullUrlWithQuery(['category' =>''])}}">DANH MỤC</a></h6>
                             <div class="sidebar-content">
                                 <ul class="sidebar-menu">
                                  @foreach ($categorys as $category)
@@ -45,7 +45,7 @@
                         </div> <!-- End Single Sidebar Widget -->
                         </form>
                         <div class="sidebar-single-widget" >
-                            <h6 class="sidebar-title">Thương hiệu</h6>
+                            <h6 class="sidebar-title"><a href="{{request()->fullUrlWithQuery(['brand' =>''])}}">Thương hiệu</a></h6>
                             <div class="sidebar-content">
                                 <ul class="sidebar-menu">
                                 @foreach ($brands as $brand) 

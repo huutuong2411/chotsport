@@ -61,7 +61,21 @@ Quản lý sản phẩm
                                                 <td>{{number_format($value->price, 0, '.', ',')}}</td>
                                                 <td>{{$value->discount}}</td>
                                                 <td>{{$value->total_qty}}</td>
-                                                <td>*****</td>
+                                                <td>
+                                                    @php
+                                                        $averageRating = App\Models\User\Rating::where('id_product', $value->id)->avg('star');
+                                                        $roundedRating = round($averageRating);
+                                                    @endphp
+                                                    <label style="display:none">{{$roundedRating}}</label>
+                                                   
+                                                    @for($i = 1; $i <= $roundedRating; $i++)
+                                                       <i class="fas fa-star text-warning"></i>
+                                                    @endfor
+                                                    @for($i = $roundedRating+1; $i <= 5; $i++)
+                                                       <i class="fas fa-star"></i>
+                                                    @endfor
+
+                                                </td>
                                                 <td>{{$value->qty_count}}</td>
                                                 <td style="text-align: center">
                                                     <a href="{{route('admin.product.show',['id'=>$value->id])}}" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>

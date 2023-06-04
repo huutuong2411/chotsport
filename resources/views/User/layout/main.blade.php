@@ -136,6 +136,7 @@
                     "<ul class='col-7' id='listsize'>"+
                     "</ul>"+
                     "</div>"+
+                    "<a target='_blank' href='{{url('/bangsize.webp')}}'><u>Tham Khảo bảng size chi tiết</u></a>"+
                    "<h5 class='font-weight-bold text-success'>Lời khuyên:</h5>"+
                    "<label>- Nếu form chân thon nên chọn dòng giày: <strong>nike Mercurial, nike Phantom, adidas X, puma Ultra...</strong></label>"+
                    "<label>- Nếu form chân bè nhiều hoặc siêu bè nên chọn dòng giày: <strong>nike Tiempo, adidas Predator, adidas Copa, puma Future, giày Mizuno, Kamito...</strong></label>"+
@@ -165,7 +166,6 @@
     <!-- content main -->
 
     @yield('content')
-
     <!-- end content main -->
     <!-- Start Mobile Header -->
     <div class="mobile-header mobile-header-bg-color--golden section-fluid d-lg-block d-xl-none">

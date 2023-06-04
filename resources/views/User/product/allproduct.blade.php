@@ -105,6 +105,9 @@ Chotsport - Tất cả sản phẩm
                                                         @for($i = 1; $i <= $roundedRating; $i++)
                                                             <li class="fill"><i class="ion-android-star"></i></li>
                                                         @endfor
+                                                         @for($i = $roundedRating+1; $i <= 5; $i++)
+                                                            <li class="empty"><i class="ion-android-star"></i></li>
+                                                        @endfor
                                                                 </ul>
                                                             </div>
                                                             <div class="content-right">
