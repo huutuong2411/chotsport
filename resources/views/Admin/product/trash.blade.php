@@ -28,9 +28,11 @@ Sản phẩm-thùng rác
                                             <th class="col-2">Giá</th>
                                             <th class="col-1">Giảm giá</th>
                                             <th class="col-1">Số lượng</th>
+                                            <th class="col-1">Đánh giá</th>
                                             <th class="col-1">Đã bán</th>
+                                            @if(Auth::user()->id_role==1)
                                             <th class="col-2" style="text-align: center">Thao tác</th>
-                                            
+                                            @endif
                                         </tr>
                                     </thead>
                                    
@@ -44,10 +46,27 @@ Sản phẩm-thùng rác
                                             <td>{{number_format($value->price, 0, ',', '.')}}</td>
                                             <td>{{$value->discount}}</td>
                                             <td>{{$value->total_qty}}</td>
-                                            <td>XXXXX</td>
+                                            <td>
+                                                    @php
+                                                        $averageRating = App\Models\User\Rating::where('id_product', $value->id)->avg('star');
+                                                        $roundedRating = round($averageRating);
+                                                    @endphp
+                                                    <label style="display:none">{{$roundedRating}}</label>
+                                                   
+                                                    @for($i = 1; $i <= $roundedRating; $i++)
+                                                       <i class="fas fa-star text-warning"></i>
+                                                    @endfor
+                                                    @for($i = $roundedRating+1; $i <= 5; $i++)
+                                                       <i class="fas fa-star"></i>
+                                                    @endfor
+
+                                            </td>
+                                            <td>{{$value->qty_count}}</td>
+                                            @if(Auth::user()->id_role==1)
                                             <td style="text-align: center">
                                                <a href="{{route('admin.product.restore',['id'=>$value->id])}}" class="btn btn-warning"><i class="fas fa-retweet"></i> Khôi phục</a>
                                             </td>
+                                            @endif
                                         </tr>
                                         @endforeach
                                     </tbody>

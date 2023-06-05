@@ -36,10 +36,14 @@ class UserLoginController extends Controller
             'email'=>$request->email,
             'password'=>$request->password,
             'id_role'=> Roles::select('id')->where('role','=','user')->first(),
+            'status'=>0,
         ];
 
         $remember_me=$request->has('remember_me')?true:false;
-
+        $checkemail= User::where('email',$request->email)->first();
+        if($checkemail->status!=0){
+             return redirect()->back()->withErrors('Tài khoản của bạn đã bị vô hiệu hoá');
+        }
         if(Auth::attempt($login,$remember_me)) { 
              return redirect()->route('user.home');
         } else {    

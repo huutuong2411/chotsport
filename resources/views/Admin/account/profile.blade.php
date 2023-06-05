@@ -39,7 +39,12 @@ Thông tin cá nhân
                                         <div class="card-header text-primary font-weight-bold">Ảnh đại diện</div>
                                         <div class="card-body text-center">
                                             <!-- Profile picture image-->
+                                            @if(Auth::user()->avatar)
                                             <img style="width:80%; height:80% " class="img-account-profile rounded-circle mb-2" src="{{asset('admin/assets/img/user/'.Auth::user()->avatar)}}" alt="">
+                                            @else
+                                            <img style="width:80%; height:80% " src="{{asset('/user/assets/images/user/userdefault.webp')}}" >
+                                            @endif
+                                            
                                             <!-- Profile picture help block-->
                                             <div class="small font-italic text-muted mb-4">Hình ảnh phải nhỏ hơn 2MB</div>
                                             <!-- Profile picture upload button-->

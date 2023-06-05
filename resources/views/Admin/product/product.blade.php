@@ -32,7 +32,11 @@ Quản lý sản phẩm
 <div class="card shadow mb-4">
                         
                         <div class="card">
-                          <div class="card-header text-primary font-weight-bold">Danh sách sản phẩm<a href="{{route('admin.product.trash')}}" class="btn btn-danger" style="float:right; margin-left:1%"><i class="fas fa-trash"></i> Thùng rác</a><a style="float:right" href="{{route('admin.product.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm sản phẩm</a></div>
+                            <div class="card-header text-primary font-weight-bold">Danh sách sản phẩm<a href="{{route('admin.product.trash')}}" class="btn btn-danger" style="float:right; margin-left:1%"><i class="fas fa-trash"></i> Thùng rác</a>
+                            @if(Auth::user()->id_role==1)
+                            <a style="float:right" href="{{route('admin.product.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm sản phẩm</a>
+                            @endif
+                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -47,7 +51,6 @@ Quản lý sản phẩm
                                                 <th class="col-1">Đánh giá</th>
                                                 <th class="col-1">Đã bán</th>
                                                 <th class="col-2" style="text-align: center">Thao tác</th>
-                                                
                                             </tr>
                                         </thead>
                                        
@@ -77,11 +80,15 @@ Quản lý sản phẩm
 
                                                 </td>
                                                 <td>{{$value->qty_count}}</td>
+                                                
                                                 <td style="text-align: center">
                                                     <a href="{{route('admin.product.show',['id'=>$value->id])}}" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
+                                                    @if(Auth::user()->id_role==1)
                                                     <a href="{{route('admin.product.edit',['id'=>$value->id])}}" class="btn btn-warning btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-pencil-alt"></i></a>
                                                     <a href="{{route('admin.product.delete',['id'=>$value->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-trash"></i></a>
+                                                    @endif
                                                 </td>
+                                                
                                             </tr>
                                             @endforeach
                                         </tbody>

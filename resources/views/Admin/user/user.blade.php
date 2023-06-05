@@ -34,7 +34,11 @@ Quản lý người dùng
 <div class="card shadow mb-4">
                         
                         <div class="card">
-                          <div class="card-header text-primary font-weight-bold">Danh sách người dùng <a style="float:right" href="{{route('admin.user.addempoyee')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Tạo tài khoản nhân viên</a></div>
+                          <div class="card-header text-primary font-weight-bold">Danh sách người dùng 
+                            @if(Auth::user()->id_role==1)
+                            <a style="float:right" href="{{route('admin.user.addempoyee')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Tạo tài khoản nhân viên</a>
+                            @endif
+                          </div>
                             <div class="card-body table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
@@ -82,10 +86,12 @@ Quản lý người dùng
 
                                             <td style="text-align: center">
                                                 <a href="{{route('admin.user.show',['id'=>$value->id])}}" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
+                                                @if(Auth::user()->id_role==1 && Auth::user()->id!=$value->id)
                                                 @if($value->status==0)
                                                 <a href="{{route('admin.user.disable',['id'=>$value->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%" title="Vô hiệu hoá"><i class="fas fa-sharp fa-solid fa-ban"></i></a>
                                                 @else
                                                 <a href="{{route('admin.user.enable',['id'=>$value->id])}}" class="btn btn-success btn-circle btn-sm" style="margin-left:2%" title="kích hoạt"><i class="fas fa-solid fa-check"></i></a>
+                                                @endif
                                                 @endif
                                             </td>
                                         </tr>

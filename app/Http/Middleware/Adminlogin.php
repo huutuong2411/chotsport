@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
-class Adminlogin
+class AdminLogin
 {
     /**
      * Handle an incoming request.
@@ -15,10 +15,10 @@ class Adminlogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check()&&Auth::user()->id_role==1){
+        if(Auth::check() && Auth::user()->id_role==1){
             return $next($request);    
         } else {
-            return redirect('/admin/login');
+            return redirect('admin/notfound');
         }
     }
 }

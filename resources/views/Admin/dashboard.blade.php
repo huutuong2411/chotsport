@@ -269,7 +269,9 @@ Thống kê - Báo Cáo
                                             <th class="col-2">Phương thức thanh toán</th>
                                             <th class="col-1">Trạng thái</th>
                                             <th class="col-1">Ngày đặt</th>
+                                            @if(Auth::user()->id_role==1)
                                             <th class="col-2" style="text-align: center;">Xử lý</th>
+                                            @endif
                                             <th class="col-1" style="text-align: center">Chi tiết</th>
                                             
                                         </tr>
@@ -295,6 +297,7 @@ Thống kê - Báo Cáo
                                               @endif
                                             </td>
                                             <td class="name" data-sort="{{$value->created_at}}">{{date('d/m/Y', strtotime($value->created_at))}}</td>
+                                            @if(Auth::user()->id_role==1)
                                             <td class="name">
                                                 <form action="{{route('admin.order.change',['id'=>$value->id])}}" method="post">
                                                     @csrf
@@ -310,7 +313,7 @@ Thống kê - Báo Cáo
                                                         </select>
                                                 </form>
                                             </td>
-                                           
+                                            @endif
                                             <td style="text-align: center">
                                                 <a type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-info btn-circle btn-sm showorder" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
                                             </td>
@@ -376,10 +379,12 @@ Thống kê - Báo Cáo
                                             </td>
                                             <td style="text-align: center">
                                                 <a href="{{route('admin.user.show',['id'=>$value->id])}}" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
+                                                @if(Auth::user()->id_role==1)
                                                 @if($value->status==0)
                                                 <a href="{{route('admin.user.disable',['id'=>$value->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%" title="Vô hiệu hoá"><i class="fas fa-sharp fa-solid fa-ban"></i></a>
                                                 @else
                                                 <a href="{{route('admin.user.enable',['id'=>$value->id])}}" class="btn btn-success btn-circle btn-sm" style="margin-left:2%" title="kích hoạt"><i class="fas fa-solid fa-check"></i></a>
+                                                @endif
                                                 @endif
                                             </td>
                                         </tr>

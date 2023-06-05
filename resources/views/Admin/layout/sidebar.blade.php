@@ -40,6 +40,7 @@
                 </div>
             </li>
             <!-- Nav Item - Utilities Collapse Menu -->
+            @if(Auth::user()->id_role==1)
             <li class="{{Request::is('admin/vendor*','admin/purchase*') ? 'nav-item active' : 'nav-item'}}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
@@ -56,7 +57,7 @@
                     </div>
                 </div>
             </li>
-
+            @endif
 
             <!-- Nav Item - Pages Collapse Menu -->
 

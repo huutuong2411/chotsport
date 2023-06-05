@@ -17,7 +17,7 @@ Chotsport-giày bóng đá chính hãng
                 <div class="hero-single-slider-item swiper-slide">
                     <!-- Hero Slider Image -->
                     <div class="hero-slider-bg">
-                        <img src="{{asset('user/assets/images/hero-slider/'.$value->image)}}" alt="">
+                        <img src="{{asset('admin/assets/img/banner/'.$value->image)}}" alt="">
                     </div>
                     <!-- Hero Slider Content -->
                     <div class="hero-slider-wrapper">
@@ -25,9 +25,9 @@ Chotsport-giày bóng đá chính hãng
                             <div class="row">
                                 <div class="col-auto">
                                     <div class="hero-slider-content">
-                                        <h4 class="subtitle">Sản phẩm của</h4>
-                                        <h2 class="title">Thương hiệu<br>{{$value->brand_name}}</h2>
-                                        <a href="{{url('/product?brand='.$value->id_brand)}}" class="btn btn-lg btn-outline-golden">Mua ngay</a>
+                                        <h4 class="subtitle" style="color:#e0c28f">Sản phẩm của</h4>
+                                        <h2 class="title" style="color:#e0c28f">Thương hiệu<br>{{$value->brand_name}}</h2>
+                                        <a href="{{url('/product?brand='.$value->id_brand)}}" class="btn btn-lg btn-golden">Mua ngay</a>
                                     </div>
                                 </div>
                             </div>

@@ -21,6 +21,7 @@ class HomeController extends Controller
     {
         $banner= Banner::join('brand', 'id_brand', '=', 'brand.id')
         ->select('banner.*','brand.name as brand_name')->get();
+       
         $newProducts = Product::limit(16)->orderBy('created_at', 'DESC')->get();
 
         $adidasProducts = Brand::withCount('Product')
@@ -37,11 +38,12 @@ class HomeController extends Controller
                         ->where('name', 'Mizuno')
                         ->get();
         $bestseller = Product::join('product_details', 'products.id', '=', 'product_details.id_product')
-                        ->join('order_details', 'order_details.id_product_detail', '=', 'product_details.id')
+                        ->leftjoin('order_details', 'order_details.id_product_detail', '=', 'product_details.id')
                         ->groupBy('products.id')
-                        ->orderBy('products.created_at', 'DESC')
+                        ->orderByRaw('SUM(order_details.qty) DESC')
                         ->limit(12)
                         ->get();
+
         $blog = Blog::select('id','image','title','description','updated_at')->take(5)->orderBy('created_at', 'DESC')->get();
         return view ('User.home.home',compact('banner','newProducts','bestseller','adidasProducts','nikeProducts','pumaProducts','mizunoProducts','blog'));
     }

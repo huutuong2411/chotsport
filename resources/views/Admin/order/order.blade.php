@@ -47,7 +47,9 @@ Quản lý đơn hàng
                                             <th class="col-1" style="text-align: center;">Trạng thái</th>
                                             <th class="col-1">Ngày đặt</th>
                                             <th class="col-1">Tổng tiền</th>
+                                            @if(Auth::user()->id_role==1)
                                             <th class="col-2" style="text-align: center;">Xử lý</th>
+                                            @endif
                                             <th class="col-1" style="text-align: center">Chi tiết</th>
                                             
                                         </tr>
@@ -74,6 +76,7 @@ Quản lý đơn hàng
                                             </td>
                                             <td class="name"><span style="display: none">{{$value->created_at}}</span>{{date('d/m/Y', strtotime($value->created_at))}}</td>
                                             <td class="name">{{number_format($value->sum_money, 0, '.', ',')}}</td>
+                                            @if(Auth::user()->id_role==1)
                                             <td class="name">
                                                 <form action="{{route('admin.order.change',['id'=>$value->id])}}" method="post">
                                                     @csrf
@@ -89,7 +92,7 @@ Quản lý đơn hàng
                                                         </select>
                                                 </form>
                                             </td>
-                                           
+                                            @endif
                                             <td style="text-align: center">
                                                 <a type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-info btn-circle btn-sm showorder" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
                                             </td>

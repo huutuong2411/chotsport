@@ -33,8 +33,13 @@
                                 <div class="badge bg-info rounded-pill">Nhân viên</div>
                                 @endif
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">_{{Auth::user()->name}}</span>
-                                <img class="img-profile rounded-circle"
+                                @if(Auth::user()->avatar)
+                                    <img class="img-profile rounded-circle"
                                     src="{{asset('admin/assets/img/user/'.Auth::user()->avatar)}}">
+                                @else
+                                    <img class="img-profile rounded-circle"
+                                    src="{{asset('/user/assets/images/user/userdefault.webp')}}">
+                                @endif
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
