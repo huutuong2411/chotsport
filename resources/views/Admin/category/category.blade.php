@@ -24,8 +24,9 @@ Quản lý danh mục
                                         <tr>
                                             <th class="col-1">ID</th>
                                             <th>Tên</th>
+                                            @if(Auth::user()->id_role==1)
                                             <th class="col-3" style="text-align: center">Thao tác</th>
-                                            
+                                            @endif
                                         </tr>
                                     </thead>
                                    
@@ -34,17 +35,19 @@ Quản lý danh mục
                                         <tr>
                                             <th scope="row" class="id">{{$value->id}}</th>
                                             <td class="name">{{$value->name}}</td>
+                                            @if(Auth::user()->id_role==1)
                                             <td style="text-align: center">
                                                 <button href="#" class="btn btn-warning btn-circle btn-sm edit" ><i class="fas fa-pencil-alt"></i></button>
                                                 <a href="{{route('admin.category.delete',['id'=>$value->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:10%"><i class="fas fa-trash"></i></a>
                                             </td>
-                                            
+                                            @endif
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+                        @if(Auth::user()->id_role==1)
                         <div class="card col-xl-6">
                             <div class="card-header text-primary font-weight-bold" id="add_heading">Thêm danh mục giày</div>  
                             <!--form thêm danh mục  -->
@@ -116,6 +119,7 @@ Quản lý danh mục
                             </div>
                             <!-- đóng form edit danh mục -->
                         </div>
+                        @endif
                         </div>
 
 </div>

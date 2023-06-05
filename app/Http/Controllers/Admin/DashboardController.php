@@ -82,7 +82,9 @@ class DashboardController extends Controller
 
         $orderofweek=  Order::where('status',0)->whereBetween('created_at', [$subweek, $today])->orderBy('created_at', 'desc')->get();
 
-       return view('Admin.dashboard',compact('allproduct','neworder','successorder','cancelorder','pendingorder','allblog','customer','Monthrevenue','Yearrevenue','monthEarn','listyears','listproduct','soldqty','orderofweek'));
+        $userofweek= User::whereBetween('created_at', [$subweek, $today])->orderBy('created_at', 'desc')->get();
+       
+       return view('Admin.dashboard',compact('allproduct','neworder','successorder','cancelorder','pendingorder','allblog','customer','Monthrevenue','Yearrevenue','monthEarn','listyears','listproduct','soldqty','orderofweek','userofweek'));
     }
 
     /**

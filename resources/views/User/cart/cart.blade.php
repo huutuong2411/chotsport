@@ -63,6 +63,7 @@ Chotsport - Giỏ hàng của bạn
                                 @if(!empty(session()->get('cart')))
                                 <h5>Tổng tiền: <strong style="color:red">{{number_format($totalPayment,0,','.',')}} đ</strong></h5>
                                 <div class="float-left"><a href="{{route('user.home')}}" style="color: #b1935e; text-decoration: underline;">Tiếp tục mua sắm</a></div>
+                                <br>
                                 <div class="checkout_btn">
                                     <a href="{{route('user.checkout')}}" id="checkout" data-target="#exampleModal" class="btn btn-md btn-golden">Thanh toán</a>
                                 </div>
@@ -156,6 +157,9 @@ Chotsport - Giỏ hàng của bạn
                     },
                     success: function(data){ // nhận kết quả trả về
                     $('span.item-count').text(data);
+                    if(nowTotalpayment==0){
+                        $('.cart_submit').find('#checkout').remove();
+                    }
                     }
                 });  // dấu đóng AJAX        
             }    

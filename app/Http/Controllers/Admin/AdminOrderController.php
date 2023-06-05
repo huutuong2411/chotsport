@@ -41,7 +41,7 @@ class AdminOrderController extends Controller
         }
 
         if($order->update()){
-            return redirect()->route('admin.order')->with('success',__('Thay đổi trạng thái đơn hàng thành công'));    
+            return redirect()->back()->with('success',__('Thay đổi trạng thái đơn hàng thành công'));    
         } else {
             return redirect()->back()->withErrors('Thay đổi trạng thái đơn hàng không thành công');
         }

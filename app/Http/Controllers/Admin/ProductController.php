@@ -246,7 +246,17 @@ class ProductController extends Controller
     // thùng rác
     public function trash()
     {
-        $trash=Product::onlyTrashed()->get();
+        $trash = Product::onlyTrashed()->leftJoin('product_details', 'products.id', '=', 'product_details.id_product')
+            ->leftJoin('order_details', 'order_details.id_product_detail', '=', 'product_details.id')
+            ->leftJoin('order', 'order.id', '=', 'order_details.id_order')
+            ->where(function ($query) {
+                $query->where('order.status',2)
+                      ->orWhereNull('order.status');
+            })
+            ->select('products.*', DB::raw('COUNT(order_details.qty) as qty_count'))
+            ->groupBy('products.id')
+            ->orderBy('products.id')
+            ->get();
         return view('Admin.product.trash',compact('trash'));
     }
     // khôi phục 

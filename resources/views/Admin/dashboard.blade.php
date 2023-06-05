@@ -1,4 +1,7 @@
 @extends('admin.layout.main')
+@section('title')
+Thống kê - Báo Cáo
+@endsection
 @section('content')
 	
  <!-- Page Heading -->
@@ -20,7 +23,7 @@
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{number_format($Monthrevenue, 0, '.', ',')}} đ</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <i class="fas fa-solid fa-coins fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -247,11 +250,8 @@
                     </div>
                     <!-- end barchart -->
                     <div class="row">
-
                         <!-- Content Column -->
-                       
-
-                        <div class="col-lg-8 mb-4">
+                        <div class="col-lg-12 mb-4">
 
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
@@ -259,7 +259,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Đơn hàng chờ xử lý 7 ngày gần nhất</h6>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered" id="mytable" cellspacing="0">
+                                    <table class="table table-bordered" id="mytable" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th class="col-1" style="display: none">id</th>
@@ -269,7 +269,9 @@
                                             <th class="col-2">Phương thức thanh toán</th>
                                             <th class="col-1">Trạng thái</th>
                                             <th class="col-1">Ngày đặt</th>
+                                            @if(Auth::user()->id_role==1)
                                             <th class="col-2" style="text-align: center;">Xử lý</th>
+                                            @endif
                                             <th class="col-1" style="text-align: center">Chi tiết</th>
                                             
                                         </tr>
@@ -295,23 +297,98 @@
                                               @endif
                                             </td>
                                             <td class="name" data-sort="{{$value->created_at}}">{{date('d/m/Y', strtotime($value->created_at))}}</td>
+                                            @if(Auth::user()->id_role==1)
                                             <td class="name">
                                                 <form action="{{route('admin.order.change',['id'=>$value->id])}}" method="post">
                                                     @csrf
                                                         <select class="form-select form-control" name="status" id="speed" onchange="this.form.submit()">
-                                                            <option class="btn btn-info"  value="0" {{$value->status==0?'selected':''}}>Chờ xác nhận</option>
-                                                            <option class="btn btn-warning"  value="1" {{$value->status==1?'selected':''}}>Xác nhận đơn hàng</option>
-                                                            <option class="btn btn-danger"  value="3" {{$value->status==3?'selected':''}}>Huỷ đơn hàng</option>
-                                                            <option class="btn btn-success"  value="2" {{$value->status==2?'selected':''}}>Đã giao hàng</option>
+                                                            <option selected class="btn">---chọn---</option>
+                                                             @if($value->status==0)
+                                                                <option class="btn btn-warning" value="1">Xác nhận đơn hàng</option>
+                                                                <option class="btn btn-danger"  value="3">Huỷ đơn hàng</option>
+                                                              @elseif($value->status==1)
+                                                                <option class="btn btn-success" value="2">Đã giao hàng</option>
+                                                                <option class="btn btn-danger" value="3">Huỷ đơn hàng</option>
+                                                              @endif
                                                         </select>
                                                 </form>
                                             </td>
-                                           
+                                            @endif
                                             <td style="text-align: center">
                                                 <a type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-info btn-circle btn-sm showorder" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
                                             </td>
                                         </tr>
                                       @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Content Column -->
+                        <div class="col-lg-12 mb-4">
+
+                            <!-- Illustrations -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Tài khoản 7 ngày gần nhất</h6>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered" id="dataTable" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-1" style="text-align: center">ID</th>
+                                            <th class="col-2" style="text-align: center">Tên</th>
+                                            <th class="col-1" style="text-align: center">Avatar</th>
+                                            <th class="col-2" style="text-align: center">Email</th>
+                                            <th class="col-2" style="text-align: center">Vai trò</th>
+                                            <th class="col-2" style="text-align: center">Trạng thái</th>
+                                            <th class="col-2" style="text-align: center">Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      @foreach($userofweek as $value)  
+                                        <tr>   
+                                            <th scope="row" style="text-align: center">{{$value->id}}</th>
+                                            <td class="name" style="text-align: center">{{$value->name}}</td>
+                                            <td class="name" style="text-align: center">
+                                            @if($value->id_role==1)
+                                               <img style="width: 90%" src="{{asset('admin/assets/img/user/'.$value->avatar)}}" alt=""class="img-profile">
+                                            @else
+                                                <img style="width: 90%" src="{{asset('user/assets/images/user/'.$value->avatar)}}" alt=""class="img-profile">
+                                            @endif
+                                            </td>
+                                            <td class="name" style="text-align: center">{{$value->email}}</td>
+                                            <td class="name" style="text-align: center">
+                                                @if($value->id_role==1)
+                                                <span class="badge badge-success">Quản trị viên</span>
+                                                @elseif($value->id_role==2)
+                                                 <span class="badge badge-warning">Người dùng</span>
+                                                @elseif($value->id_role==3)
+                                                 <span class="badge badge-info">Nhân viên</span>
+                                                @endif
+                                            </td>
+                                             <td class="name" style="text-align: center">
+                                                @if($value->status==0)
+                                                <span class="badge badge-success">Kích hoạt</span>
+                                                @else
+                                                <span class="badge badge-danger">Vô hiệu hoá</span>
+                                                @endif
+                                            </td>
+                                            <td style="text-align: center">
+                                                <a href="{{route('admin.user.show',['id'=>$value->id])}}" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
+                                                @if(Auth::user()->id_role==1)
+                                                @if($value->status==0)
+                                                <a href="{{route('admin.user.disable',['id'=>$value->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%" title="Vô hiệu hoá"><i class="fas fa-sharp fa-solid fa-ban"></i></a>
+                                                @else
+                                                <a href="{{route('admin.user.enable',['id'=>$value->id])}}" class="btn btn-success btn-circle btn-sm" style="margin-left:2%" title="kích hoạt"><i class="fas fa-solid fa-check"></i></a>
+                                                @endif
+                                                @endif
+                                            </td>
+                                        </tr>
+                                      @endforeach 
                                         </tbody>
                                     </table>
                                 </div>
@@ -757,3 +834,7 @@ $(document).ready(function(){
 
 
 
+
+
+                           
+                            

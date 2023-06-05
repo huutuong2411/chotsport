@@ -17,7 +17,7 @@ Chotsport-giày bóng đá chính hãng
                 <div class="hero-single-slider-item swiper-slide">
                     <!-- Hero Slider Image -->
                     <div class="hero-slider-bg">
-                        <img src="{{asset('user/assets/images/hero-slider/'.$value->image)}}" alt="">
+                        <img src="{{asset('admin/assets/img/banner/'.$value->image)}}" alt="">
                     </div>
                     <!-- Hero Slider Content -->
                     <div class="hero-slider-wrapper">
@@ -25,9 +25,9 @@ Chotsport-giày bóng đá chính hãng
                             <div class="row">
                                 <div class="col-auto">
                                     <div class="hero-slider-content">
-                                        <h4 class="subtitle">Sản phẩm của</h4>
-                                        <h2 class="title">Thương hiệu<br>{{$value->brand_name}}</h2>
-                                        <a href="{{url('/product?brand='.$value->id)}}" class="btn btn-lg btn-outline-golden">Mua ngay</a>
+                                        <h4 class="subtitle" style="color:#e0c28f">Sản phẩm của</h4>
+                                        <h2 class="title" style="color:#e0c28f">Thương hiệu<br>{{$value->brand_name}}</h2>
+                                        <a href="{{url('/product?brand='.$value->id_brand)}}" class="btn btn-lg btn-golden">Mua ngay</a>
                                     </div>
                                 </div>
                             </div>
@@ -155,12 +155,15 @@ Chotsport-giày bóng đá chính hãng
                                             </div>
                                             <div class="content-right col-12">
                                             	<ul class="review-star float-left">
-                                                    @php
+                                                   @php
                                                         $averageRating = App\Models\User\Rating::where('id_product', $value->id)->avg('star');
                                                         $roundedRating = round($averageRating);
                                                     @endphp
                                                         @for($i = 1; $i <= $roundedRating; $i++)
                                                             <li class="fill"><i class="ion-android-star"></i></li>
+                                                        @endfor
+                                                        @for($i = $roundedRating+1; $i <= 5; $i++)
+                                                            <li class="empty"><i class="ion-android-star"></i></li>
                                                         @endfor
                                                 </ul>
                                                 <div class="price float-right">
@@ -236,11 +239,16 @@ Chotsport-giày bóng đá chính hãng
                                             </div>
                                             <div class="content-right col-12">
                                             	<ul class="review-star float-left">
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="empty"><i class="ion-android-star"></i></li>
+                                                   @php
+                                                        $averageRating = App\Models\User\Rating::where('id_product', $value->id_product)->avg('star');
+                                                        $roundedRating = round($averageRating);
+                                                    @endphp
+                                                        @for($i = 1; $i <= $roundedRating; $i++)
+                                                            <li class="fill"><i class="ion-android-star"></i></li>
+                                                        @endfor
+                                                        @for($i = $roundedRating+1; $i <= 5; $i++)
+                                                            <li class="empty"><i class="ion-android-star"></i></li>
+                                                        @endfor
                                                 </ul>
                                                 <div class="price float-right">
                                                 	@if($value->discount!= 0)

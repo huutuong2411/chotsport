@@ -34,15 +34,11 @@
         $('table.display').dataTable( {
             "aLengthMenu": [[5,10,20,50,-1], [5,10,20,50, "All"]],
             "pageLength": 5,
-            } );
-        $('#dataTable').dataTable( {
-            "aLengthMenu": [[5,10,20,50,-1], [5,10,20,50, "All"]],
-            "pageLength": 5,
             "language": {
             "lengthMenu": "Hiển thị _MENU_ hàng",
-            "zeroRecords": "Nothing found - sorry",
+            "zeroRecords": "Không tìm thấy hàng nào",
             "info": "Trang _PAGE_ của _PAGES_",
-            "infoEmpty": "No records available",
+            "infoEmpty": "Không tìm thấy hàng nào",
             "infoFiltered": "(filtered from _MAX_ total records)",
            "search":         "Tìm kiếm:",
            "paginate": {
@@ -51,7 +47,25 @@
                     "next":       ">",
                     "previous":   "<"
                 },
-        },
+            },
+            } );
+        $('#dataTable').dataTable( {
+            "aLengthMenu": [[5,10,20,50,-1], [5,10,20,50, "All"]],
+            "pageLength": 5,
+            "language": {
+            "lengthMenu": "Hiển thị _MENU_ hàng",
+            "zeroRecords": "Không tìm thấy hàng nào",
+            "info": "Trang _PAGE_ của _PAGES_",
+            "infoEmpty": "Không tìm thấy hàng nào",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+           "search":         "Tìm kiếm:",
+           "paginate": {
+                    "first":      "First",
+                    "last":       "Last",
+                    "next":       ">",
+                    "previous":   "<"
+                },
+            },
             } );
         
         });

@@ -55,8 +55,6 @@ Quản lý nhập kho
                                             <td>{{number_format($value->sum_money, 0, '.', ',')}} (VND)</td>
                                             <td style="text-align: center">
                                                 <button style="margin-left:2%" type="button" class="btn btn-info btn-circle btn-sm show" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-solid fa-eye"></i></button>
-                                                <a href="{{route('admin.purchase.edit',['id'=>$value->id])}}" class="btn btn-warning btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-pencil-alt"></i></a>
-                                               <a href="{{route('admin.purchase.delete',['id'=>$value->id])}}"  class="btn btn-danger btn-circle btn-sm"  style="margin-left:2%"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
                                         @endforeach

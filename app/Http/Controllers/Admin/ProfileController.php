@@ -17,12 +17,15 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        if(Auth::user()->address){
         $province=Auth::user()->address->ward->district->city->name;
         $district=Auth::user()->address->ward->district->name;
         $ward=Auth::user()->address->ward->name;
         $address=Auth::user()->address->address;
         $full_address= $address.', '.$ward.', '.$district.', '.$province;
-
+        }else{
+            $full_address="";
+        }
         $city=City::all();
         return view('admin.account.profile',compact('city','full_address'));
     }

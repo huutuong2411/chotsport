@@ -36,7 +36,7 @@ Quản lý đơn hàng
                         <div class="card">
                           <div class="card-header text-primary font-weight-bold">Danh sách đơn hàng</div>
                             <div class="card-body table-responsive">
-                                <table class="table table-bordered" id="mytable" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th class="col-1" style="display: none">id</th>
@@ -47,7 +47,9 @@ Quản lý đơn hàng
                                             <th class="col-1" style="text-align: center;">Trạng thái</th>
                                             <th class="col-1">Ngày đặt</th>
                                             <th class="col-1">Tổng tiền</th>
+                                            @if(Auth::user()->id_role==1)
                                             <th class="col-2" style="text-align: center;">Xử lý</th>
+                                            @endif
                                             <th class="col-1" style="text-align: center">Chi tiết</th>
                                             
                                         </tr>
@@ -74,18 +76,23 @@ Quản lý đơn hàng
                                             </td>
                                             <td class="name"><span style="display: none">{{$value->created_at}}</span>{{date('d/m/Y', strtotime($value->created_at))}}</td>
                                             <td class="name">{{number_format($value->sum_money, 0, '.', ',')}}</td>
+                                            @if(Auth::user()->id_role==1)
                                             <td class="name">
                                                 <form action="{{route('admin.order.change',['id'=>$value->id])}}" method="post">
                                                     @csrf
                                                         <select class="form-select form-control" name="status" id="speed" onchange="this.form.submit()">
-                                                            <option class="btn btn-info"  value="0" {{$value->status==0?'selected':''}}>Chờ xác nhận</option>
-                                                            <option class="btn btn-warning"  value="1" {{$value->status==1?'selected':''}}>Xác nhận đơn hàng</option>
-                                                            <option class="btn btn-danger"  value="3" {{$value->status==3?'selected':''}}>Huỷ đơn hàng</option>
-                                                            <option class="btn btn-success"  value="2" {{$value->status==2?'selected':''}}>Đã giao hàng</option>
+                                                            <option selected class="btn">---chọn---</option>
+                                                             @if($value->status==0)
+                                                                <option class="btn btn-warning" value="1">Xác nhận đơn hàng</option>
+                                                                <option class="btn btn-danger"  value="3">Huỷ đơn hàng</option>
+                                                              @elseif($value->status==1)
+                                                                <option class="btn btn-success" value="2">Đã giao hàng</option>
+                                                                <option class="btn btn-danger" value="3">Huỷ đơn hàng</option>
+                                                              @endif
                                                         </select>
                                                 </form>
                                             </td>
-                                           
+                                            @endif
                                             <td style="text-align: center">
                                                 <a type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-info btn-circle btn-sm showorder" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
                                             </td>

@@ -22,7 +22,7 @@ class UserProductController extends Controller
         $minprice= Product::min('price');
         $maxprice= Product::max('price')+1000000;
        
-        $allproduct= Product::orderBy('created_at','DESC');
+        $allproduct=  Product::query();
         if($request->price){
             $price_from=explode(" - ",$request->price,2)[0];
             $price_from=str_replace([',', 'đ'], '', $price_from);
@@ -36,27 +36,34 @@ class UserProductController extends Controller
                 switch ($request->sortby) {
                     case 'bestseller':
                     $allproduct= $allproduct
-                                ->join('product_details', 'products.id', '=', 'product_details.id_product')
-                                ->join('order_details', 'order_details.id_product_detail', '=', 'product_details.id')
+                                ->leftjoin('product_details', 'products.id', '=', 'product_details.id_product')
+                                ->leftjoin('order_details', 'order_details.id_product_detail', '=', 'product_details.id')
                                 ->select('products.*')
                                 ->groupBy('products.id')
-                                ->reorder('products.created_at', 'DESC');
+                                ->orderByRaw('SUM(order_details.qty) DESC');
                         break;
                     case 'newest':
-                    $allproduct= $allproduct->reorder('created_at', 'DESC'); 
+                    $allproduct= $allproduct->orderBy('created_at', 'DESC'); 
                         break;
                     case 'oldest':
-                    $allproduct= $allproduct->reorder('created_at', 'ASC');
+                    $allproduct= $allproduct->orderBy('created_at', 'ASC');
                         break;
                     case 'price-ascending':
-                    $allproduct= $allproduct->reorder('price', 'ASC');
+                    $allproduct= $allproduct->orderBy('price', 'ASC');
                         break;
                     case 'price-descending':
-                    $allproduct=$allproduct->reorder('price', 'DESC');
+                    $allproduct=$allproduct->orderBy('price', 'DESC');
                         break;
                     case 'sale':
-                    $allproduct=$allproduct->where('discount','!=',0);
+                    $allproduct=$allproduct->orderBy('discount', 'DESC');
                         break;
+                        case 'best-rating':
+                    $allproduct = $allproduct
+                    ->leftJoin('rating', 'rating.id_product', '=', 'products.id')
+                    ->select('products.*')
+                    ->groupBy('products.id')
+                    ->orderBy(DB::raw('AVG(rating.star)'), 'DESC');
+                            break;
                 }
         }
         if($request->category){
@@ -65,6 +72,10 @@ class UserProductController extends Controller
         if($request->brand){
                $allproduct=$allproduct->where('id_brand',$request->brand);
         }
+        if (!$request->hasAny(['price', 'sortby', 'category', 'brand'])) {
+            $allproduct->orderBy('created_at', 'DESC');
+        }
+        
         $allproduct = $allproduct->paginate(12);
 
         return view ('user.product.allproduct',compact('allproduct','minprice','maxprice'));
@@ -100,8 +111,10 @@ class UserProductController extends Controller
                 ->join('users', 'users.id', '=', 'rating.id_user')
                 ->select('users.id as id_user','products.id','rating.id_order','rating.star','users.name as user_name','users.avatar as user_avatar')->groupBy('rating.id_order')
                 ->get();
-        
-        return view('User.product.productdetail',compact('product','listsize','feedback'));
+
+        $relateproduct= Product::orderByRaw('id_category = ' . $product->id_category . ' desc')->limit(12)->get();  
+
+        return view('User.product.productdetail',compact('product','listsize','feedback','relateproduct'));
     }
 
     /**

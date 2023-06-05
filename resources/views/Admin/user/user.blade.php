@@ -6,7 +6,7 @@ Quản lý người dùng
 
 @section('content')
   
-<h1 class="h3 mb-2 text-gray-800  border-bottom bg-white mb-4"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Quản lý bài viết</h1>
+<h1 class="h3 mb-2 text-gray-800  border-bottom bg-white mb-4"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Quản lý người dùng</h1>
         @if(session('delete'))
             <div class="alert alert-danger">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -34,17 +34,21 @@ Quản lý người dùng
 <div class="card shadow mb-4">
                         
                         <div class="card">
-                          <div class="card-header text-primary font-weight-bold">Danh sách người dùng</div>
+                          <div class="card-header text-primary font-weight-bold">Danh sách người dùng 
+                            @if(Auth::user()->id_role==1)
+                            <a style="float:right" href="{{route('admin.user.addempoyee')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Tạo tài khoản nhân viên</a>
+                            @endif
+                          </div>
                             <div class="card-body table-responsive">
-                                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th class="col-1">ID</th>
-                                            <th class="col-2">Tên</th>
-                                            <th class="col-1">Avatar</th>
-                                            <th class="col-2">Email</th>
-                                            <th class="col-2">Vai trò</th>
-                                            <th class="col-2">Phân quyền</th>
+                                            <th class="col-1" style="text-align: center">ID</th>
+                                            <th class="col-2" style="text-align: center">Tên</th>
+                                            <th class="col-1" style="text-align: center">Avatar</th>
+                                            <th class="col-2" style="text-align: center">Email</th>
+                                            <th class="col-2" style="text-align: center">Vai trò</th>
+                                            <th class="col-2" style="text-align: center">Trạng thái</th>
                                             <th class="col-2" style="text-align: center">Thao tác</th>
                                             
                                         </tr>
@@ -53,42 +57,42 @@ Quản lý người dùng
                                     <tbody>
                                         @foreach($user as $value)
                                         <tr>   
-                                            <th scope="row">{{$value->id}}</th>
-                                            <td class="name">{{$value->name}}</td>
-                                            <td class="name">
+                                            <th scope="row" style="text-align: center">{{$value->id}}</th>
+                                            <td class="name" style="text-align: center">{{$value->name}}</td>
+                                            <td class="name" style="text-align: center">
                                             @if($value->id_role==1)
                                                <img style="width: 90%" src="{{asset('admin/assets/img/user/'.$value->avatar)}}" alt=""class="img-profile">
                                             @else
                                                 <img style="width: 90%" src="{{asset('user/assets/images/user/'.$value->avatar)}}" alt=""class="img-profile">
                                             @endif
                                             </td>
-                                            <td class="name">{{$value->email}}</td>
-                                             <td class="name">
+                                            <td class="name" style="text-align: center">{{$value->email}}</td>
+                                            <td class="name" style="text-align: center">
                                                 @if($value->id_role==1)
-                                                <span class="badge badge-info">Quản trị viên</span>
+                                                <span class="badge badge-success">Quản trị viên</span>
                                                 @elseif($value->id_role==2)
                                                  <span class="badge badge-warning">Người dùng</span>
                                                   @elseif($value->id_role==3)
-                                                    <span class="badge badge-success">Nhân viên</span>
+                                                    <span class="badge badge-info">Nhân viên</span>
                                                   @endif
-
-
                                              </td>
-                                              <td class="name">
-                                                <form action="{{route('admin.user.change',['id'=>$value->id])}}" method="post">
-                                                    @csrf
-                                                    <select class="form-select form-control" name="role" id="speed" onchange="this.form.submit()">
-                                                        <option value="2" {{$value->id_role==2?'selected':''}}>Người dùng</option>
-                                                        <option value="3" {{$value->id_role==3?'selected':''}}>Nhân viên</option>
-                                                        <option value="1" {{$value->id_role==1?'selected':''}}>Admin</option>
-                                                    </select>
-                                                </form>
-                                              </td>
+                                            <td class="name" style="text-align: center">
+                                                @if($value->status==0)
+                                                <span class="badge badge-success">Kích hoạt</span>
+                                                @else
+                                                <span class="badge badge-danger">Vô hiệu hoá</span>
+                                                @endif
+                                            </td>
 
                                             <td style="text-align: center">
-                                                <a href="" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
-                                                <a href="" class="btn btn-warning btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-pencil-alt"></i></a>
-                                                <a href="" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-trash"></i></a>
+                                                <a href="{{route('admin.user.show',['id'=>$value->id])}}" class="btn btn-info btn-circle btn-sm" style="margin-left:2%"><i class="fas fa-solid fa-eye"></i></a>
+                                                @if(Auth::user()->id_role==1 && Auth::user()->id!=$value->id)
+                                                @if($value->status==0)
+                                                <a href="{{route('admin.user.disable',['id'=>$value->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:2%" title="Vô hiệu hoá"><i class="fas fa-sharp fa-solid fa-ban"></i></a>
+                                                @else
+                                                <a href="{{route('admin.user.enable',['id'=>$value->id])}}" class="btn btn-success btn-circle btn-sm" style="margin-left:2%" title="kích hoạt"><i class="fas fa-solid fa-check"></i></a>
+                                                @endif
+                                                @endif
                                             </td>
                                         </tr>
                                         @endforeach              

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
-class NotUser
+class AdminEmployee
 {
     /**
      * Handle an incoming request.
@@ -15,10 +15,10 @@ class NotUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check()&&(Auth::user()->id_role!=2 || Auth::user()->status!=0)){
-            return redirect()->route('user.login');
+        if(Auth::check() && Auth::user()->status==0 && (Auth::user()->id_role==1 || Auth::user()->id_role==3)){
+            return $next($request);    
         } else {
-            return $next($request); 
+            return redirect('/admin/login');
         }
     }
 }

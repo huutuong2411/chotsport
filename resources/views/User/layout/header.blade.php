@@ -8,7 +8,7 @@
             <div class="header-bottom header-bottom-color--golden section-fluid  sticky-color--golden">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-12 d-flex align-items-center justify-content-between">
+                        <div class="col-12 d-flex align-items-center justify-content-between" style="padding-top: 5px">
                              <!-- Start Header Logo -->
                             <div class="header-logo col-2">
                                 <div class="logo">

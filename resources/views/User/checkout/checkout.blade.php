@@ -126,7 +126,7 @@ Chotsport - Thanh toán đơn hàng
                                 <div class="col-12 mt-3">
                                     <div class="order-notes">
                                         <label for="order_note">Ghi chú</label>
-                                        <textarea name="note" id="order_note" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                        <textarea name="note" id="order_note" placeholder="Chúng tôi sẽ chuyển ghi chú này tới đơn vị giao hàng"></textarea>
                                     </div>
                                 </div>
                             </div>

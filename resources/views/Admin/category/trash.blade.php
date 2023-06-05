@@ -25,8 +25,9 @@ Danh mục-thùng rác
                                         <tr>
                                             <th class="col-1">ID</th>
                                             <th>Tên</th>
+                                            @if(Auth::user()->id_role==1)
                                             <th class="col-2" style="text-align: center">Thao tác</th>
-                                            
+                                            @endif
                                         </tr>
                                     </thead>
                                    
@@ -35,10 +36,11 @@ Danh mục-thùng rác
                                         <tr>
                                             <th scope="row">{{$value->id}}</th>
                                             <td class="name">{{$value->name}}</td>
+                                            @if(Auth::user()->id_role==1)
                                             <td style="text-align: center">
                                                 <a href="{{route('admin.category.restore',['id'=>$value->id])}}" class="btn btn-warning"><i class="fas fa-retweet"></i> Khôi phục</a>
                                             </td>
-                                            
+                                            @endif
                                         </tr>
                                         @endforeach
                                     </tbody>

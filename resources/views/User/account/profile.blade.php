@@ -64,7 +64,7 @@ Chotsport - Thông tin tài khoản
                                             </div>
                                             <div class="default-form-box mb-20">
                                                 <label>Email</label>
-                                                <input type="text" name="email" value="{{Auth::user()->email}}" required>
+                                                <input readonly type="text" name="email" value="{{Auth::user()->email}}" required>
                                             </div>
                                             <div class="default-form-box mb-20">
                                                 <label>Số điện thoại</label>
