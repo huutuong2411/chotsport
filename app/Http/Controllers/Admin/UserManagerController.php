@@ -30,7 +30,7 @@ class UserManagerController extends Controller
         }else{
             $full_address="";
         }
-        return view ('admin.user.showuser',compact('user','full_address'));
+        return view ('Admin.user.showuser',compact('user','full_address'));
     }
 
 

@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\admin\Purchase;
-use App\Models\admin\Purchase_detail;
-use App\Models\admin\Vendor;
-use App\Models\admin\Product;
-use App\Models\admin\Product_detail;
+use App\Models\Admin\Purchase;
+use App\Models\Admin\Purchase_detail;
+use App\Models\Admin\Vendor;
+use App\Models\Admin\Product;
+use App\Models\Admin\Product_detail;
 use PDF;
 class PurchaseController extends Controller
 {

@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\admin\Product;
-use App\Models\admin\Product_detail;
-use App\Models\admin\Category;
-use App\Models\admin\Brand;
-use App\Models\admin\Size;
+use App\Models\Admin\Product;
+use App\Models\Admin\Product_detail;
+use App\Models\Admin\Category;
+use App\Models\Admin\Brand;
+use App\Models\Admin\Size;
 use App\Models\User\Order;
 use App\Models\User\Order_detail;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +36,7 @@ class ProductController extends Controller
         
 
 
-        return view ('admin.product.product', compact('product'));
+        return view ('Admin.product.product', compact('product'));
     }
 
     /**
@@ -46,7 +46,7 @@ class ProductController extends Controller
     {    
         $brand=Brand::select('id','name')->get();
         $category=Category::select('id','name')->get();
-        return view ('admin.product.addProduct',compact('brand','category'));
+        return view ('Admin.product.addProduct',compact('brand','category'));
     }
 
     /**
@@ -54,6 +54,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
         // xử lý ajax trả về size của brand
         if(!empty($request->id_brand)) {
         $size= Brand::find($request->id_brand)->Size;
@@ -128,7 +129,7 @@ class ProductController extends Controller
         $listsize=   Product_detail::where('id_product', $id)->join('size', 'id_size', '=', 'size.id')
         ->select('size.size','product_details.size_qty')
         ->get();
-        return view('admin.product.productDetail',compact('product','category','brand','listsize'));
+        return view('Admin.product.productDetail',compact('product','category','brand','listsize'));
         }
     }
 
@@ -146,7 +147,7 @@ class ProductController extends Controller
         $listsize=  Product_detail::where('id_product', $id)->join('size', 'id_size', '=', 'size.id')
         ->select('size.id','product_details.size_qty')
         ->get();
-        return view('admin.product.editProduct',compact('product','brand','category','size','listsize'));
+        return view('Admin.product.editProduct',compact('product','brand','category','size','listsize'));
     }
 
     /**
@@ -154,7 +155,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
         $product = Product::find($id);
         $product->name= $request->name;
         $product->id_brand= $request->brand;
@@ -211,8 +211,9 @@ class ProductController extends Controller
                 if (strpos($key, 'size_qty_') === 0 && !empty($value)) {
                     // Lấy id_size từ tên của input
                     $id_size = str_replace('size_qty_', '', $key);
-                    // Xử lý dữ liệu tương ứng với id_size 
+                                       // Xử lý dữ liệu tương ứng với id_size 
                     $quantity =$value;
+            
                     if(in_array($id_size,$list_productdetail)){
                         Product_detail::withTrashed()->where('id_product', $id)->where('id_size', $id_size)->restore(); //khôi phục lại dữ liệu
                     } 
@@ -226,7 +227,18 @@ class ProductController extends Controller
                             'id_product' => $id,
                             'size_qty' => $quantity,
                         ]); // lưu hoặc cập nhật       
-                } 
+                }elseif(strpos($key, 'size_qty_') === 0 && (empty($value) || $value==0)){
+                    $id_size = str_replace('size_qty_', '', $key);
+                    
+                    if(in_array($id_size,$list_productdetail)){
+                        //Cập nhật số lượng về 0 và KHÔNG khôi phục product_detail đó
+                        $product->Product_detail()->withTrashed()->update([
+                            'id_size' => $id_size,
+                            'id_product' => $id,
+                            'size_qty' => 0,
+                        ]); // Cập nhật
+                    }   
+                }
             }
             return redirect()->route('admin.product')->with('success',__('Sửa sản phẩm thành công')); 
         } else {

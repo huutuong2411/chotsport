@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('Admin.layout.main')
 
 @section('title')
 Quản lý đơn hàng
@@ -36,7 +36,7 @@ Quản lý đơn hàng
                         <div class="card">
                           <div class="card-header text-primary font-weight-bold">Danh sách đơn hàng</div>
                             <div class="card-body table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" data-order='[[ 0, "desc" ]]'>
                                     <thead>
                                         <tr>
                                             <th class="col-1" style="display: none">id</th>
@@ -146,7 +146,8 @@ Quản lý đơn hàng
 
 
          //xử lý show order_detail
-    $('.showorder').click(function(){
+         
+        $('table tbody').on('click', '.showorder', function() {
         var id_order=$(this).closest('tr').find('td.id_order').text();
         // Bắt đầu gửi AJAX
         $.ajax({
@@ -200,6 +201,7 @@ Quản lý đơn hàng
                            "</div>"+
                        "</div>"
                         );
+                    console.log(data.orderDetail);
                     $.each(data.orderDetail, function(key, value) {
                         var price = value.price.toLocaleString('en-US');
                         var image = JSON.parse(value.image);

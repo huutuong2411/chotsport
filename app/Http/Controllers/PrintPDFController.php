@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\admin\Purchase;
-use App\Models\admin\Purchase_detail;
+use App\Models\Admin\Purchase;
+use App\Models\Admin\Purchase_detail;
 use PDF;
 class PrintPDFController extends Controller
 {

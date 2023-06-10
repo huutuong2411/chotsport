@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Brand;
-
+use App\Models\Admin\Product;
+use App\Models\Admin\Banner;
 class BrandController extends Controller
 {
     /**
@@ -77,6 +78,8 @@ class BrandController extends Controller
      public function destroy(string $id)
     {
         Brand::destroy($id);
+        Product::where('id_brand',$id)->delete();
+        Banner::where('id_brand',$id)->delete();
         return redirect()->back()->with('delete',__('Đã xoá nhãn hàng thành công'));
     }
     // thùng rác
@@ -89,6 +92,7 @@ class BrandController extends Controller
     public function restore(string $id)
     {
         Brand::withTrashed()->find($id)->restore();
+        Product::where('id_brand',$id)->restore();
         return redirect()->back()->with('success',__('khôi phục thành công')); 
     }
 }

@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User\Order;
 use App\Models\User\Order_detail;
-use App\Models\admin\Product;
-use App\Models\admin\Product_detail;
+use App\Models\Admin\Product;
+use App\Models\Admin\Product_detail;
 use Illuminate\Support\Facades\Auth;
 class OrderController extends Controller
 {

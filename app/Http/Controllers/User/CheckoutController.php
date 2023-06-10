@@ -6,15 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use App\Models\admin\Product;
-use App\Models\admin\Product_detail;
+use App\Models\Admin\Product;
+use App\Models\Admin\Product_detail;
 use App\Models\User\Order_detail;
 use App\Models\User\Order;
 use App\Models\City;
 use App\Models\Address;
 use Session;
 use App\Mail\SendEmail;
-use App\Utilities\VNpay;
+use App\Utilities\VNPay;
 use Mail;
 class CheckoutController extends Controller
 {
@@ -33,12 +33,12 @@ class CheckoutController extends Controller
                $overQty= true; 
                $id_overQty[]=[
                 'id_product_detail'=>$key,
-                'realQty'=>Product_detail::find($key)->size_qty
+                'realQty'=>Product_detail::withTrashed()->find($key)->size_qty
                ]; 
             }
         }
         if($overQty){
-            return view ('user.checkout.checkoutError',compact('id_overQty'));
+            return view ('User.checkout.checkoutError',compact('id_overQty'));
         }else{
             $idAddress= Auth::user()->address;
             $full_address="";
@@ -50,7 +50,7 @@ class CheckoutController extends Controller
                 $full_address= $address.', '.$ward.', '.$district.', '.$province;
             }
             $city=City::all();
-            return view ('user.checkout.checkout',compact('full_address','city'));
+            return view ('User.checkout.checkout',compact('full_address','city'));
         }
         
     }
@@ -75,13 +75,27 @@ class CheckoutController extends Controller
         return response()->json($ward);
         }
        
-        // gọi cart và tính tổng qty
+        // gọi cart và tính tổng qty đồng thời check số lượng lần nữa
         $cart=Session::get('cart');
         $sum_money = 0;
-        foreach ($cart as $item) {
+        $overQty= false;
+        $id_overQty = [];
+        foreach ($cart as $key => $item) {
+             if($item['cartQty'] > Product_detail::withTrashed()->find($key)->size_qty){
+               $overQty= true; 
+               $id_overQty[]=[
+                'id_product_detail'=>$key,
+                'realQty'=>Product_detail::withTrashed()->find($key)->size_qty
+               ]; 
+            }
             $sum_money += $item['cartQty']*$item['cartPrice'];
         }
-       
+        // nếu vượt quá thì qua trang báo số lượng tránh lỗi
+        if($overQty){
+            return view ('User.checkout.checkoutError',compact('id_overQty'));
+        }
+        
+        
         if($request->has('payment_method')){
             if($request->payment_method=='postpay'){
                 $paymentstatus=0;
@@ -146,15 +160,11 @@ class CheckoutController extends Controller
             {
                 $thisProductDetail = Product_detail::withTrashed()->find($item['id_product_detail']);
 
-                if (!$thisProductDetail || $thisProductDetail->size_qty < $item['cartQty']) {
-                    return redirect()->back()->withErrors('Tồn kho không đủ số lượng, vui lòng cập nhật lại giỏ hàng');
-                } else {
-                            $thisProductDetail->decrement('size_qty', $item['cartQty']); //giảm số lượng của product_detail
+                        $thisProductDetail->decrement('size_qty', $item['cartQty']); //giảm số lượng của product_detail
                             
                             if ($thisProductDetail->size_qty === 0) {
                                 $thisProductDetail->delete();
                             }
-                        }
                         // Cập nhật số lượng trong bảng product
                         $totalQty = Product_detail::where('id_product',  $item['id_product'])->sum('size_qty');
                         $product = Product::find($item['id_product']);
@@ -240,10 +250,12 @@ class CheckoutController extends Controller
             return redirect()->route('user.order')->with('success',__('Tạo đơn hàng thành công'));
         }else{
             $data=Session::get('data');
+            $cart=Session::get('cart');
             // xoá chi tiết đơn hàng
             Order_detail::where('id_order',$data['id_order'])->delete();
             // xoá đơn hàng
             Order::find($data['id_order'])->delete();
+            // Xử lý lại số lượng product_detail: 
             foreach ($cart as $item) 
             {
                 $thisProductDetail = Product_detail::withTrashed()->find($item['id_product_detail']);

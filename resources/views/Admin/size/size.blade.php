@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('Admin.layout.main')
 
 @section('title')
 Quản lý size giày

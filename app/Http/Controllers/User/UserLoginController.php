@@ -15,7 +15,7 @@ class UserLoginController extends Controller
      */
     public function index()
     {
-        return view ('user.account.login');
+        return view ('User.account.login');
         Redirect::setIntendedUrl(url()->previous());
     }
 

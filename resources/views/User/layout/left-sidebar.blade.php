@@ -1,6 +1,6 @@
 @php 
-    $categorys = App\Models\admin\Category::select('name','id')->get();
-    $brands = App\Models\admin\Brand::select('name','id')->get();
+    $categorys = App\Models\Admin\Category::select('name','id')->get();
+    $brands = App\Models\Admin\Brand::select('name','id')->get();
 @endphp
 <style type="text/css">
     .selectactive {

@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('Admin.layout.main')
 
 @section('title')
 Không tìm thấy trang - 404

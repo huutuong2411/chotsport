@@ -29,7 +29,7 @@ class UserProfileController extends Controller
         }
 
         $city=City::all();
-        return view('user.account.profile',compact('city','full_address'));
+        return view('User.account.profile',compact('city','full_address'));
         
     }
 
@@ -99,7 +99,7 @@ class UserProfileController extends Controller
 
     public function changepass()
     {
-        return view('user.account.changepass');
+        return view('User.account.changepass');
     }
     public function updatepass(Request $request)
     {

@@ -18,7 +18,7 @@ class AdminLogin
         if(Auth::check() && Auth::user()->id_role==1){
             return $next($request);    
         } else {
-            return redirect('admin/notfound');
+            return redirect('/admin/notfound');
         }
     }
 }

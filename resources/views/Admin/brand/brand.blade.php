@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('Admin.layout.main')
 
 @section('title')
 Quản lý nhãn hàng
@@ -38,7 +38,7 @@ Quản lý nhãn hàng
                                             @if(Auth::user()->id_role==1)
                                             <td style="text-align: center">
                                                 <button href="#" class="btn btn-warning btn-circle btn-sm edit" ><i class="fas fa-pencil-alt"></i></button>
-                                                <a href="{{route('admin.brand.delete',['id'=>$value->id])}}" class="btn btn-danger btn-circle btn-sm" style="margin-left:10%"><i class="fas fa-trash"></i></a>
+                                                <a type="button" class="btn btn-danger btn-circle btn-sm deleteBrand" style="margin-left:10%"><i class="fas fa-trash"></i></a>
                                             </td>
                                             @endif
                                         </tr>
@@ -123,7 +123,26 @@ Quản lý nhãn hàng
                         </div>
 
 </div>
-
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 76px!important;min-width: 461px!important;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Các sản phẩm liên quan sẽ bị xoá theo danh mục này
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        <a href="" class="btn btn-danger stilldelete">Vẫn xoá</a>
+        
+      </div>
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
   $(document).ready(function() {
     $(".edit").click(function() {
@@ -143,6 +162,12 @@ Quản lý nhãn hàng
       $("#add_heading").show();
       $("#addbrand").show(); 
     });
+    $('.deleteBrand').click(function(){
+    var id_brand = $(this).closest('tr').find('th.id').text();
+    var URL="{{url('admin/brand/')}}"+"/"+id_brand+"/"+"delete";
+    $('#exampleModal').find('a.stilldelete').attr('href',URL);
+    $('#exampleModal').modal("show");
+  });
   });
 
 </script>
