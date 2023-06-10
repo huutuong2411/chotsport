@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\admin\Brand;
-use App\Models\admin\Banner;
+use App\Models\Admin\Brand;
+use App\Models\Admin\Banner;
 class BannerController extends Controller
 {
     /**

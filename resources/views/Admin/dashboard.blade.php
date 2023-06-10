@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('Admin.layout.main')
 @section('title')
 Thống kê - Báo Cáo
 @endsection
@@ -259,7 +259,7 @@ Thống kê - Báo Cáo
                                     <h6 class="m-0 font-weight-bold text-primary">Đơn hàng chờ xử lý 7 ngày gần nhất</h6>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered" id="mytable" cellspacing="0" width="100%">
+                                    <table class="table table-bordered display" cellspacing="0" width="100%" data-order='[[ 0, "desc" ]]'>
                                     <thead>
                                         <tr>
                                             <th class="col-1" style="display: none">id</th>
@@ -336,7 +336,7 @@ Thống kê - Báo Cáo
                                     <h6 class="m-0 font-weight-bold text-primary">Tài khoản 7 ngày gần nhất</h6>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered" id="dataTable" cellspacing="0" width="100%">
+                                    <table class="table table-bordered display" cellspacing="0" width="100%" data-order='[[ 0, "desc" ]]'>
                                     <thead>
                                         <tr>
                                             <th class="col-1" style="text-align: center">ID</th>
@@ -421,25 +421,6 @@ Thống kê - Báo Cáo
 <script type="text/javascript">
  
 $(document).ready(function(){
-    $('#mytable').dataTable( {
-            order: [[0, 'desc']],
-            "aLengthMenu": [[5,10,20,50,-1], [5,10,20,50, "All"]],
-            "pageLength": 5,
-            "language": {
-            "lengthMenu": "Hiển thị _MENU_ hàng",
-            "zeroRecords": "Nothing found - sorry",
-            "info": "Trang _PAGE_ của _PAGES_",
-            "infoEmpty": "No records available",
-            "infoFiltered": "(filtered from _MAX_ total records)",
-           "search":         "Tìm kiếm:",
-           "paginate": {
-                    "first":      "First",
-                    "last":       "Last",
-                    "next":       ">",
-                    "previous":   "<"
-                },
-            },
-    });
 
     var ctx = document.getElementById("myPieChart");
     var myPieChart = new Chart(ctx, {
@@ -754,7 +735,7 @@ $(document).ready(function(){
 
 
     //xử lý show order_detail
-    $('.showorder').click(function(){
+    $('table tbody').on('click', '.showorder', function() {
         var id_order=$(this).closest('tr').find('td.id_order').text();
         // Bắt đầu gửi AJAX
         $.ajax({

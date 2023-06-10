@@ -1,7 +1,7 @@
 @extends('User.layout.main')
 
 @section('title')
-Chotsport - Tất cả sản phẩm
+Chotsport - Tìm kiếm sản phẩm
 @endsection
 
 @section('content')

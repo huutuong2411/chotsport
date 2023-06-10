@@ -27,7 +27,7 @@ class ProfileController extends Controller
             $full_address="";
         }
         $city=City::all();
-        return view('admin.account.profile',compact('city','full_address'));
+        return view('Admin.account.profile',compact('city','full_address'));
     }
 
     /**

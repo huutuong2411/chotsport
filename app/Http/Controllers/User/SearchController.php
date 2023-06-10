@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\admin\Product;
+use App\Models\Admin\Product;
 class SearchController extends Controller
 {
     public function search(Request $request)

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User\Rating;
 use App\Models\User\Comment;
 use Illuminate\Support\Facades\Auth;
-use App\Models\user\Order_detail;
+use App\Models\User\Order_detail;
 class FeedbackController extends Controller
 {
 	public function show(string $id)

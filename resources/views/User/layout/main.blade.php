@@ -59,6 +59,7 @@
                         $('.search_form').append("<ul class='col-11 card' id='formSearch'>"+
                                     "</ul>");
                         $.each(data, function(key, value) {
+                            var price = Number(value.price).toLocaleString('en-US');
                             var image = JSON.parse(value.image);
                             var URL="{{url('admin/assets/img/product/')}}"+"/"+value.id+"/"+image[0];
                             $('#formSearch').append(
@@ -70,7 +71,7 @@
                                                 "<div class='offcanvas-cart-item-content'>"+
                                                     "<a href='{{url('product/')}}"+"/"+value.id+"' class='offcanvas-cart-item-link'>"+value.name+"</a>"+
                                                     "<div class='offcanvas-cart-item-details'>"+
-                                                        "<span class='offcanvas-cart-item-details-price'>"+value.price+"đ"+"</span>"+
+                                                        "<span class='offcanvas-cart-item-details-price'>"+price+"đ"+"</span>"+
                                                     "</div>"+
                                                 "</div>"+
                                             "</div>"+

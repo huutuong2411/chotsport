@@ -78,7 +78,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        @include('admin.layout.sidebar')
+        @include('Admin.layout.sidebar')
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -87,7 +87,7 @@
             <!-- Main Content -->
             <div id="content">
                 <!-- navbar content -->
-                 @include('admin.layout.header')
+                 @include('Admin.layout.header')
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">

@@ -148,7 +148,7 @@ Route::group(['prefix'=>'/admin','namespace' => 'Admin',], function () {
 	Route::get('/order/{id}', [AdminOrderController::class, 'show'])->name('admin.orderdetail');
 		// Quản lý người dùng
 	Route::get('/user', [UserManagerController::class, 'index'])->name('admin.user');
-	Route::get('/user/{id}', [UserManagerController::class, 'show'])->name('admin.user.show');
+	Route::get('/user/{id}/show', [UserManagerController::class, 'show'])->name('admin.user.show');
 		Route::group([
 		'middleware'=>'AdminLogin',
 		],function(){

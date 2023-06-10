@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\admin\Blog;
+use App\Models\Admin\Blog;
 
 
 class BlogController extends Controller
@@ -15,7 +15,7 @@ class BlogController extends Controller
     public function index()
     {
         $infor = Blog::all();
-        return view('admin.blog.blog',compact("infor"));
+        return view('Admin.blog.blog',compact("infor"));
     }
 
     /**
@@ -23,7 +23,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('admin.blog.addBlog');
+        return view('Admin.blog.addBlog');
     }
 
     /**

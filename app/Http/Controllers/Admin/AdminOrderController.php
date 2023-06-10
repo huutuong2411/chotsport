@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User\Order;
 use App\Models\User\Order_detail;
-use App\Models\admin\Product_detail;
-use App\Models\admin\Product;
+use App\Models\Admin\Product_detail;
+use App\Models\Admin\Product;
 class AdminOrderController extends Controller
 {
    	public function index()
@@ -41,9 +41,9 @@ class AdminOrderController extends Controller
         }
 
         if($order->update()){
-            return redirect()->back()->with('success',__('Thay đổi trạng thái đơn hàng thành công'));    
+            return redirect()->back()->with('success',__('Xử lý đơn hàng thành công'));    
         } else {
-            return redirect()->back()->withErrors('Thay đổi trạng thái đơn hàng không thành công');
+            return redirect()->back()->withErrors('Xử lý đơn hàng không thành công');
         }
 
         

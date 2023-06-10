@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\admin\Size;
-use App\Models\admin\Brand;
+use App\Models\Admin\Size;
+use App\Models\Admin\Brand;
 
 class SizeController extends Controller
 {

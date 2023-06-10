@@ -4,13 +4,13 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\admin\Banner;
-use App\Models\admin\Brand;
+use App\Models\Admin\Banner;
+use App\Models\Admin\Brand;
 use App\Models\User\Order;
 use App\Models\User\Order_detail;
-use App\Models\admin\Product;
-use App\Models\admin\Product_detail;
-use App\Models\admin\Blog;
+use App\Models\Admin\Product;
+use App\Models\Admin\Product_detail;
+use App\Models\Admin\Blog;
 use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {

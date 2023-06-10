@@ -44,8 +44,10 @@ Chotsport - Vấn đề tồn kho
                                             </td>
                                             <td>{{number_format($value['cartPrice']*$value['cartQty'], 0, '.', ',')}}đ</td>
                                             <td class="text-center">Vượt tồn kho
+                                                @if($over['realQty']>0)
                                                 <a class="text-success" href="{{route('user.reducecart',['id'=>$key])}}"><i class="fa-solid fa-triangle-exclamation"></i>Giảm</a>
-                                                <a class="text-danger" href="{{route('user.deletecart',['id'=>$key])}}"><i class="fa-solid fa-trash"></i></a>
+                                                @endif
+                                                <a class="text-danger" href="{{route('user.deletecart',['id'=>$key])}}"><i class="fa-solid fa-trash"></i>Xoá</a>
                                             </td>
                                         </tr>
                                             @endif

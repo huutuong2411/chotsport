@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\admin\Category;
-
+use App\Models\Admin\Category;
+use App\Models\Admin\Product;
 class CategoryController extends Controller
 {
     /**
@@ -77,6 +77,7 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         Category::destroy($id);
+        Product::where('id_category',$id)->delete();
         return redirect()->back()->with('delete',__('Đã xoá danh mục thành công'));
     }
     // thùng rác
@@ -89,6 +90,7 @@ class CategoryController extends Controller
     public function restore(string $id)
     {
         Category::withTrashed()->find($id)->restore();
+        Product::where('id_category',$id)->restore();
         return redirect()->back()->with('success',__('khôi phục thành công')); 
     }
 }

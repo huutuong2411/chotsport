@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('Admin.layout.main')
 
 @section('title')
 Quản lý nhập kho
@@ -32,9 +32,9 @@ Quản lý nhập kho
 <div class="card shadow mb-4">
                         
                         <div class="card">
-                          <div class="card-header text-primary font-weight-bold">Danh sách đơn nhập<a href="" class="btn btn-danger" style="float:right; margin-left:1%"><i class="fas fa-trash"></i> Thùng rác</a><a style="float:right" href="{{route('admin.purchase.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm đơn nhập</a></div>
+                          <div class="card-header text-primary font-weight-bold">Danh sách đơn nhập<a style="float:right" href="{{route('admin.purchase.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm đơn nhập</a></div>
                             <div class="card-body table-responsive">
-                                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" cellspacing="0" data-order='[[ 0, "desc" ]]'>
                                     <thead>
                                         <tr>
                                             <th class="col-1">ID</th>

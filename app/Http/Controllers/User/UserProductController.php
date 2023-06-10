@@ -4,9 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\admin\Product;
-use App\Models\admin\Category;
-use App\Models\admin\Product_detail;
+use App\Models\Admin\Product;
+use App\Models\Admin\Category;
+use App\Models\Admin\Product_detail;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User\Order;
 use App\Models\User\Rating;
@@ -78,7 +78,7 @@ class UserProductController extends Controller
         
         $allproduct = $allproduct->paginate(12);
 
-        return view ('user.product.allproduct',compact('allproduct','minprice','maxprice'));
+        return view ('User.product.allproduct',compact('allproduct','minprice','maxprice'));
     }
 
     /**
